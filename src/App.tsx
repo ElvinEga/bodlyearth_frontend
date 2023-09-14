@@ -4,6 +4,7 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import { Routes, Route } from "react-router-dom";
 import Home from "./pages/home/home";
 import Engagement from "./pages/engagement";
+import TeamMembers from "./pages/teams";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         {/* <Route path="/" element={<Dashboard />} exact /> */}
         <Route path="/" element={<Home />} />
         <Route path="/engagement" element={<Engagement />} />
+        <Route path="/team" element={<TeamMembers />} />
       </Routes>
     </>
   );
