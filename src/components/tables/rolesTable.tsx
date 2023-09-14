@@ -1,22 +1,6 @@
-import { requestTeamData } from "../../data/requestData";
+import { requestRolesData } from "../../data/requestData";
 
-function getStatusClassName(status: string) {
-  let className = "";
-
-  if (status === "Active") {
-    className =
-      "inline-flex items-center gap-1.5 py-0.5 px-2 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200";
-  } else if (status === "Invited") {
-    className =
-      "inline-flex items-center gap-1.5 py-0.5 px-2 rounded-full text-xs font-medium bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200";
-  } else if (status === "Suspended") {
-    className =
-      "inline-flex items-center gap-1.5 py-0.5 px-2 rounded-full text-xs font-medium bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200";
-  }
-
-  return className;
-}
-export default function TeamTable() {
+export default function RolesTable() {
   return (
     <>
       {/* Card */}
@@ -61,88 +45,6 @@ export default function TeamTable() {
                 </div>
                 <div>
                   <div className="inline-flex gap-x-2">
-                    <div
-                      className="hs-dropdown relative inline-block [--placement:bottom-right]"
-                      data-hs-dropdown-auto-close="inside"
-                    >
-                      <button
-                        id="hs-as-table-table-filter-dropdown"
-                        type="button"
-                        className="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800"
-                      >
-                        <svg
-                          className="w-3 h-3"
-                          xmlns="http://www.w3.org/2000/svg"
-                          width={16}
-                          height={16}
-                          fill="currentColor"
-                          viewBox="0 0 16 16"
-                        >
-                          <path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z" />
-                        </svg>
-                        Filter
-                      </button>
-                      <div
-                        className="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden mt-2 divide-y divide-gray-200 min-w-[12rem] z-10 bg-white shadow-md rounded-lg mt-2 dark:divide-gray-700 dark:bg-gray-800 dark:border dark:border-gray-700"
-                        aria-labelledby="hs-as-table-table-filter-dropdown"
-                      >
-                        <div className="divide-y divide-gray-200 dark:divide-gray-700">
-                          <label
-                            htmlFor="hs-as-filters-dropdown-all"
-                            className="flex py-2.5 px-3"
-                          >
-                            <input
-                              type="checkbox"
-                              className="shrink-0 mt-0.5 border-gray-200 rounded text-blue-600 pointer-events-none focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
-                              id="hs-as-filters-dropdown-all"
-                            />
-                            <span className="ml-3 text-sm text-gray-800 dark:text-gray-200">
-                              All
-                            </span>
-                          </label>
-                          <label
-                            htmlFor="hs-as-filters-dropdown-paid"
-                            className="flex py-2.5 px-3"
-                          >
-                            <input
-                              type="checkbox"
-                              className="shrink-0 mt-0.5 border-gray-200 rounded text-blue-600 pointer-events-none focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
-                              id="hs-as-filters-dropdown-paid"
-                            />
-                            <span className="ml-3 text-sm text-gray-800 dark:text-gray-200">
-                              Active
-                            </span>
-                          </label>
-                          <label
-                            htmlFor="hs-as-filters-dropdown-pending"
-                            className="flex py-2.5 px-3"
-                          >
-                            <input
-                              type="checkbox"
-                              className="shrink-0 mt-0.5 border-gray-200 rounded text-blue-600 pointer-events-none focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
-                              id="hs-as-filters-dropdown-pending"
-                            />
-                            <span className="ml-3 text-sm text-gray-800 dark:text-gray-200">
-                              Invited
-                            </span>
-                          </label>
-                          <label
-                            htmlFor="hs-as-filters-dropdown-declined"
-                            className="flex py-2.5 px-3"
-                          >
-                            <input
-                              type="checkbox"
-                              className="shrink-0 mt-0.5 border-gray-200 rounded text-blue-600 pointer-events-none focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
-                              id="hs-as-filters-dropdown-declined"
-                            />
-                            <span className="ml-3 text-sm text-gray-800 dark:text-gray-200">
-                              Supended
-                            </span>
-                          </label>
-                        </div>
-                      </div>
-                    </div>
-
                     <a
                       className="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
                       href="#"
@@ -162,7 +64,7 @@ export default function TeamTable() {
                           strokeLinecap="round"
                         />
                       </svg>
-                      Add Member
+                      Create Role
                     </a>
                   </div>
                 </div>
@@ -191,35 +93,31 @@ export default function TeamTable() {
                     >
                       <div className="flex items-center gap-x-2">
                         <span className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
-                          Name
-                        </span>
-                      </div>
-                    </th>
-                    <th scope="col" className="px-6 py-3 text-left">
-                      <div className="flex items-center gap-x-2">
-                        <span className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
                           Role
                         </span>
                       </div>
                     </th>
-                    <th scope="col" className="px-6 py-3 text-left">
+                    <th
+                      scope="col"
+                      className="pl-6 lg:pl-3 xl:pl-0 pr-6 py-3 text-left"
+                    >
                       <div className="flex items-center gap-x-2">
                         <span className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
-                          Type
+                          Description
                         </span>
                       </div>
                     </th>
                     <th scope="col" className="px-6 py-3 text-left">
                       <div className="flex items-center gap-x-2">
                         <span className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
-                          Status
+                          Permissions
                         </span>
                       </div>
                     </th>
                     <th scope="col" className="px-6 py-3 text-left">
                       <div className="flex items-center gap-x-2">
                         <span className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
-                          Start Date
+                          Create
                         </span>
                       </div>
                     </th>
@@ -227,7 +125,7 @@ export default function TeamTable() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                  {requestTeamData.map((data) => (
+                  {requestRolesData.map((data) => (
                     <tr>
                       <td className="h-px w-px whitespace-nowrap">
                         <div className="pl-6 py-3">
@@ -246,46 +144,28 @@ export default function TeamTable() {
                       </td>
                       <td className="h-px w-px whitespace-nowrap">
                         <div className="pl-6 lg:pl-3 xl:pl-0 pr-6 py-3">
-                          <div className="flex items-center gap-x-3">
-                            <span className="inline-flex items-center justify-center h-[2.375rem] w-[2.375rem] rounded-full bg-blue-300 dark:bg-blue-700">
-                              <span className="font-medium text-blue-800 leading-none dark:text-blue-200">
-                                {data.name.charAt(0)}
-                              </span>
-                            </span>
-                            <div className="grow">
-                              <span className="block text-sm font-semibold text-gray-800 dark:text-gray-200">
-                                {data.name}
-                              </span>
-                              <span className="block text-sm text-gray-500">
-                                {data.email}
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                      </td>
-                      <td className="h-px w-px whitespace-nowrap">
-                        <div className="px-6 py-3">
                           <span className="block text-sm font-semibold text-gray-800 dark:text-gray-200">
                             {data.role}
                           </span>
-                          <span className="inline-flex items-center gap-1.5 py-1 px-2 rounded-md text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200">
-                            {data.department}
-                          </span>
+                        </div>
+                      </td>
+                      <td className="h-px w-56">
+                        <div className="pl-6 lg:pl-3 xl:pl-0 pr-6 py-3">
+                          <p className="text-sm text-gray-500">
+                            {data.description}
+                          </p>
                         </div>
                       </td>
 
-                      <td className="h-px w-px whitespace-nowrap">
+                      <td className="h-px w-80">
                         <div className="px-6 py-2">
                           <span className="text-sm text-gray-600 dark:text-gray-400">
-                            {data.type}
-                          </span>
-                        </div>
-                      </td>
-
-                      <td className="h-px w-px whitespace-nowrap">
-                        <div className="px-6 py-3">
-                          <span className={getStatusClassName(data.status)}>
-                            {data.status}
+                            {/* {data.type} */}
+                            {data.permissions.map((permission) => (
+                              <span className="ml-2 mb-2 inline-flex items-center gap-1.5 py-1 px-2 rounded-md text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200">
+                                {permission}
+                              </span>
+                            ))}
                           </span>
                         </div>
                       </td>
@@ -298,10 +178,14 @@ export default function TeamTable() {
                       </td>
                       <td className="h-px w-px whitespace-nowrap">
                         <div className="px-6 py-1.5">
-                          <a data-hs-overlay="#hs-ai-invoice-modal">
-                            <div className="py-1 px-2 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-green-300 text-gray-700 shadow-sm align-middle hover:bg-gray-50 text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white">
-                              <i className="bi bi-envelope"></i>
-                              Invite
+                          <a
+                            className="ml-3"
+                            href="javascript:;"
+                            data-hs-overlay="#hs-ai-invoice-modal"
+                          >
+                            <div className="py-1 px-2 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-orange-500 text-gray-100 shadow-sm align-middle hover:bg-orange-300 text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white">
+                              <i className="bi bi-pen"></i>
+                              Edit
                             </div>
                           </a>
                           <a
@@ -309,19 +193,9 @@ export default function TeamTable() {
                             href="javascript:;"
                             data-hs-overlay="#hs-ai-invoice-modal"
                           >
-                            <div className="py-1 px-2 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-orange-300 text-gray-700 shadow-sm align-middle hover:bg-gray-50 text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white">
-                              <i className="bi bi-slash-circle"></i>
-                              Suspend
-                            </div>
-                          </a>
-                          <a
-                            className="ml-3"
-                            href="javascript:;"
-                            data-hs-overlay="#hs-ai-invoice-modal"
-                          >
-                            <div className="py-1 px-2 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-red-300 text-gray-700 shadow-sm align-middle hover:bg-gray-50 text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white">
+                            <div className="py-1 px-2 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-red-500 text-gray-100 shadow-sm align-middle hover:bg-red-300 text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white">
                               <i className="bi bi-trash"></i>
-                              Remove
+                              Delete
                             </div>
                           </a>
                         </div>

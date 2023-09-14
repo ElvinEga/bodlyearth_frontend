@@ -123,3 +123,76 @@ export const requestTeamData = [
     created: "13 Sept 2023",
   },
 ];
+
+export const requestRolesData = [
+  {
+    id: 1,
+    role: "Manager",
+    description: "Employee",
+    permissions: [
+      "Create member",
+      "Delete member",
+      "Suspend member",
+      "Read Report",
+      "Create Request",
+      "Edit Request",
+    ],
+    created: "10 Sept 2023",
+  },
+  {
+    id: 2,
+    role: "Accountant",
+    description: "Employee",
+    permissions: [
+      "Create member",
+      "Read Report",
+      "Create Request",
+      "Edit Request",
+    ],
+    created: "8 Sept 2023",
+  },
+  {
+    id: 3,
+    role: "Customer Care",
+    description: "Employee",
+    permissions: ["Read Report", "Create Report", "Create Request"],
+    created: "2 Sept 2023",
+  },
+  {
+    id: 4,
+    role: "Teller",
+    description: "Employee",
+    permissions: ["Read Report", "Create Report"],
+    created: "13 Sept 2023",
+  },
+  {
+    id: 5,
+    role: "Technician",
+    description: "Employee",
+    permissions: [
+      "Create member",
+      "Delete member",
+      "Suspend member",
+      "Read Report",
+      "Create Request",
+      "Edit Request",
+    ],
+    created: "2 Aug 2023",
+  },
+  {
+    id: 6,
+    role: "Admin",
+    description: "Employee",
+    permissions: [
+      "Create member",
+      "Delete member",
+      "Suspend member",
+      "Read Report",
+      "Create Request",
+      "Edit Request",
+      "Create Company",
+      "Delete Company",
+    ],
+    created: "13 Sept 2023",
+  },
+];
