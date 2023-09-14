@@ -390,7 +390,7 @@ export default function TeamTable() {
                       <td className="h-px w-px whitespace-nowrap">
                         <div className="px-6 py-1.5">
                           <a data-hs-overlay="#hs-ai-invoice-modal">
-                            <div className="py-1 px-2 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-green-300 text-gray-700 shadow-sm align-middle hover:bg-gray-50 text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white">
+                            <div className="py-1 px-2 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-green-700 text-white shadow-sm align-middle hover:bg-green-200 text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white">
                               <i className="bi bi-envelope"></i>
                               Invite
                             </div>
@@ -400,7 +400,7 @@ export default function TeamTable() {
                             href="javascript:;"
                             data-hs-overlay="#hs-ai-invoice-modal"
                           >
-                            <div className="py-1 px-2 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-orange-300 text-gray-700 shadow-sm align-middle hover:bg-gray-50 text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white">
+                            <div className="py-1 px-2 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-orange-500 text-white shadow-sm align-middle hover:bg-orange-200 text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white">
                               <i className="bi bi-slash-circle"></i>
                               Suspend
                             </div>
@@ -410,7 +410,7 @@ export default function TeamTable() {
                             href="javascript:;"
                             data-hs-overlay="#hs-ai-invoice-modal"
                           >
-                            <div className="py-1 px-2 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-red-300 text-gray-700 shadow-sm align-middle hover:bg-gray-50 text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white">
+                            <div className="py-1 px-2 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-red-500 text-white shadow-sm align-middle hover:bg-red-200 text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white">
                               <i className="bi bi-trash"></i>
                               Remove
                             </div>

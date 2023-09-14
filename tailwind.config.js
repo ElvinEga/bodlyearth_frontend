@@ -7,7 +7,11 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        caveat: ["Work Sans, sans-serif"],
+      },
+    },
   },
   plugins: [prelinePlugin],
 };
