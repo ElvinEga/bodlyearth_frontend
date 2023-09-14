@@ -12,7 +12,7 @@ const BreadHeader = (props: Content) => {
   return (
     <>
       {/* Page Heading */}
-      <header>
+      <header className="mb-5 dark:border-gray-700">
         {props.detail != null ? (
           <ol
             className="mb-2 flex items-center whitespace-nowrap min-w-0"
