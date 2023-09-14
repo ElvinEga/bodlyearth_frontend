@@ -8,6 +8,7 @@ import TeamMembers from "./pages/teams";
 import Roles from "./pages/teams/roles";
 import Companies from "./pages/companies";
 import RecentActivity from "./pages/Activity";
+import LogIn from "./pages/login";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path="/roles" element={<Roles />} />
         <Route path="/companies" element={<Companies />} />
         <Route path="/recent_activity" element={<RecentActivity />} />
+        <Route path="/login" element={<LogIn />} />
       </Routes>
     </>
   );

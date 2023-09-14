@@ -10,9 +10,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@react-google-maps/api": "^2.19.2",
+    "@tomickigrzegorz/react-circular-progress-bar": "^1.1.2",
+    "apexcharts": "^3.42.0",
     "bootstrap-icons": "^1.11.0",
     "preline": "^1.9.0",
     "react": "^18.2.0",
+    "react-apexcharts": "^1.4.1",
     "react-dom": "^18.2.0",
     "react-flagkit": "^2.0.4",
     "react-router-dom": "^6.14.2"
