@@ -83,7 +83,7 @@ const Sidebar = () => {
             <li>
               <a
                 className="flex items-center gap-x-3.5 py-2 px-2.5 bg-gray-100 text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:bg-gray-900 dark:text-white"
-                href="javascript:;"
+                href="/"
               >
                 <svg
                   className="w-3.5 h-3.5"
@@ -183,16 +183,16 @@ const Sidebar = () => {
             <li>
               <a
                 className="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:hover:bg-gray-900 dark:text-slate-400 dark:hover:text-slate-300"
-                href="javascript:;"
+                href="/recent_activity"
               >
                 <i className="bi bi-graph-up-arrow"></i>
-                Reports
+                Recent Activities
               </a>
             </li>
             <li>
               <a
                 className="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:hover:bg-gray-900 dark:text-slate-400 dark:hover:text-slate-300"
-                href="javascript:;"
+                href="/companies"
               >
                 <svg
                   className="w-3.5 h-3.5"

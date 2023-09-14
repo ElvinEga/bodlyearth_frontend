@@ -1,17 +1,17 @@
 import BreadHeader from "../../components/breadheader";
 import MainDashboard from "../../components/dashboards/main_dashboard";
+import CompaniesTable from "../../components/tables/companies";
 
-const Home = () => {
+export default function Companies() {
   return (
     <MainDashboard>
       <div>
         <BreadHeader
-          home="Home"
-          title="Hello Admin"
-          description="Here's What We have today"
+          title="Companies"
+          description="List Of Companies Registred in ADAPTA"
         />
+        <CompaniesTable />
       </div>
     </MainDashboard>
   );
-};
-export default Home;
+}
