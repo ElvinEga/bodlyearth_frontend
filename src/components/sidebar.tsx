@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const Sidebar = () => {
   return (
     <>
@@ -72,7 +74,13 @@ const Sidebar = () => {
             href="#"
             aria-label="Brand"
           >
-            Brand
+            <Link to="/">
+              <img
+                alt="Bitpulse"
+                className="w-56 mx-auto"
+                src="/img/logo.png"
+              />
+            </Link>
           </a>
         </div>
         <nav
@@ -83,7 +91,7 @@ const Sidebar = () => {
             <li>
               <a
                 className="flex items-center gap-x-3.5 py-2 px-2.5 bg-gray-100 text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:bg-gray-900 dark:text-white"
-                href="javascript:;"
+                href="/"
               >
                 <svg
                   className="w-3.5 h-3.5"
@@ -108,10 +116,10 @@ const Sidebar = () => {
             <li>
               <a
                 className="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:hover:bg-gray-900 dark:text-slate-400 dark:hover:text-slate-300"
-                href="javascript:;"
+                href="/engagement"
               >
                 <i className="bi bi-stickies" />
-                Engagements
+                Scores History
               </a>
             </li>
             <li className="hs-accordion" id="account-accordion">
@@ -163,7 +171,7 @@ const Sidebar = () => {
                   <li>
                     <a
                       className="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:bg-gray-800 dark:text-slate-400 dark:hover:text-slate-300"
-                      href="javascript:;"
+                      href="/team"
                     >
                       Team Members
                     </a>
@@ -171,7 +179,7 @@ const Sidebar = () => {
                   <li>
                     <a
                       className="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:bg-gray-800 dark:text-slate-400 dark:hover:text-slate-300"
-                      href="javascript:;"
+                      href="/roles"
                     >
                       Roles
                     </a>
@@ -183,16 +191,16 @@ const Sidebar = () => {
             <li>
               <a
                 className="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:hover:bg-gray-900 dark:text-slate-400 dark:hover:text-slate-300"
-                href="javascript:;"
+                href="/recent_activity"
               >
                 <i className="bi bi-graph-up-arrow"></i>
-                Reports
+                Recent Activities
               </a>
             </li>
             <li>
               <a
                 className="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:hover:bg-gray-900 dark:text-slate-400 dark:hover:text-slate-300"
-                href="javascript:;"
+                href="/companies"
               >
                 <svg
                   className="w-3.5 h-3.5"
@@ -236,7 +244,7 @@ const Sidebar = () => {
             <li>
               <a
                 className="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:hover:bg-gray-900 dark:text-slate-400 dark:hover:text-slate-300"
-                href="javascript:;"
+                href="/login"
               >
                 <i className="bi bi-door-open"></i>
                 Logout

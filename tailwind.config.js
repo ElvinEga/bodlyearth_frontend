@@ -6,8 +6,13 @@ export default {
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
+  darkMode: "class", // or 'media' or 'class'
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        caveat: ["Work Sans, sans-serif"],
+      },
+    },
   },
   plugins: [prelinePlugin],
 };
