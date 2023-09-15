@@ -16,7 +16,7 @@ const LocationPickerMap: React.FC = () => {
   };
 
   return (
-    <LoadScript googleMapsApiKey="YOUR_API_KEY">
+    <LoadScript googleMapsApiKey="AIzaSyCCDB8_Ujflax5HYAFILZGAOmBfmjSeWes">
       <GoogleMap
         mapContainerStyle={{ height: "400px", width: "100%" }}
         zoom={14}
