@@ -304,3 +304,84 @@ export const requestActivityData = [
     created: "13 Sept 2023",
   },
 ];
+
+export const resourcesData = [
+  {
+    id: 1,
+    name: "Avocado",
+    img: "/pdf/img/avocado.jpg",
+    pdf: "/pdf/avocado.pdf",
+  },
+  {
+    id: 2,
+    name: "Coffee",
+    img: "/pdf/img/coffee.jpg",
+    pdf: "/pdf/coffee.pdf",
+  },
+  {
+    id: 3,
+    name: "Cowpeas",
+    img: "/pdf/img/cowpeas.jpg",
+    pdf: "/pdf/cowpeas.pdf",
+  },
+  {
+    id: 4,
+    name: "Green gram",
+    img: "/pdf/img/green-gram.jpg",
+    pdf: "/pdf/green-gram.pdf",
+  },
+  {
+    id: 5,
+    name: "Macadamia",
+    img: "/pdf/img/macadamia.jpg",
+    pdf: "/pdf/macadamia.pdf",
+  },
+  {
+    id: 6,
+    name: "Maize",
+    img: "/pdf/img/maize.jpg",
+    pdf: "/pdf/maize.pdf",
+  },
+  {
+    id: 7,
+    name: "Onions",
+    img: "/pdf/img/onions.jpg",
+    pdf: "/pdf/onions.pdf",
+  },
+  {
+    id: 8,
+    name: "Papaya",
+    img: "/pdf/img/papaya.jpg",
+    pdf: "/pdf/papaya.pdf",
+  },
+  {
+    id: 9,
+    name: "Potato",
+    img: "/pdf/img/potato.jpg",
+    pdf: "/pdf/potato.pdf",
+  },
+  {
+    id: 10,
+    name: "Sesame",
+    img: "/pdf/img/sesame.jpg",
+    pdf: "/pdf/sesame.pdf",
+  },
+  {
+    id: 11,
+    name: "Tea",
+    img: "/pdf/img/tea.jpg",
+    pdf: "/pdf/tea.pdf",
+  },
+  {
+    id: 12,
+    name: "Tomato",
+    img: "/pdf/img/tomato.jpg",
+    pdf: "/pdf/tomato.pdf",
+  },
+  {
+    id: 13,
+    name: "Wheat",
+    img: "/pdf/img/wheat.jpg",
+    pdf: "/pdf/wheat.pdf",
+  },
+];
