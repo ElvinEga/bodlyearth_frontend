@@ -23,10 +23,10 @@ function Gauge() {
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
                     >
-                      <rect width={20} height={8} rx={4} fill="#EF4444" />
+                      <rect width={20} height={8} rx={4} fill="#15803D" />
                     </svg>
                     <p className="text-xs font-medium leading-3 text-gray-800">
-                      Poor
+                      Exceptional
                     </p>
                   </div>
                   <div className="flex items-center gap-2 mt-3">
@@ -40,7 +40,7 @@ function Gauge() {
                       <rect width={20} height={8} rx={4} fill="#FACC15" />
                     </svg>
                     <p className="text-xs font-medium leading-3 text-gray-800">
-                      Fair
+                      Better
                     </p>
                   </div>
                   <div className="flex items-center gap-2 mt-3">
@@ -67,7 +67,7 @@ function Gauge() {
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
                     >
-                      <rect width={20} height={8} rx={4} fill="#14B8A6" />
+                      <rect width={20} height={8} rx={4} fill="#EFB8A6" />
                     </svg>
                     <p className="text-xs font-medium leading-3 text-gray-800">
                       Good
@@ -81,10 +81,10 @@ function Gauge() {
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
                     >
-                      <rect width={20} height={8} rx={4} fill="#22C55E" />
+                      <rect width={20} height={8} rx={4} fill="#EFC55E" />
                     </svg>
                     <p className="text-xs font-medium leading-3 text-gray-800">
-                      Better
+                      Fair
                     </p>
                   </div>
                   <div className="flex items-center gap-2 mt-3">
@@ -95,10 +95,10 @@ function Gauge() {
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
                     >
-                      <rect width={20} height={8} rx={4} fill="#15803D" />
+                      <rect width={20} height={8} rx={4} fill="#EF4444" />
                     </svg>
                     <p className="text-xs font-medium leading-3 text-gray-800">
-                      Exceptional
+                      Bad
                     </p>
                   </div>
                 </div>
@@ -114,7 +114,7 @@ function Gauge() {
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
                   >
-                    <rect width={20} height={8} rx={4} fill="#EF4444" />
+                    <rect width={20} height={8} rx={4} fill="#15803D" />
                   </svg>
                   <p className="text-xs font-medium leading-3 text-gray-800">
                     Poor

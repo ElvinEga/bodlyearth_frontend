@@ -16,14 +16,14 @@ function App() {
     <>
       <Routes>
         {/* <Route path="/" element={<Dashboard />} exact /> */}
-        <Route path="/" element={<Home />} />
+        <Route path="/dashboard" element={<Home />} />
         <Route path="/engagement" element={<Engagement />} />
         <Route path="/team" element={<TeamMembers />} />
         <Route path="/roles" element={<Roles />} />
         <Route path="/companies" element={<Companies />} />
         <Route path="/recent_activity" element={<RecentActivity />} />
         <Route path="/resources" element={<Resources />} />
-        <Route path="/login" element={<LogIn />} />
+        <Route path="/" element={<LogIn />} />
       </Routes>
     </>
   );

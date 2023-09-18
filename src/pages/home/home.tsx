@@ -145,7 +145,7 @@ const Home = () => {
         {/* End Header */}
         {/* Grid */}
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
-          <div className="rounded-xl border bg-card text-card-foreground shadow col-span-2">
+          <div className="bg-white border border-gray-200 shadow-sm rounded-xl dark:bg-slate-900 dark:border-gray-700 dark:shadow-slate-700/[.7] col-span-2">
             <div className="flex flex-col space-y-1.5 p-6">
               <h3 className="font-semibold leading-none tracking-tight">
                 Calculator
@@ -208,7 +208,7 @@ const Home = () => {
               </button>
             </div>
           </div>
-          <div className="rounded-xl border bg-card text-card-foreground shadow col-span-3">
+          <div className="bg-white border border-gray-200 shadow-sm rounded-xl dark:bg-slate-900 dark:border-gray-700 dark:shadow-slate-700/[.7] bg-card col-span-3">
             <div className="flex flex-col space-y-1.5 p-6">
               <h3 className="font-semibold leading-none tracking-tight">
                 Overview
@@ -218,7 +218,7 @@ const Home = () => {
               <LocationPickerMap />
             </div>
           </div>
-          <div className="rounded-xl border bg-card text-card-foreground shadow col-span-2">
+          <div className="bg-card text-card-foreground bg-white border border-gray-200 shadow-sm rounded-xl dark:bg-slate-900 dark:border-gray-700 dark:shadow-slate-700/[.7] col-span-2">
             <div className="flex flex-col space-y-1.5 p-6">
               <h3 className="font-semibold leading-none tracking-tight">
                 Composite Risk Score
@@ -229,7 +229,7 @@ const Home = () => {
         </div>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-5">
-          <TopGauge level={45} />
+          <TopGauge level={20} />
           <TopGauge level={56} />
           <TopGauge level={70} />
         </div>

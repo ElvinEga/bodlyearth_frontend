@@ -25,7 +25,7 @@ const LogIn = () => {
                 Welcome back! Please enter your details.
               </p>
               <div className="w-full flex-1 mt-12">
-                <div className="flex flex-col items-center">
+                {/* <div className="flex flex-col items-center">
                   <button className="w-full max-w-xs text-gray-900 bg-white hover:bg-gray-100 border border-gray-200 justify-center focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-600 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700 mr-2 mb-6">
                     <div className="bg-white p-2 rounded-full">
                       <svg className="w-4" viewBox="0 0 533.5 544.3">
@@ -54,7 +54,7 @@ const LogIn = () => {
                   <div className="leading-none px-2 inline-block text-sm text-gray-600 tracking-wide font-medium bg-white transform translate-y-1/2">
                     Or
                   </div>
-                </div>
+                </div> */}
                 <div className="mx-auto max-w-xs">
                   <form className="mt-8 space-y-6" action="#">
                     <div>
@@ -106,7 +106,7 @@ const LogIn = () => {
                         </label>
                       </div>
                       <Link
-                        to="#"
+                        to="/dashboard"
                         className="ml-auto text-sm font-medium text-blue-600 hover:underline dark:text-blue-500"
                       >
                         Lost Password?
@@ -118,7 +118,7 @@ const LogIn = () => {
                     <div className="text-sm font-medium text-gray-900 dark:text-white">
                       Not registered yet?{" "}
                       <Link
-                        to="/signup"
+                        to="/dashboard"
                         className="text-blue-600 hover:underline dark:text-blue-500"
                       >
                         Create account
