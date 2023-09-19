@@ -150,7 +150,6 @@ const LogIn = () => {
                                           id="email"
                                           name="email"
                                           className="py-3 px-4 block w-full border border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400"
-                                          required=""
                                           aria-describedby="email-error"
                                         />
                                         <div className="hidden absolute inset-y-0 right-0 flex items-center pointer-events-none pr-3">
@@ -208,24 +207,7 @@ const LogIn = () => {
             </div>
           </div>
           <div className="flex-1 text-center lg:flex hidden dark:bg-gray-900">
-            <div className="mx-auto flex flex-col  py-24 justify-center items-center">
-              <img
-                className=" w-full object-cover object-center rounded"
-                alt="hero"
-                src="/img/login.jpeg"
-              />
-              <div className="w-full md:w-2/3 flex flex-col mb-16 items-center text-center">
-                <h1 className="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-800 dark:text-gray-200 mt-10">
-                  Welcome to the ADAPTA!
-                </h1>
-                <p className="mb-8 leading-relaxed text-gray-500 dark:text-grey-200">
-                  Our cutting-edge data intelligence platform provides the tools
-                  and insights needed to assess risk, identify opportunities,
-                  and mobilize capital towards sustainable agricultural
-                  practices.
-                </p>
-              </div>
-            </div>
+            <div className="hidden md:block md:absolute md:top-0 md:left-1/2 md:right-0 h-full bg-[url('/img/login.jpeg')] bg-no-repeat bg-center bg-cover" />
           </div>
         </div>
       </div>

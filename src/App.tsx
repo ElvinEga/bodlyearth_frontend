@@ -10,6 +10,9 @@ import Companies from "./pages/companies";
 import RecentActivity from "./pages/Activity";
 import LogIn from "./pages/login";
 import Resources from "./pages/resources";
+import OtpPage from "./pages/login/otp";
+import Profile from "./pages/profile";
+import HelpPage from "./pages/help";
 
 function App() {
   return (
@@ -24,6 +27,9 @@ function App() {
         <Route path="/recent_activity" element={<RecentActivity />} />
         <Route path="/resources" element={<Resources />} />
         <Route path="/" element={<LogIn />} />
+        <Route path="/verify" element={<OtpPage />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/help" element={<HelpPage />} />
       </Routes>
     </>
   );

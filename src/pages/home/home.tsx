@@ -1,3 +1,5 @@
+"use client";
+
 import BreadHeader from "../../components/breadheader";
 import MainDashboard from "../../components/dashboards/main_dashboard";
 import Gauge from "../../components/gauge";

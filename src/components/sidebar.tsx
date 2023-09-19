@@ -71,10 +71,10 @@ const Sidebar = () => {
         <div className="px-6">
           <a
             className="flex-none text-xl font-semibold dark:text-white"
-            href="#"
-            aria-label="Brand"
+            href="/"
+            aria-label="ADAPTA"
           >
-            <Link to="/">
+            <Link to="/dashboard">
               <img
                 alt="Bitpulse"
                 className="w-56 mx-auto"
@@ -91,7 +91,7 @@ const Sidebar = () => {
             <li>
               <a
                 className="flex items-center gap-x-3.5 py-2 px-2.5 bg-gray-100 text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:bg-gray-900 dark:text-white"
-                href="/"
+                href="/dashboard"
               >
                 <svg
                   className="w-3.5 h-3.5"
@@ -129,6 +129,24 @@ const Sidebar = () => {
               >
                 <i className="bi bi-flag"></i>
                 Resources
+              </a>
+            </li>
+            <li>
+              <a
+                className="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:hover:bg-gray-900 dark:text-slate-400 dark:hover:text-slate-300"
+                href="/help"
+              >
+                <i className="bi bi-question-circle"></i>
+                Help
+              </a>
+            </li>
+            <li>
+              <a
+                className="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:hover:bg-gray-900 dark:text-slate-400 dark:hover:text-slate-300"
+                href="/profile"
+              >
+                <i className="bi bi-person-circle"></i>
+                Profile
               </a>
             </li>
             <li className="hs-accordion" id="account-accordion">
@@ -240,26 +258,31 @@ const Sidebar = () => {
               </a>
             </li>
           </ul>
-          <ul className="space-y-1.5 mt-4 border-t border-gray-200 pt-4 first:mt-0 first:border-t-0 first:pt-0 dark:border-gray-700">
-            <li>
-              <a
-                className="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:hover:bg-gray-900 dark:text-slate-400 dark:hover:text-slate-300"
-                href="javascript:;"
-              >
-                <i className="bi bi-gear"></i>
-                Settings
-              </a>
-            </li>
-            <li>
-              <a
-                className="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:hover:bg-gray-900 dark:text-slate-400 dark:hover:text-slate-300"
-                href="/login"
-              >
-                <i className="bi bi-door-open"></i>
-                Logout
-              </a>
-            </li>
-          </ul>
+          <div
+            className="absolute bottom-0 justify-center hidden lg:flex"
+            sidebar-bottom-menu=""
+          >
+            <ul className="space-y-1.5 mt-4 border-t border-gray-200 pt-4 first:mt-0 first:border-t-0 first:pt-0 dark:border-gray-700">
+              <li>
+                <a
+                  className="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:hover:bg-gray-900 dark:text-slate-400 dark:hover:text-slate-300"
+                  href="javascript:;"
+                >
+                  <i className="bi bi-gear"></i>
+                  Settings
+                </a>
+              </li>
+              <li>
+                <a
+                  className="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:hover:bg-gray-900 dark:text-slate-400 dark:hover:text-slate-300"
+                  href="/login"
+                >
+                  <i className="bi bi-door-open"></i>
+                  Logout
+                </a>
+              </li>
+            </ul>
+          </div>
         </nav>
       </div>
       {/* End Sidebar */}
