@@ -8,7 +8,7 @@ interface Content {
 }
 
 export default function TopGauge(props: Content) {
-  const [currentValue, setCurrentValue] = useState(30);
+  const [currentValue, setCurrentValue] = useState(props.level);
 
   const initialSeries = [
     {
