@@ -211,12 +211,12 @@ const Home = () => {
             </div>
           </div>
           <div className="bg-white border border-gray-200 shadow-sm rounded-xl dark:bg-slate-900 dark:border-gray-700 dark:shadow-slate-700/[.7] bg-card col-span-3">
-            <div className="flex flex-col space-y-1.5 p-6">
+            <div className="flex flex-col p-6">
               <h3 className="font-semibold leading-none tracking-tight">
                 Overview
               </h3>
             </div>
-            <div className="p-6 pt-0 pl-2">
+            <div>
               <LocationPickerMap />
             </div>
           </div>
