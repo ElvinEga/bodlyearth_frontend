@@ -259,7 +259,7 @@ const Sidebar = () => {
             </li>
           </ul>
           <div
-            className="absolute bottom-0 justify-center hidden lg:flex"
+            className="absolute bottom-0 justify-center  lg:flex"
             sidebar-bottom-menu=""
           >
             <ul className="space-y-1.5 mt-4 border-t border-gray-200 pt-4 first:mt-0 first:border-t-0 first:pt-0 dark:border-gray-700">

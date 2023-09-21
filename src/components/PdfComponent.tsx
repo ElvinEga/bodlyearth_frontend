@@ -37,7 +37,7 @@ export default function PdfComponent() {
                   Name:
                 </dt>
                 <dd className="font-medium text-gray-800 dark:text-gray-200">
-                  <span className="block font-semibold">Sara Williams</span>
+                  <span className="block font-semibold">Elvin Ambasa</span>
                   <address className="not-italic font-normal">
                     0701064273,
                     <br />
@@ -54,7 +54,7 @@ export default function PdfComponent() {
                   Location:
                 </dt>
                 <dd className="font-medium text-gray-800 dark:text-gray-200">
-                  <span className="block font-semibold">Sara Williams</span>
+                  <span className="block font-semibold">Elvin Ambasa</span>
                   <address className="not-italic font-normal">
                     Nairobi,Kenya,
                     <br />
@@ -116,6 +116,7 @@ export default function PdfComponent() {
               Composite Risk Score
             </h3>
             <GaugeComponent
+              className="w-72"
               labels={{
                 valueLabel: {
                   formatTextValue: (value) => value + "",

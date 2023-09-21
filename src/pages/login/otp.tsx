@@ -85,9 +85,12 @@ const OtpPage = () => {
                         </div>
                         <div className="flex flex-col space-y-5">
                           <div>
-                            <button className="flex flex-row items-center justify-center text-center w-full border rounded-xl outline-none py-5 bg-blue-700 border-none text-white text-sm shadow-sm">
+                            <a
+                              className="flex flex-row items-center justify-center text-center w-full border rounded-xl outline-none py-5 bg-blue-700 border-none text-white text-sm shadow-sm"
+                              href="/dashboard"
+                            >
                               Verify Account
-                            </button>
+                            </a>
                           </div>
                           <div className="flex flex-row items-center justify-center text-center text-sm font-medium space-x-1 text-gray-500">
                             <p>Didn't recieve code?</p>{" "}
