@@ -28,6 +28,16 @@ export default function EngagementTable() {
       document.body.innerHTML = originalContents;
     }
   };
+  const getColor = (percentage: number) => {
+    if (percentage <= 30) {
+      return "bg-green-600"; // Green
+    } else if (percentage <= 60) {
+      return "bg-yellow-400"; // Yellow
+    } else {
+      return "bg-red-600"; // Red
+    }
+  };
+
   return (
     <>
       {/* Card */}
@@ -216,7 +226,7 @@ export default function EngagementTable() {
                     <th scope="col" className="px-6 py-3 text-left">
                       <div className="flex items-center gap-x-2">
                         <span className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
-                          Score
+                          Risk Score
                         </span>
                       </div>
                     </th>
@@ -293,7 +303,7 @@ export default function EngagementTable() {
                             </span>
                             <div className="flex w-full h-1.5 bg-gray-200 rounded-full overflow-hidden dark:bg-gray-700">
                               <div
-                                className="flex flex-col justify-center overflow-hidden bg-gray-800 dark:bg-gray-200"
+                                className={getColor(data.score)}
                                 role="progressbar"
                                 style={{ width: `${data.score}%` }}
                                 aria-valuenow={data.score}

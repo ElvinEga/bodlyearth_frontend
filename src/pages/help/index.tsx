@@ -181,7 +181,7 @@ export default function HelpPage() {
                         Call For Agricultural Requests
                       </h3>
                       <p className="mt-1 text-2xl text-gray-500">
-                        +25472308356
+                        +254723083567
                       </p>
                     </div>
                   </div>
