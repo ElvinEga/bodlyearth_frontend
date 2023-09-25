@@ -7,16 +7,12 @@ import { Link, redirect } from "react-router-dom";
 
 const CreatePassword = () => {
   const schema = yup.object().shape({
+    password: yup.string().min(4).max(20).required("Password is Required!"),
     confirm_password: yup
       .string()
       .min(4)
       .max(20)
-      .required("A Valid Password is Required!"),
-    password: yup
-      .string()
-      .min(4)
-      .max(20)
-      .required("A Valid Password is Required!"),
+      .oneOf([yup.ref("password")], "Passwords must match"),
   });
   const {
     register,
@@ -75,7 +71,9 @@ const CreatePassword = () => {
                           <p
                             className="text-sm text-red-600 mt-2"
                             id="hs-validation-name-error-helper"
-                          ></p>
+                          >
+                            {errors.password?.message}
+                          </p>
                         </div>
                         <div>
                           <label
@@ -94,7 +92,9 @@ const CreatePassword = () => {
                           <p
                             className="text-sm text-red-600 mt-2"
                             id="hs-validation-name-error-helper"
-                          ></p>
+                          >
+                            {errors.confirm_password?.message}
+                          </p>
                         </div>
                         <div className="flex flex-col space-y-5">
                           <div>
