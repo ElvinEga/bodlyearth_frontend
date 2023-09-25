@@ -15,13 +15,15 @@ import Profile from "./pages/profile";
 import HelpPage from "./pages/help";
 import AdminHome from "./pages/home/adminhome";
 import CreatePassword from "./pages/login/createPassword";
+import LandingPage from "./pages/landing";
 
 function App() {
   return (
     <>
       <Routes>
         {/* <Route path="/" element={<Dashboard />} exact /> */}
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/dashboard" element={<Home />} />
         <Route path="/engagement" element={<Engagement />} />
         <Route path="/team" element={<TeamMembers />} />
         <Route path="/roles" element={<Roles />} />
