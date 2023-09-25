@@ -13,6 +13,7 @@ import Resources from "./pages/resources";
 import OtpPage from "./pages/login/otp";
 import Profile from "./pages/profile";
 import HelpPage from "./pages/help";
+import AdminHome from "./pages/home/adminhome";
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
         <Route path="/verify" element={<OtpPage />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/help" element={<HelpPage />} />
+        <Route path="/admin" element={<AdminHome />} />
       </Routes>
     </>
   );
