@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
-import { Link, redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const LogIn = () => {
   const schema = yup.object().shape({
@@ -29,13 +29,13 @@ const LogIn = () => {
     resolver: yupResolver(schema),
   });
 
-  // const {
-  //   register,
-  //   handleSubmit,
-  //   formState: { errors },
-  // } = useForm({
-  //   resolver: yupResolver(schemaRecover),
-  // });
+  const {
+    handleSubmit: handleSubmitRecover,
+    register: regRecover,
+    formState: { errors: errorsRecover },
+  } = useForm({
+    resolver: yupResolver(schemaRecover),
+  });
 
   const onSubmit = (data) => {
     console.log(data);
@@ -167,7 +167,9 @@ const LogIn = () => {
                           </div>
                           <div className="mt-5">
                             {/* Form */}
-                            <form onSubmit={handleSubmit(onSubmitRecover)}>
+                            <form
+                              onSubmit={handleSubmitRecover(onSubmitRecover)}
+                            >
                               <div className="grid gap-y-4">
                                 {/* Form Group */}
                                 <div>
@@ -182,14 +184,14 @@ const LogIn = () => {
                                       type="email"
                                       id="recover_email"
                                       className="py-3 px-4 block w-full border border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400"
-                                      {...register("recover_email")}
+                                      {...regRecover("recover_email")}
                                     />
                                   </div>
                                   <p
                                     className="text-xs text-red-600 mt-2"
                                     id="email-error"
                                   >
-                                    {errors.recover_email?.message}
+                                    {errorsRecover.recover_email?.message}
                                   </p>
                                 </div>
                                 {/* End Form Group */}
