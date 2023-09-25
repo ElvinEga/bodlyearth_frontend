@@ -25,7 +25,7 @@ const LogIn = () => {
                 Welcome back! Please enter your details.
               </p>
               <div className="w-full flex-1 mt-12">
-                <div className="flex flex-col items-center">
+                {/* <div className="flex flex-col items-center">
                   <button className="w-full max-w-xs text-gray-900 bg-white hover:bg-gray-100 border border-gray-200 justify-center focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-600 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700 mr-2 mb-6">
                     <div className="bg-white p-2 rounded-full">
                       <svg className="w-4" viewBox="0 0 533.5 544.3">
@@ -54,7 +54,7 @@ const LogIn = () => {
                   <div className="leading-none px-2 inline-block text-sm text-gray-600 tracking-wide font-medium bg-white transform translate-y-1/2">
                     Or
                   </div>
-                </div>
+                </div> */}
                 <div className="mx-auto max-w-xs">
                   <form className="mt-8 space-y-6" action="#">
                     <div>
@@ -105,20 +105,100 @@ const LogIn = () => {
                           Remember this device
                         </label>
                       </div>
-                      <Link
-                        to="#"
+                      <button
+                        data-hs-overlay="#hs-modal-recover-account"
                         className="ml-auto text-sm font-medium text-blue-600 hover:underline dark:text-blue-500"
                       >
                         Lost Password?
-                      </Link>
+                      </button>
+                      <div
+                        id="hs-modal-recover-account"
+                        className="hs-overlay hidden w-full h-full fixed top-0 left-0 z-[60] overflow-x-hidden overflow-y-auto"
+                      >
+                        <div className="hs-overlay-open:mt-7 hs-overlay-open:opacity-100 hs-overlay-open:duration-500 mt-0 opacity-0 ease-out transition-all sm:max-w-lg sm:w-full m-3 sm:mx-auto">
+                          <div className="bg-white border border-gray-200 rounded-xl shadow-sm dark:bg-gray-800 dark:border-gray-700">
+                            <div className="p-4 sm:p-7">
+                              <div className="text-center">
+                                <h2 className="block text-2xl font-bold text-gray-800 dark:text-gray-200">
+                                  Forgot password?
+                                </h2>
+                                <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
+                                  Remember your password?
+                                  <a
+                                    className="ml-3 text-blue-600 decoration-2 hover:underline font-medium"
+                                    href="/"
+                                  >
+                                    Sign in here
+                                  </a>
+                                </p>
+                              </div>
+                              <div className="mt-5">
+                                {/* Form */}
+                                <form>
+                                  <div className="grid gap-y-4">
+                                    {/* Form Group */}
+                                    <div>
+                                      <label
+                                        htmlFor="email"
+                                        className="block text-sm mb-2 dark:text-white"
+                                      >
+                                        Email address
+                                      </label>
+                                      <div className="relative">
+                                        <input
+                                          type="email"
+                                          id="email"
+                                          name="email"
+                                          className="py-3 px-4 block w-full border border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400"
+                                          aria-describedby="email-error"
+                                        />
+                                        <div className="hidden absolute inset-y-0 right-0 flex items-center pointer-events-none pr-3">
+                                          <svg
+                                            className="h-5 w-5 text-red-500"
+                                            width={16}
+                                            height={16}
+                                            fill="currentColor"
+                                            viewBox="0 0 16 16"
+                                            aria-hidden="true"
+                                          >
+                                            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4zm.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2z" />
+                                          </svg>
+                                        </div>
+                                      </div>
+                                      <p
+                                        className="hidden text-xs text-red-600 mt-2"
+                                        id="email-error"
+                                      >
+                                        Please include a valid email address so
+                                        we can get back to you
+                                      </p>
+                                    </div>
+                                    {/* End Form Group */}
+                                    <button
+                                      type="submit"
+                                      className="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
+                                    >
+                                      Reset password
+                                    </button>
+                                  </div>
+                                </form>
+                                {/* End Form */}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                    <button className="w-full px-5 py-3 text-base font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 sm:w-auto dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    <button
+                      className="w-full px-5 py-3 text-base font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 sm:w-auto dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                      // href="/verify"
+                    >
                       Login to your account
                     </button>
                     <div className="text-sm font-medium text-gray-900 dark:text-white">
                       Not registered yet?{" "}
                       <Link
-                        to="/signup"
+                        to="/dashboard"
                         className="text-blue-600 hover:underline dark:text-blue-500"
                       >
                         Create account
@@ -130,24 +210,7 @@ const LogIn = () => {
             </div>
           </div>
           <div className="flex-1 text-center lg:flex hidden dark:bg-gray-900">
-            <div className="mx-auto flex flex-col  py-24 justify-center items-center">
-              <img
-                className=" w-full object-cover object-center rounded"
-                alt="hero"
-                src="/img/login.jpeg"
-              />
-              <div className="w-full md:w-2/3 flex flex-col mb-16 items-center text-center">
-                <h1 className="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-800 dark:text-gray-200 mt-10">
-                  Welcome to the ADAPTA!
-                </h1>
-                <p className="mb-8 leading-relaxed text-gray-500 dark:text-grey-200">
-                  Our cutting-edge data intelligence platform provides the tools
-                  and insights needed to assess risk, identify opportunities,
-                  and mobilize capital towards sustainable agricultural
-                  practices.
-                </p>
-              </div>
-            </div>
+            <div className="hidden md:block md:absolute md:top-0 md:left-1/2 md:right-0 h-full bg-[url('/img/login.jpeg')] bg-no-repeat bg-center bg-cover" />
           </div>
         </div>
       </div>

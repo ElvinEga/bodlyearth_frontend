@@ -10,20 +10,28 @@ import Companies from "./pages/companies";
 import RecentActivity from "./pages/Activity";
 import LogIn from "./pages/login";
 import Resources from "./pages/resources";
+import OtpPage from "./pages/login/otp";
+import Profile from "./pages/profile";
+import HelpPage from "./pages/help";
+import AdminHome from "./pages/home/adminhome";
 
 function App() {
   return (
     <>
       <Routes>
         {/* <Route path="/" element={<Dashboard />} exact /> */}
-        <Route path="/" element={<Home />} />
+        <Route path="/dashboard" element={<Home />} />
         <Route path="/engagement" element={<Engagement />} />
         <Route path="/team" element={<TeamMembers />} />
         <Route path="/roles" element={<Roles />} />
         <Route path="/companies" element={<Companies />} />
         <Route path="/recent_activity" element={<RecentActivity />} />
         <Route path="/resources" element={<Resources />} />
-        <Route path="/login" element={<LogIn />} />
+        <Route path="/" element={<LogIn />} />
+        <Route path="/verify" element={<OtpPage />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/help" element={<HelpPage />} />
+        <Route path="/admin" element={<AdminHome />} />
       </Routes>
     </>
   );
