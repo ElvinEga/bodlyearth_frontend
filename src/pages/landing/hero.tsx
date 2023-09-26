@@ -3,7 +3,7 @@ export default function Hero() {
     <>
       <div className="relative overflow-hidden before:absolute before:top-1/2 before:left-1/2 before:bg-[url('/img/hero-gradient.svg')] before:bg-no-repeat before:bg-center before:w-full before:h-full before:-z-[1] before:transform before:-translate-y-1/2 before:-translate-x-1/2 dark:before:bg-[url('/img/hero-gradient-dark.svg')]">
         {/* Hero */}
-        <div className="container mx-auto mt-10 px-4 sm:px-6 lg:px-8">
+        <div className="container mx-auto mt-10 px-4 sm:px-6 lg:px-8" id="home">
           {/* Grid */}
           <div className="grid lg:grid-cols-7 lg:gap-x-8 xl:gap-x-12 lg:items-center">
             <div className="lg:col-span-3">
@@ -27,7 +27,7 @@ export default function Hero() {
             <div className="lg:col-span-4 mt-10 lg:mt-0">
               <img
                 className="w-full rounded-xl"
-                src="https://images.unsplash.com/photo-1665686376173-ada7a0031a85?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=900&h=700&q=80"
+                src="/img/hero_lady.svg"
                 alt="Image Description"
               />
             </div>

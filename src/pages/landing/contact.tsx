@@ -1,7 +1,7 @@
 export default function ContactSection() {
   return (
     <>
-      <section className="text-gray-600 body-font relative">
+      <section className="text-gray-600 body-font relative" id="contact">
         <div className="container px-5 py-16 mx-auto ">
           {/* Title */}
           <div className="sm:w-1/2 xl:w-1/3 mx-auto text-center mb-6 md:mb-12">
@@ -52,7 +52,7 @@ export default function ContactSection() {
               {/* Card */}
               <div className="flex flex-col border rounded-xl p-4 sm:p-6 lg:p-8 dark:border-gray-700">
                 <h2 className="mb-8 text-xl font-semibold text-gray-800 dark:text-gray-200">
-                  Fill in the form
+                  Contact Us
                 </h2>
                 <form>
                   <div className="grid gap-4">

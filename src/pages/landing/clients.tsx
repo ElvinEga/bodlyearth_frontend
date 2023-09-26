@@ -5,7 +5,7 @@ const ClientsSection = () => {
     <>
       <section
         className="relative md:py-12 py-16 bg-gray-50 dark:bg-slate-800"
-        id="features"
+        id="partners"
       >
         {/* Clients */}
         <div className="container px-4  sm:px-6 lg:px-8  mx-auto">

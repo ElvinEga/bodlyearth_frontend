@@ -2,14 +2,21 @@ export default function AboutSection() {
   return (
     <>
       {/* Features */}
-      <div className="max-w-[85rem] px-4 mt-24 sm:px-6 lg:px-8  mx-auto">
-        <div className="max-w-2xl text-center mx-auto mt-16">
+      <div
+        className="max-w-[85rem] px-4 mt-24 sm:px-6 lg:px-8  mx-auto"
+        id="about"
+      >
+        <div className="max-w-3xl text-center mx-auto mt-16">
           <h1 className="block text-3xl font-bold text-gray-800 sm:text-4xl md:text-5xl dark:text-white">
-            Designed for you to get more{" "}
-            <span className="text-blue-600">simple</span>
+            Designed for risk management tool globally and helps{" "}
+            <span className="text-blue-600">financial intermediaries.</span>
           </h1>
           <p className="mt-3 text-lg text-gray-800 dark:text-gray-400">
-            Build your business here. Take it anywhere.
+            We developed ADAPTA CS to transform the way we assess food and
+            agricultural risk. Our SaaS leverages climate, soil, water, and
+            biodiversity data to provide a score that can guide you on risks at
+            the farm level while providing you with mitigation solutions to
+            lower such risks.
           </p>
         </div>
         {/* Tab Nav */}
@@ -34,10 +41,11 @@ export default function AboutSection() {
               </svg>
               <span className="md:grow md:ml-5">
                 <span className="hs-tab-active:text-blue-600 block font-semibold text-gray-800 dark:hs-tab-active:text-blue-500 dark:text-gray-200">
-                  All-in-one workspace
+                  Reduce early due diligence costs
                 </span>
                 <span className="hidden lg:block mt-2 text-gray-800 dark:text-gray-200">
-                  Create a business, whether you’ve got a fresh idea.
+                  Our advanced climate risk assessment tools streamline the due
+                  diligence process, saving you time and resources.
                 </span>
               </span>
             </span>
@@ -66,11 +74,11 @@ export default function AboutSection() {
               </svg>
               <span className="md:grow md:ml-5">
                 <span className="hs-tab-active:text-blue-600 block font-semibold text-gray-800 dark:hs-tab-active:text-blue-500 dark:text-gray-200">
-                  Automation on a whole new level
+                  Reduce losses by enhancing your climate resilience
                 </span>
                 <span className="hidden lg:block mt-2 text-gray-800 dark:text-gray-200">
-                  Use automation to scale campaigns profitably and save time
-                  doing it.
+                  By identifying and addressing climate risks, you can minimize
+                  losses and protect your assets.
                 </span>
               </span>
             </span>
@@ -96,11 +104,12 @@ export default function AboutSection() {
               </svg>
               <span className="md:grow md:ml-5">
                 <span className="hs-tab-active:text-blue-600 block font-semibold text-gray-800 dark:hs-tab-active:text-blue-500 dark:text-gray-200">
-                  Solving problems for every team
+                  Increase your agricultural lending
                 </span>
                 <span className="hidden lg:block mt-2 text-gray-800 dark:text-gray-200">
-                  One tool for your company to share knowledge and ship
-                  projects.
+                  With improved climate risk assessment capabilities, you can
+                  confidently extend credit to more farmers and increasing
+                  revenue.
                 </span>
               </span>
             </span>
@@ -121,7 +130,7 @@ export default function AboutSection() {
                 <div className="p-1.5 bg-gray-100 rounded-3xl shadow-[0_2.75rem_5.5rem_-3.5rem_rgb(45_55_75_/_20%),_0_2rem_4rem_-2rem_rgb(45_55_75_/_30%),_inset_0_-0.1875rem_0.3125rem_0_rgb(45_55_75_/_20%)] dark:bg-gray-700 dark:shadow-[0_2.75rem_5.5rem_-3.5rem_rgb(0_0_0_/_20%),_0_2rem_4rem_-2rem_rgb(0_0_0_/_30%),_inset_0_-0.1875rem_0.3125rem_0_rgb(0_0_0_/_20%)]">
                   <img
                     className="max-w-full h-auto rounded-[1.25rem]"
-                    src="https://preline.co/assets/img/mockups/img11.jpg"
+                    src="/img/screenshot_phone.jpg"
                     alt="Image Description"
                   />
                 </div>
@@ -142,7 +151,7 @@ export default function AboutSection() {
                 <div className="bg-gray-800 rounded-b-lg">
                   <img
                     className="max-w-full h-auto rounded-b-lg"
-                    src="https://preline.co/assets/img/mockups/img10.jpg"
+                    src="/img/screenshot_laptop.jpg"
                     alt="Image Description"
                   />
                 </div>
