@@ -1,11 +1,31 @@
 "use client";
+
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import useAuth from "../../hooks/useAuth";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import axios from "../../api/axios";
+const LOGIN_URL = "/auth";
 
-import { Link } from "react-router-dom";
+interface FormData {
+  email: string;
+  password: string;
+}
+
+interface RecoverFormData {
+  recover_email: string;
+}
 
 const LogIn = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
+
+  const { setAuth, persist, setPersist } = useAuth();
+  const [errMsg, setErrMsg] = useState("");
+
   const schema = yup.object().shape({
     email: yup.string().email().required("Please Enter a Valid Email Address"),
     password: yup
@@ -25,7 +45,7 @@ const LogIn = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({
+  } = useForm<FormData>({
     resolver: yupResolver(schema),
   });
 
@@ -33,16 +53,50 @@ const LogIn = () => {
     handleSubmit: handleSubmitRecover,
     register: regRecover,
     formState: { errors: errorsRecover },
-  } = useForm({
+  } = useForm<RecoverFormData>({
     resolver: yupResolver(schemaRecover),
   });
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data: FormData) => {
+    console.log(data);
+    const email = data?.email;
+    const password = data?.password;
+    console.log(email);
+    try {
+      const response = await axios.post(LOGIN_URL, JSON.stringify(data), {
+        headers: { "Content-Type": "application/json" },
+        withCredentials: true,
+      });
+      console.log(JSON.stringify(response?.data));
+      //console.log(JSON.stringify(response));
+      const accessToken = response?.data?.accessToken;
+      const roles = response?.data?.roles;
+      setAuth({ email, password, roles, accessToken });
+      navigate(from, { replace: true });
+    } catch (err) {
+      if (!err?.response) {
+        setErrMsg("No Server Response");
+      } else if (err.response?.status === 400) {
+        setErrMsg("Missing Username or Password");
+      } else if (err.response?.status === 401) {
+        setErrMsg("Unauthorized");
+      } else {
+        setErrMsg("Login Failed");
+      }
+      alert(errMsg);
+    }
+  };
+  const onSubmitRecover = (data: RecoverFormData) => {
     console.log(data);
   };
-  const onSubmitRecover = (data) => {
-    console.log(data);
+
+  const togglePersist = () => {
+    setPersist((prev: boolean) => !prev);
   };
+
+  useEffect(() => {
+    localStorage.setItem("persist", persist);
+  }, [persist]);
   return (
     <>
       <div className="flex justify-center h-screen">
@@ -115,16 +169,18 @@ const LogIn = () => {
                     <div className="flex items-start">
                       <div className="flex items-center h-5">
                         <input
-                          id="remember"
                           aria-describedby="remember"
                           name="remember"
                           type="checkbox"
+                          id="persist"
+                          onChange={togglePersist}
+                          checked={persist}
                           className="w-4 h-4 border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600"
                         />
                       </div>
                       <div className="ml-3 text-sm">
                         <label
-                          htmlFor="remember"
+                          htmlFor="persist"
                           className="font-medium text-gray-500 dark:text-gray-400"
                         >
                           Remember this device

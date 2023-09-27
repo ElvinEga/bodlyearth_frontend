@@ -1,6 +1,16 @@
 import ThemeChanger from "./DarkSwitch";
+import { useNavigate, Link } from "react-router-dom";
+import useLogout from "../hooks/useLogout";
 
 const Navbar = () => {
+  const navigate = useNavigate();
+  const logout = useLogout();
+
+  const signOut = async () => {
+    await logout();
+    navigate("/login");
+  };
+
   return (
     <>
       {/* ========== HEADER ========== */}
@@ -117,13 +127,13 @@ const Navbar = () => {
                     </p>
                   </div>
                   <div className="mt-2 py-2 first:pt-0 last:pb-0">
-                    <a
+                    <Link
                       className="flex items-center gap-x-3.5 py-2 px-3 rounded-md text-sm text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
-                      href="/profile"
+                      to="/profile"
                     >
                       <i className="bi bi-person text-2xl"></i>
                       Profile
-                    </a>
+                    </Link>
                     <a
                       className="flex items-center gap-x-3.5 py-2 px-3 rounded-md text-sm text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
                       href="/engagement"
@@ -131,13 +141,13 @@ const Navbar = () => {
                       <i className="bi bi-hourglass-split text-2xl"></i>
                       History
                     </a>
-                    <a
+                    <button
                       className="flex items-center gap-x-3.5 py-2 px-3 rounded-md text-sm text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
-                      href="/signout"
+                      onClick={signOut}
                     >
                       <i className="bi bi-door-open text-2xl"></i>
                       Sign Out
-                    </a>
+                    </button>
                   </div>
                 </div>
               </div>
