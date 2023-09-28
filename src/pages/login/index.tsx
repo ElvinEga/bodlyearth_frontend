@@ -7,27 +7,34 @@ import * as yup from "yup";
 import useAuth from "../../hooks/useAuth";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import axios from "../../api/axios";
-const LOGIN_URL = "/auth";
+const LOGIN_URL = "/auth/sign-in";
+const RESETPWD_URL = "/auth/reset-password";
 
 interface FormData {
-  email: string;
+  username_or_email: string;
   password: string;
 }
 
 interface RecoverFormData {
-  recover_email: string;
+  email: string;
 }
 
 const LogIn = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const from = location.state?.from?.pathname || "/";
+  // const from = location.state?.from?.pathname || "/";
+  const from = "/verify";
+  const changePasswordRoute = "/create_password";
 
   const { setAuth, persist, setPersist } = useAuth();
   const [errMsg, setErrMsg] = useState("");
+  const [successMsg, setSuccessMsg] = useState("");
 
   const schema = yup.object().shape({
-    email: yup.string().email().required("Please Enter a Valid Email Address"),
+    username_or_email: yup
+      .string()
+      .email()
+      .required("Please Enter a Valid Email Address"),
     password: yup
       .string()
       .min(4)
@@ -35,10 +42,7 @@ const LogIn = () => {
       .required("A Valid Password is Required!"),
   });
   const schemaRecover = yup.object().shape({
-    recover_email: yup
-      .string()
-      .email()
-      .required("Please Enter a Valid Email Address"),
+    email: yup.string().email().required("Please Enter a Valid Email Address"),
   });
 
   const {
@@ -62,32 +66,53 @@ const LogIn = () => {
     const email = data?.email;
     const password = data?.password;
     console.log(email);
-    try {
-      const response = await axios.post(LOGIN_URL, JSON.stringify(data), {
-        headers: { "Content-Type": "application/json" },
-        withCredentials: true,
+
+    await axios
+      .post(LOGIN_URL, JSON.stringify(data), {
+        headers: {
+          "Content-Type": "application/json",
+          "x-adpata-application": "user",
+          "x-client-identifier": "web",
+        },
+        withCredentials: false,
+      })
+      .then((response) => {
+        console.log(JSON.stringify(response.data));
+        //console.log(JSON.stringify(response));
+        const accessToken = response?.data?.access_token;
+        const roles = response?.data?.role;
+        const userId = response?.data?.id;
+        const userEmail = response?.data?.email;
+
+        // Save user data to local storage
+        localStorage.setItem("useremail", userEmail);
+        localStorage.setItem("userid", userId);
+        localStorage.setItem("accesstoken", accessToken);
+        localStorage.setItem("roles", roles);
+
+        setAuth({ email, password, roles, accessToken });
+
+        navigate(from, { replace: true });
+        const welcomeMessage = "Login successful.";
+        setSuccessMsg(welcomeMessage);
+        setErrMsg("");
+      })
+      .catch((err) => {
+        if (!err?.response) {
+          setErrMsg("No Server Response");
+        } else if (err.response?.status === 400) {
+          setErrMsg("Missing Username or Password");
+        } else if (err.response?.status === 401) {
+          setErrMsg("You have netered an Invalid Email or Password");
+        } else {
+          setErrMsg("Login Failed");
+        }
       });
-      console.log(JSON.stringify(response?.data));
-      //console.log(JSON.stringify(response));
-      const accessToken = response?.data?.accessToken;
-      const roles = response?.data?.roles;
-      setAuth({ email, password, roles, accessToken });
-      navigate(from, { replace: true });
-    } catch (err) {
-      if (!err?.response) {
-        setErrMsg("No Server Response");
-      } else if (err.response?.status === 400) {
-        setErrMsg("Missing Username or Password");
-      } else if (err.response?.status === 401) {
-        setErrMsg("Unauthorized");
-      } else {
-        setErrMsg("Login Failed");
-      }
-      alert(errMsg);
-    }
   };
+
   const onSubmitRecover = (data: RecoverFormData) => {
     console.log(data);
+    navigate(changePasswordRoute, { replace: true });
   };
 
   const togglePersist = () => {
@@ -97,10 +122,23 @@ const LogIn = () => {
   useEffect(() => {
     localStorage.setItem("persist", persist);
   }, [persist]);
+  let alert;
+  if (errMsg.length > 0) {
+    alert = (
+      <div
+        className=" bg-red-50 border border-red-200 text-sm text-red-600 rounded-md p-4"
+        role="alert"
+      >
+        {errMsg}{" "}
+      </div>
+    );
+  } else if (successMsg.length > 0) {
+    alert = <div className="notification is-success">{successMsg}</div>;
+  }
   return (
     <>
       <div className="flex justify-center h-screen">
-        <div className="bg-white dark:bg-gray-800 shadow flex justify-center flex-1">
+        <div className="bg-white dark:bg-gray-800 flex justify-center flex-1">
           <div className="lg:w-1/2 xl:w-5/12 p-6 sm:p-12">
             <div>
               <Link to="/">
@@ -126,23 +164,23 @@ const LogIn = () => {
                   >
                     <div>
                       <label
-                        htmlFor="email"
+                        htmlFor="username_or_email"
                         className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                       >
                         Email
                       </label>
                       <input
                         type="email"
-                        id="email"
+                        id="username_or_email"
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         placeholder="name@company.com"
-                        {...register("email")}
+                        {...register("username_or_email")}
                       />
                       <p
                         className="text-sm text-red-600 mt-2"
                         id="hs-validation-name-error-helper"
                       >
-                        {errors.email?.message}
+                        {errors.username_or_email?.message}
                       </p>
                     </div>
                     <div>
@@ -189,6 +227,7 @@ const LogIn = () => {
                       <button
                         data-hs-overlay="#hs-modal-recover-account"
                         className="ml-auto text-sm font-medium text-blue-600 hover:underline dark:text-blue-500"
+                        type="reset"
                       >
                         Lost Password?
                       </button>
@@ -199,6 +238,7 @@ const LogIn = () => {
                     >
                       Login to your account
                     </button>
+                    {alert}
                   </form>
                   <div
                     id="hs-modal-recover-account"
@@ -213,12 +253,13 @@ const LogIn = () => {
                             </h2>
                             <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
                               Remember your password?
-                              <a
+                              <button
                                 className="ml-3 text-blue-600 decoration-2 hover:underline font-medium"
-                                href="/"
+                                type="reset"
+                                data-hs-overlay="#hs-modal-recover-account"
                               >
                                 Sign in here
-                              </a>
+                              </button>
                             </p>
                           </div>
                           <div className="mt-5">
@@ -230,7 +271,7 @@ const LogIn = () => {
                                 {/* Form Group */}
                                 <div>
                                   <label
-                                    htmlFor="recover_email"
+                                    htmlFor="email"
                                     className="block text-sm mb-2 dark:text-white"
                                   >
                                     Email address
@@ -238,22 +279,23 @@ const LogIn = () => {
                                   <div className="relative">
                                     <input
                                       type="email"
-                                      id="recover_email"
+                                      id="email"
                                       className="py-3 px-4 block w-full border border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400"
-                                      {...regRecover("recover_email")}
+                                      {...regRecover("email")}
                                     />
                                   </div>
                                   <p
                                     className="text-xs text-red-600 mt-2"
                                     id="email-error"
                                   >
-                                    {errorsRecover.recover_email?.message}
+                                    {errorsRecover.email?.message}
                                   </p>
                                 </div>
                                 {/* End Form Group */}
                                 <button
                                   type="submit"
                                   className="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
+                                  data-hs-overlay="#hs-modal-recover-account"
                                 >
                                   Reset password
                                 </button>

@@ -2,8 +2,23 @@
 
 import { Link } from "react-router-dom";
 import OTPInput from "../../components/otpinput";
+import { useEffect, useState } from "react";
+// import useAuth from "../../hooks/useAuth";
 
 const OtpPage = () => {
+  // const { auth, setAuth } = useAuth();
+  const [email, setEmail] = useState("");
+  let userEmail = localStorage.getItem("useremail");
+  let userId = localStorage.getItem("userId");
+
+  console.log(userEmail);
+
+  useEffect(() => {
+    // userEmail =
+    // userId = localStorage.getItem("userId");
+    setEmail(localStorage.getItem("useremail"));
+  }, []);
+
   return (
     <>
       <div className="flex justify-center h-screen">
@@ -12,7 +27,7 @@ const OtpPage = () => {
             <div>
               <Link to="/">
                 <img
-                  alt="Bitpulse"
+                  alt="ADAPTA"
                   className="w-56 mx-auto"
                   src="/img/logo.png"
                 />
@@ -26,9 +41,7 @@ const OtpPage = () => {
                       <p>Email Verification</p>
                     </div>
                     <div className="flex flex-row text-sm font-medium text-gray-400">
-                      <p>
-                        We have sent a code to your email ba**@dipainhouse.com
-                      </p>
+                      <p>We have sent a code to your email {email}</p>
                     </div>
                   </div>
                   <div>

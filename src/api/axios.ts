@@ -7,6 +7,10 @@ export default axios.create({
 
 export const axiosPrivate = axios.create({
   baseURL: API_BASE_URL,
-  headers: { "Content-Type": "application/json" },
-  withCredentials: true,
+  headers: {
+    "Content-Type": "application/json",
+    "x-adpata-application": "user",
+    "x-client-identifier": "web",
+  },
+  withCredentials: false,
 });
