@@ -1,9 +1,99 @@
 "use client";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import OTPInput from "../../components/otpinput";
+import { useEffect, useState } from "react";
+import { axiosPrivate } from "../../api/axios";
+// import useAuth from "../../hooks/useAuth";
+
+const PASSWORD_URL = "/auth/create-password";
+const RESEND_URL = "/auth/request-new-otp";
+
+interface FormData {
+  user_id: string;
+  otp: string;
+}
 
 const OtpPage = () => {
+  const navigate = useNavigate();
+  const from = "/create-password";
+  const [otpCode, setOtpCode] = useState("");
+  const [email, setEmail] = useState("");
+  let userId = localStorage.getItem("userid");
+  const [errMsg, setErrMsg] = useState("");
+  const [successMsg, setSuccessMsg] = useState("");
+
+  useEffect(() => {
+    setEmail(localStorage.getItem("useremail"));
+  }, []);
+
+  const sendOtp = (otpNumb: string) => {
+    if (otpNumb.length == 6) {
+      console.log("Number OTP: ", otpNumb);
+      setOtpCode(otpNumb);
+      // onSubmit(dataForm)
+    }
+  };
+
+  const onSubmit = async () => {
+    if (otpCode.length == 6) {
+      const data: FormData = {
+        user_id: userId,
+        otp: otpCode,
+      };
+      console.log(data);
+
+      // await axiosPrivate
+      //   .post(PASSWORD_URL, JSON.stringify(data))
+      //   .then((response) => {
+      //     console.log(JSON.stringify(response.data));
+
+      //     navigate(from, { replace: true });
+      //     const mssg = "User Verified.";
+      //     setSuccessMsg(mssg);
+      //     setErrMsg("");
+      //   })
+      //   .catch((err) => {
+      //     if (!err?.response) {
+      //       setErrMsg("No Server Response");
+      //     } else if (err.response?.status === 400) {
+      //       setErrMsg("Missing Username or Password");
+      //     } else if (err.response?.status === 401) {
+      //       setErrMsg("You have netered an Invalid Email or Password");
+      //     } else {
+      //       setErrMsg("Failed");
+      //     }
+      //   });
+    }
+  };
+
+  const onResendSubmit = async () => {
+    const data = {
+      user_id: userId,
+    };
+    console.log(data);
+    await axiosPrivate
+      .post(RESEND_URL, JSON.stringify(data))
+      .then((response) => {
+        console.log(JSON.stringify(response.data));
+
+        // navigate(from, { replace: true });
+        const mssg = "Code Resent.";
+        setSuccessMsg(mssg);
+        setErrMsg("");
+      })
+      .catch((err) => {
+        if (!err?.response) {
+          setErrMsg("No Server Response");
+        } else if (err.response?.status === 400) {
+          setErrMsg("Missing Username or Password");
+        } else if (err.response?.status === 401) {
+          setErrMsg("You have netered an Invalid Email or Password");
+        } else {
+          setErrMsg("Failed");
+        }
+      });
+  };
   return (
     <>
       <div className="flex justify-center h-screen">
@@ -12,7 +102,7 @@ const OtpPage = () => {
             <div>
               <Link to="/">
                 <img
-                  alt="Bitpulse"
+                  alt="ADAPTA"
                   className="w-56 mx-auto"
                   src="/img/logo.png"
                 />
@@ -26,47 +116,45 @@ const OtpPage = () => {
                       <p>Email Verification</p>
                     </div>
                     <div className="flex flex-row text-sm font-medium text-gray-400">
-                      <p>
-                        We have sent a code to your email ba**@dipainhouse.com
-                      </p>
+                      <p>We have sent a code to your email {email}</p>
                     </div>
                   </div>
                   <div>
-                    <form action="" method="post">
-                      <div className="flex flex-col space-y-16">
-                        <OTPInput
-                          autoFocus
-                          isNumberInput
-                          length={6}
-                          className="flex flex-row items-center justify-between mx-auto w-full "
-                          inputClassName="w-16 h-16 flex flex-col items-center justify-center text-center outline-none rounded-xl border border-gray-200 text-lg bg-white focus:bg-gray-50 focus:ring-1 ring-blue-700"
-                          onChangeOTP={(otp) =>
-                            console.log("Number OTP: ", otp)
-                          }
-                        />
-                        <div className="flex flex-col space-y-5">
-                          <div>
-                            <a
-                              className="flex flex-row items-center justify-center text-center w-full border rounded-xl outline-none py-5 bg-blue-700 border-none text-white text-sm shadow-sm"
-                              href="/dashboard"
-                            >
-                              Verify Account
-                            </a>
-                          </div>
-                          <div className="flex flex-row items-center justify-center text-center text-sm font-medium space-x-1 text-gray-500">
-                            <p>Didn't recieve code?</p>{" "}
-                            <a
-                              className="flex flex-row items-center text-blue-600"
-                              href="http://"
-                              target="_blank"
-                              rel="noopener noreferrer"
-                            >
-                              Resend
-                            </a>
-                          </div>
+                    {/* <form onSubmit={onSubmit}> */}
+                    <div className="flex flex-col space-y-16">
+                      <OTPInput
+                        autoFocus
+                        isNumberInput
+                        length={6}
+                        className="flex flex-row items-center justify-between mx-auto w-full "
+                        inputClassName="w-16 h-16 flex flex-col items-center justify-center text-center outline-none rounded-xl border border-gray-200 text-lg bg-white focus:bg-gray-50 focus:ring-1 ring-blue-700"
+                        onChangeOTP={(otp) =>
+                          // console.log("Number OTP: ", otp)
+                          sendOtp(otp)
+                        }
+                      />
+                      <div className="flex flex-col space-y-5">
+                        <div>
+                          <button
+                            className="flex flex-row items-center justify-center text-center w-full border rounded-xl outline-none py-5 bg-blue-700 border-none text-white text-sm shadow-sm"
+                            onClick={() => onSubmit()}
+                          >
+                            Verify Account
+                          </button>
+                        </div>
+                        <div className="flex flex-row items-center justify-center text-center text-sm font-medium space-x-1 text-gray-500">
+                          <p>Didn't recieve code?</p>{" "}
+                          <button
+                            onClick={() => onResendSubmit()}
+                            className="flex flex-row items-center text-blue-600"
+                            type="reset"
+                          >
+                            Resend
+                          </button>
                         </div>
                       </div>
-                    </form>
+                    </div>
+                    {/* </form> */}
                   </div>
                 </div>
               </div>
