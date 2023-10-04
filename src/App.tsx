@@ -32,6 +32,7 @@ function App() {
           <Route path="/verify" element={<OtpPage />} />
           <Route path="/create_password" element={<CreatePassword />} />
           <Route path="/" element={<LandingPage />} />
+          <Route path="/profile" element={<Profile />} />
 
           {/* we want to protect these routes */}
           <Route element={<PersistLogin />}>
@@ -50,7 +51,6 @@ function App() {
               <Route path="/dashboard" element={<Home />} />
               <Route path="/engagement" element={<Engagement />} />
               <Route path="/help" element={<HelpPage />} />
-              <Route path="/profile" element={<Profile />} />
             </Route>
 
             <Route path="/team" element={<TeamMembers />} />
