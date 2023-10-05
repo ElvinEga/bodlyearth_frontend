@@ -1,6 +1,7 @@
 "use client";
 
 import DatepickerComponent from "../../components/DatePicker";
+import Gauge from "../../components/Gauge";
 import PdfComponent from "../../components/PdfComponent";
 import BreadHeader from "../../components/breadheader";
 import MainDashboard from "../../components/dashboards/main_dashboard";
@@ -9,8 +10,8 @@ import TopGauge from "../../components/topgauge";
 
 const Home = () => {
   const handlePrint = () => {
-    let printContents = document.getElementById("printablediv")?.innerHTML;
-    let originalContents = document.body.innerHTML;
+    const printContents = document.getElementById("printablediv")?.innerHTML;
+    const originalContents = document.body.innerHTML;
 
     if (printContents) {
       document.body.innerHTML = printContents;

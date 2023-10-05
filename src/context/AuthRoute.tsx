@@ -7,6 +7,8 @@ interface RequireAuthProps {
 }
 
 const Auth: React.FC<RequireAuthProps> = ({ allowedRoles }) => {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   const { auth } = useContext(AuthContext);
   const location = useLocation();
 

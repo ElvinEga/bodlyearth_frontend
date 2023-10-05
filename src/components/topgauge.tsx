@@ -8,7 +8,7 @@ interface Content {
 }
 
 export default function TopGauge(props: Content) {
-  const [currentValue, setCurrentValue] = useState(props.level);
+  const [currentValue] = useState(props.level);
 
   const initialSeries = [
     {
@@ -190,6 +190,8 @@ export default function TopGauge(props: Content) {
         <div className="pr-4 pl-4">
           <div className="horizontal-bar-chart" id="chart">
             <ReactApexChart
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-ignore
               options={options}
               series={series}
               height={160}

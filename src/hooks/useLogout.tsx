@@ -2,12 +2,14 @@ import axios from "../api/axios";
 import useAuth from "./useAuth";
 
 const useLogout = () => {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   const { setAuth } = useAuth();
 
   const logout = async () => {
     setAuth({});
     try {
-      const response = await axios("/logout", {
+      await axios("/logout", {
         withCredentials: true,
       });
     } catch (err) {

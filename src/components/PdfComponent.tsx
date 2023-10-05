@@ -3,7 +3,8 @@ import { useState } from "react";
 import TopGauge from "./topgauge";
 
 export default function PdfComponent() {
-  const [currentValue, setCurrentValue] = useState(30);
+  // const [currentValue, setCurrentValue] = useState(30);
+  const [currentValue] = useState(30);
   return (
     <>
       {/* Invoice */}

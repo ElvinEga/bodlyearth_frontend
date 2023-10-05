@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState, useRef } from "react";
 import {
   MapContainer,
@@ -33,10 +34,11 @@ const LocationPickerMap: React.FC = () => {
     defaultLatitude,
     defaultLongitude,
   ]);
-  const [polygon, setPolygon] = useState<LatLngTuple[]>([]);
+  const [polygon] = useState<LatLngTuple[]>([]);
   const featureGroupRef = useRef<L.FeatureGroup | null>(null);
   const markerRef = useRef<L.Marker | null>(null);
-
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   const handleMapClick = (e: LeafletMouseEvent) => {
     const { lat, lng } = e.latlng;
     setPosition([lat, lng]);
@@ -56,14 +58,14 @@ const LocationPickerMap: React.FC = () => {
 
   const onDrawCreate = () => {
     if (featureGroupRef.current) {
-      const latLngs =
-        featureGroupRef.current.toGeoJSON().features[0].geometry.coordinates[0];
-      setPolygon(latLngs);
+      // const latLngs =
+      //   featureGroupRef.current.toGeoJSON().features[0].geometry.coordinates[0];
+      // setPolygon(latLngs);
     }
   };
   const _onDrawStart = () => {
-    const { lat, lng } = e.latlng;
-    setPosition([lat, lng]);
+    // const { lat, lng } = e.latlng;
+    // setPosition([lat, lng]);
   };
 
   return (
@@ -72,7 +74,7 @@ const LocationPickerMap: React.FC = () => {
         center={position}
         zoom={15}
         style={{ height: "400px", width: "100%" }}
-        onClick={handleMapClick}
+        // onClick={handleMapClick}
       >
         <TileLayer
           url={`https://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}`}

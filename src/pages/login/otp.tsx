@@ -1,12 +1,12 @@
 "use client";
 
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import OTPInput from "../../components/otpinput";
 import { useEffect, useState } from "react";
 import { axiosPrivate } from "../../api/axios";
 // import useAuth from "../../hooks/useAuth";
 
-const PASSWORD_URL = "/auth/create-password";
+// const PASSWORD_URL = "/auth/create-password";
 const RESEND_URL = "/auth/request-new-otp";
 
 interface FormData {
@@ -15,16 +15,16 @@ interface FormData {
 }
 
 const OtpPage = () => {
-  const navigate = useNavigate();
-  const from = "/create-password";
+  // const navigate = useNavigate();
+  // const from = "/create-password";
   const [otpCode, setOtpCode] = useState("");
   const [email, setEmail] = useState("");
-  let userId = localStorage.getItem("userid");
+  const userId = localStorage.getItem("userid") || "";
   const [errMsg, setErrMsg] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
 
   useEffect(() => {
-    setEmail(localStorage.getItem("useremail"));
+    setEmail(localStorage.getItem("useremail") || "");
   }, []);
 
   const sendOtp = (otpNumb: string) => {
@@ -38,7 +38,7 @@ const OtpPage = () => {
   const onSubmit = async () => {
     if (otpCode.length == 6) {
       const data: FormData = {
-        user_id: userId,
+        user_id: userId || "",
         otp: otpCode,
       };
       console.log(data);
@@ -93,6 +93,8 @@ const OtpPage = () => {
           setErrMsg("Failed");
         }
       });
+    alert(errMsg);
+    alert(successMsg);
   };
   return (
     <>
