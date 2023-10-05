@@ -17,9 +17,7 @@ import AdminHome from "./pages/home/adminhome";
 import CreatePassword from "./pages/login/createPassword";
 import LandingPage from "./pages/landing";
 import { AuthProvider } from "./context/AuthProvider";
-import PersistLogin from "./components/auth/PersistLogin";
-import RequireAuth from "./components/auth/RequireAuth";
-import { ROLES } from "./constants/roles";
+import Auth from "./context/AuthRoute";
 
 function App() {
   return (
@@ -35,37 +33,17 @@ function App() {
           <Route path="/profile" element={<Profile />} />
 
           {/* we want to protect these routes */}
-          <Route element={<PersistLogin />}>
-            <Route
-              element={
-                <RequireAuth
-                  allowedRoles={[
-                    ROLES.User,
-                    ROLES.Manager,
-                    ROLES.Admin,
-                    ROLES.Superadmin,
-                  ]}
-                />
-              }
-            >
-              <Route path="/dashboard" element={<Home />} />
-              <Route path="/engagement" element={<Engagement />} />
-              <Route path="/help" element={<HelpPage />} />
-            </Route>
+          <Route element={<Auth allowedRoles={["admin"]} />}>
+            <Route path="/dashboard" element={<Home />} />
+            <Route path="/engagement" element={<Engagement />} />
+            <Route path="/help" element={<HelpPage />} />
 
             <Route path="/team" element={<TeamMembers />} />
             <Route path="/roles" element={<Roles />} />
             <Route path="/companies" element={<Companies />} />
             <Route path="/recent_activity" element={<RecentActivity />} />
             <Route path="/resources" element={<Resources />} />
-
-            <Route
-              element={
-                <RequireAuth allowedRoles={[ROLES.Admin, ROLES.Superadmin]} />
-              }
-            >
-              <Route path="/admin" element={<AdminHome />} />
-            </Route>
+            <Route path="/admin" element={<AdminHome />} />
           </Route>
         </Routes>
       </AuthProvider>

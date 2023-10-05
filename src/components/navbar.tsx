@@ -1,13 +1,11 @@
 import ThemeChanger from "./DarkSwitch";
 import { useNavigate, Link } from "react-router-dom";
-import useLogout from "../hooks/useLogout";
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const logout = useLogout();
 
   const signOut = async () => {
-    await logout();
+    // await logout();
     navigate("/login");
   };
 

@@ -1,14 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import useAuth from "../../hooks/useAuth";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "../../api/axios";
 const LOGIN_URL = "/auth/sign-in";
-const RESETPWD_URL = "/auth/reset-password";
+// const RESETPWD_URL = "/auth/reset-password";
 
 interface FormData {
   username_or_email: string;
@@ -21,12 +20,9 @@ interface RecoverFormData {
 
 const LogIn = () => {
   const navigate = useNavigate();
-  const location = useLocation();
-  // const from = location.state?.from?.pathname || "/";
   const from = "/verify";
   const changePasswordRoute = "/create_password";
 
-  const { setAuth, persist, setPersist } = useAuth();
   const [errMsg, setErrMsg] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
 
@@ -63,9 +59,6 @@ const LogIn = () => {
 
   const onSubmit = async (data: FormData) => {
     console.log(data);
-    const email = data?.email;
-    const password = data?.password;
-    console.log(email);
 
     await axios
       .post(LOGIN_URL, JSON.stringify(data), {
@@ -90,8 +83,6 @@ const LogIn = () => {
         localStorage.setItem("accesstoken", accessToken);
         localStorage.setItem("roles", roles);
 
-        setAuth({ email, password, roles, accessToken });
-
         navigate(from, { replace: true });
         const welcomeMessage = "Login successful.";
         setSuccessMsg(welcomeMessage);
@@ -115,13 +106,6 @@ const LogIn = () => {
     navigate(changePasswordRoute, { replace: true });
   };
 
-  const togglePersist = () => {
-    setPersist((prev: boolean) => !prev);
-  };
-
-  useEffect(() => {
-    localStorage.setItem("persist", persist);
-  }, [persist]);
   let alert;
   if (errMsg.length > 0) {
     alert = (
@@ -211,8 +195,6 @@ const LogIn = () => {
                           name="remember"
                           type="checkbox"
                           id="persist"
-                          onChange={togglePersist}
-                          checked={persist}
                           className="w-4 h-4 border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600"
                         />
                       </div>

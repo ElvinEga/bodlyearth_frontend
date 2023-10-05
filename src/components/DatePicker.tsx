@@ -2,46 +2,27 @@ import React, { useState } from "react"; // Replace 'your-datepicker-library' wi
 import DatePicker from "tailwind-datepicker-react";
 import { format } from "date-fns";
 
-interface DatePickerOptions {
-  title?: string;
-  autoHide?: boolean;
-  todayBtn?: boolean;
-  clearBtn?: boolean;
-  maxDate?: Date;
-  minDate?: Date;
-  theme?: {
-    disabledText?: string;
-  };
-  icons?: {
-    prev: () => JSX.Element;
-    next: () => JSX.Element;
-  };
-  datepickerClassNames?: string;
-  defaultDate?: Date;
-  language?: string;
-}
+// interface DatePickerOptions {
+//   title?: string;
+//   autoHide?: boolean;
+//   todayBtn?: boolean;
+//   clearBtn?: boolean;
+//   maxDate?: Date;
+//   minDate?: Date;
+//   theme?: {
+//     disabledText?: string;
+//   };
+//   icons?: {
+//     prev: () => JSX.Element;
+//     next: () => JSX.Element;
+//   };
+//   datepickerClassNames?: string;
+//   defaultDate?: Date;
+//   language?: string;
+// }
 const getFormattedTodayDate = (): string => {
   const today = new Date();
   return format(today, "yyyy-MM-dd"); // Format the date as "yyyy-MM-dd"
-};
-
-const options: DatePickerOptions = {
-  title: "Date",
-  autoHide: true,
-  todayBtn: false,
-  clearBtn: true,
-  maxDate: new Date("2030-01-01"),
-  minDate: new Date(getFormattedTodayDate()),
-  theme: {
-    disabledText: "bg-gray-100",
-  },
-  icons: {
-    prev: () => <span>Previous</span>,
-    next: () => <span>Next</span>,
-  },
-  datepickerClassNames: "top-12",
-  //   defaultDate: new Date("2022-01-01"),
-  language: "en",
 };
 
 const DatepickerComponent: React.FC = () => {
@@ -59,7 +40,21 @@ const DatepickerComponent: React.FC = () => {
     <div>
       {/* Replace 'Datepicker' with the actual component you are using */}
       <DatePicker
-        options={options}
+        options={{
+          title: "Date",
+          autoHide: true,
+          todayBtn: false,
+          clearBtn: true,
+          maxDate: new Date("2030-01-01"),
+          minDate: new Date(getFormattedTodayDate()),
+          icons: {
+            prev: () => <span>Previous</span>,
+            next: () => <span>Next</span>,
+          },
+          datepickerClassNames: "top-12",
+          //   defaultDate: new Date("2022-01-01"),
+          language: "en",
+        }}
         onChange={handleChange}
         show={show}
         setShow={handleClose}

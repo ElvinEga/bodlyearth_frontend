@@ -2,7 +2,7 @@
 
 import ReactApexChart from "react-apexcharts";
 import GaugeComponent from "react-gauge-component";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 interface Content {
   level: number;
 }

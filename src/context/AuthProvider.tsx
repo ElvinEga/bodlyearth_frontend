@@ -1,18 +1,15 @@
-import { createContext, useState } from "react";
+import { PropsWithChildren, createContext, useState } from "react";
 
 const AuthContext = createContext({});
 
-export const AuthProvider = ({ children }) => {
+const AuthProvider = ({ children }: PropsWithChildren) => {
   const [auth, setAuth] = useState({});
-  const [persist, setPersist] = useState<boolean>(
-    JSON.parse(localStorage.getItem("persist") || "false")
-  );
 
   return (
-    <AuthContext.Provider value={{ auth, setAuth, persist, setPersist }}>
+    <AuthContext.Provider value={{ auth, setAuth }}>
       {children}
     </AuthContext.Provider>
   );
 };
 
-export default AuthContext;
+export { AuthContext, AuthProvider };

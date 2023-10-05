@@ -1,5 +1,5 @@
 import GaugeComponent from "react-gauge-component";
-import React, { useState } from "react";
+import { useState } from "react";
 import TopGauge from "./topgauge";
 
 export default function PdfComponent() {
