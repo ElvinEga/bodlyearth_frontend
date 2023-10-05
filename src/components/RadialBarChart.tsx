@@ -79,50 +79,6 @@ const RadialBarChart = (props: Content) => {
   //   },
   //   labels: ["Percent"],
   // };
-  const options = {
-    chart: {
-      type: "radialBar",
-      height: 350,
-    },
-    plotOptions: {
-      radialBar: {
-        hollow: {
-          margin: 15,
-          size: "70%",
-        },
-        dataLabels: {
-          name: {
-            show: false,
-          },
-          value: {
-            fontSize: "30px",
-            show: true,
-            formatter: (val: any) => `${Math.round(val)}%`,
-          },
-        },
-      },
-    },
-    stroke: {
-      lineCap: "round",
-    },
-    colors: [getColor(props.level)],
-    xaxis: {
-      categories: ["Low", "Medium", "High"],
-    },
-    fill: {
-      type: "gradient",
-      gradient: {
-        shade: "dark",
-        type: "horizontal",
-        shadeIntensity: 0.5,
-        gradientToColors: [getColor(props.level)],
-        inverseColors: false,
-        opacityFrom: 1,
-        opacityTo: 1,
-        stops: [0, 100],
-      },
-    },
-  };
   function getColor(percentage: number) {
     if (percentage <= 30) {
       return "#dc3545"; // Green
@@ -137,7 +93,55 @@ const RadialBarChart = (props: Content) => {
 
   return (
     <div className="radial-bar-chart">
-      <ReactApexChart options={options} series={series} type="radialBar" />
+      <ReactApexChart
+        options={{
+          chart: {
+            type: "radialBar",
+            height: 350,
+          },
+          plotOptions: {
+            radialBar: {
+              hollow: {
+                margin: 15,
+                size: "70%",
+              },
+              dataLabels: {
+                name: {
+                  show: false,
+                },
+                value: {
+                  fontSize: "30px",
+                  show: true,
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                  formatter: (val: any) => `${Math.round(val)}%`,
+                },
+              },
+            },
+          },
+          stroke: {
+            lineCap: "round",
+          },
+          colors: [getColor(props.level)],
+          xaxis: {
+            categories: ["Low", "Medium", "High"],
+          },
+          fill: {
+            type: "gradient",
+            gradient: {
+              shade: "dark",
+              type: "horizontal",
+              shadeIntensity: 0.5,
+              gradientToColors: [getColor(props.level)],
+              inverseColors: false,
+              opacityFrom: 1,
+              opacityTo: 1,
+              stops: [0, 100],
+            },
+          },
+        }}
+        series={series}
+        type="radialBar"
+      />
     </div>
   );
 };

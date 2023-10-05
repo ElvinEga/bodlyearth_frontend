@@ -4,7 +4,6 @@ import DatepickerComponent from "../../components/DatePicker";
 import PdfComponent from "../../components/PdfComponent";
 import BreadHeader from "../../components/breadheader";
 import MainDashboard from "../../components/dashboards/main_dashboard";
-import Gauge from "../../components/gauge";
 import LocationPickerMap from "../../components/locationpicker";
 import TopGauge from "../../components/topgauge";
 

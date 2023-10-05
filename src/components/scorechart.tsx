@@ -6,44 +6,6 @@ interface ScoreChartProps {
 }
 
 const ScoreChart: React.FC<ScoreChartProps> = ({ data }) => {
-  const options = {
-    chart: {
-      id: "score-chart",
-      height: "100%",
-      maxWidth: "100%",
-      type: "area",
-      dropShadow: {
-        enabled: false,
-      },
-      toolbar: {
-        show: false,
-      },
-    },
-    xaxis: {
-      categories: data.map((entry) => entry.month),
-    },
-    yaxis: {
-      title: {
-        text: "Score",
-      },
-    },
-    grid: {
-      show: false,
-      strokeDashArray: 4,
-      padding: {
-        left: 2,
-        right: 2,
-        top: 0,
-      },
-    },
-    stroke: {
-      curve: "smooth",
-    },
-    dataLabels: {
-      enabled: false,
-    },
-  };
-
   const series = [
     {
       name: "Score Rate Over Months",
@@ -54,7 +16,43 @@ const ScoreChart: React.FC<ScoreChartProps> = ({ data }) => {
   return (
     <div>
       <ReactApexChart
-        options={options}
+        options={{
+          chart: {
+            id: "score-chart",
+            height: "100%",
+            width: "100%",
+            type: "area",
+            dropShadow: {
+              enabled: false,
+            },
+            toolbar: {
+              show: false,
+            },
+          },
+          xaxis: {
+            categories: data.map((entry) => entry.month),
+          },
+          yaxis: {
+            title: {
+              text: "Score",
+            },
+          },
+          grid: {
+            show: false,
+            strokeDashArray: 4,
+            padding: {
+              left: 2,
+              right: 2,
+              top: 0,
+            },
+          },
+          stroke: {
+            curve: "smooth",
+          },
+          dataLabels: {
+            enabled: false,
+          },
+        }}
         series={series}
         type="line"
         height={350}
