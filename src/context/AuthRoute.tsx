@@ -2,7 +2,11 @@ import { useLocation, Navigate, Outlet } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "./AuthProvider";
 
-const Auth = ({ allowedRoles }) => {
+interface RequireAuthProps {
+  allowedRoles: string[];
+}
+
+const Auth: React.FC<RequireAuthProps> = ({ allowedRoles }) => {
   const { auth } = useContext(AuthContext);
   const location = useLocation();
 
