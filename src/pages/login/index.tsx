@@ -20,7 +20,7 @@ interface RecoverFormData {
 
 const LogIn = () => {
   const navigate = useNavigate();
-  const from = "/verify";
+  const from = "/dashboard";
   const changePasswordRoute = "/create_password";
 
   const [errMsg, setErrMsg] = useState("");

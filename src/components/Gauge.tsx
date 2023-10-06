@@ -48,38 +48,38 @@ function Gauge() {
                   subArcs: [
                     {
                       limit: 30,
-                      color: "#16A34A",
+                      color: "#24E500",
                       showTick: true,
                       tooltip: { text: "Low" },
                     },
                     {
                       limit: 55,
-                      color: "#A3E635",
+                      color: "#7fff00",
                       showTick: true,
                       tooltip: { text: "Fine" },
                     },
 
                     {
                       limit: 70,
-                      color: "#facc15",
+                      color: "#FFFF00",
                       showTick: true,
                       tooltip: { text: "Fine" },
                     },
                     {
                       limit: 80,
-                      color: "#F87171",
+                      color: "#F6435C",
                       showTick: true,
                       tooltip: { text: "Fine" },
                     },
                     {
                       limit: 90,
-                      color: "#ef4449",
+                      color: "#E32227",
                       showTick: true,
                       tooltip: { text: "Fine" },
                     },
                     {
                       limit: 100,
-                      color: "#DC2626",
+                      color: "#BF181D",
                       showTick: true,
                       tooltip: { text: "Full" },
                     },
@@ -99,7 +99,7 @@ function Gauge() {
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
                     >
-                      <rect width={20} height={8} rx={4} fill="#15803D" />
+                      <rect width={20} height={8} rx={4} fill="#24E500" />
                     </svg>
                     <p className="text-xs font-medium leading-3 text-gray-800">
                       Exceptional
@@ -113,7 +113,7 @@ function Gauge() {
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
                     >
-                      <rect width={20} height={8} rx={4} fill="#FACC15" />
+                      <rect width={20} height={8} rx={4} fill="#7fff00" />
                     </svg>
                     <p className="text-xs font-medium leading-3 text-gray-800">
                       Better
@@ -127,7 +127,7 @@ function Gauge() {
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
                     >
-                      <rect width={20} height={8} rx={4} fill="#BEF264" />
+                      <rect width={20} height={8} rx={4} fill="#FFFF00" />
                     </svg>
                     <p className="text-xs font-medium leading-3 text-gray-800">
                       Satisfactory
@@ -143,7 +143,7 @@ function Gauge() {
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
                     >
-                      <rect width={20} height={8} rx={4} fill="#EFB8A6" />
+                      <rect width={20} height={8} rx={4} fill="#F6435C" />
                     </svg>
                     <p className="text-xs font-medium leading-3 text-gray-800">
                       Good
@@ -157,7 +157,7 @@ function Gauge() {
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
                     >
-                      <rect width={20} height={8} rx={4} fill="#EFC55E" />
+                      <rect width={20} height={8} rx={4} fill="#E32227" />
                     </svg>
                     <p className="text-xs font-medium leading-3 text-gray-800">
                       Fair
@@ -171,7 +171,7 @@ function Gauge() {
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
                     >
-                      <rect width={20} height={8} rx={4} fill="#EF4444" />
+                      <rect width={20} height={8} rx={4} fill="#BF181D" />
                     </svg>
                     <p className="text-xs font-medium leading-3 text-gray-800">
                       Bad

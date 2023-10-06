@@ -18,11 +18,11 @@ export default function TopGauge(props: Content) {
 
   function getColor(percentage: number) {
     if (percentage <= 30) {
-      return "#28a745"; // Green
+      return "#24E500"; // Green
     } else if (percentage <= 60) {
-      return "#ffc107"; // Yellow
+      return "#FFFF00"; // Yellow
     } else {
-      return "#dc3545"; // Red
+      return "#FF0000"; // Red
     }
   }
 
@@ -43,7 +43,7 @@ export default function TopGauge(props: Content) {
   }, []);
 
   const options = {
-    colors: ["#28a745"],
+    colors: colors,
     chart: {
       type: "bar",
       height: 350,
@@ -54,8 +54,9 @@ export default function TopGauge(props: Content) {
     },
     plotOptions: {
       bar: {
+        distributed: true,
         horizontal: true,
-        borderRadius: 10,
+        borderRadius: 5,
         // barHeight: "50%",
       },
     },
@@ -147,38 +148,38 @@ export default function TopGauge(props: Content) {
               subArcs: [
                 {
                   limit: 30,
-                  color: "#16A34A",
+                  color: "#24E500",
                   showTick: true,
                   tooltip: { text: "Low" },
                 },
                 {
                   limit: 55,
-                  color: "#A3E635",
+                  color: "#7fff00",
                   showTick: true,
                   tooltip: { text: "Fine" },
                 },
 
                 {
                   limit: 70,
-                  color: "#facc15",
+                  color: "#FFFF00",
                   showTick: true,
                   tooltip: { text: "Fine" },
                 },
                 {
                   limit: 80,
-                  color: "#F87171",
+                  color: "#F6435C",
                   showTick: true,
                   tooltip: { text: "Fine" },
                 },
                 {
                   limit: 90,
-                  color: "#ef4449",
+                  color: "#E32227",
                   showTick: true,
                   tooltip: { text: "Fine" },
                 },
                 {
                   limit: 100,
-                  color: "#DC2626",
+                  color: "#BF181D",
                   showTick: true,
                   tooltip: { text: "Full" },
                 },
