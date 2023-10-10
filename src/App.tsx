@@ -19,17 +19,18 @@ import LandingPage from "./pages/landing";
 import { AuthProvider } from "./context/AuthProvider";
 import Auth from "./context/AuthRoute";
 import UsersList from "./pages/users";
+import { UserProvider } from "./context/UserProvider";
 
 function App() {
   return (
     <>
-      <AuthProvider>
+      <UserProvider>
         <Routes>
-          {/* <Route path="/" element={<Dashboard />} exact /> */}
           {/* public routes */}
           <Route path="/login" element={<LogIn />} />
           <Route path="/verify" element={<OtpPage />} />
           <Route path="/create_password" element={<CreatePassword />} />
+          {/* <UserProvider> */}
           <Route path="/dashboard" element={<Home />} />
           <Route path="/help" element={<HelpPage />} />
           <Route path="/team" element={<TeamMembers />} />
@@ -47,8 +48,9 @@ function App() {
             <Route path="/resources" element={<Resources />} />
             <Route path="/admin" element={<AdminHome />} />
           </Route>
+          {/* </UserProvider> */}
         </Routes>
-      </AuthProvider>
+      </UserProvider>
     </>
   );
 }

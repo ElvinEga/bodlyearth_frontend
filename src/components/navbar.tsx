@@ -1,7 +1,10 @@
+import { useUser } from "../context/UserProvider";
 import ThemeChanger from "./DarkSwitch";
 import { useNavigate, Link } from "react-router-dom";
 
 const Navbar = () => {
+  const { userData } = useUser();
+
   const navigate = useNavigate();
 
   const signOut = async () => {
@@ -121,7 +124,7 @@ const Navbar = () => {
                       Signed in as
                     </p>
                     <p className="text-sm font-medium text-gray-800 dark:text-gray-300">
-                      james@site.com
+                      {userData.email}
                     </p>
                   </div>
                   <div className="mt-2 py-2 first:pt-0 last:pb-0">

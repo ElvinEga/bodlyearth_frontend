@@ -1,7 +1,26 @@
+import { useEffect, useState } from "react";
 import BreadHeader from "../../components/breadheader";
 import MainDashboard from "../../components/dashboards/main_dashboard";
+import axiosPrivate from "../../api/axiosPrivate";
+import { UserDetails } from "../../data/userData";
+import { useUser } from "../../context/UserProvider";
 
 export default function Profile() {
+  const { userData } = useUser();
+  const [user, setUser] = useState<UserDetails>();
+
+  useEffect(() => {
+    const PROFILE_URL = `/auth/${userData.id}`;
+    axiosPrivate<UserDetails>({ method: "GET", url: PROFILE_URL })
+      .then((data) => {
+        setUser(data);
+        // console.log("API Response:", user?.email);
+        // alert(user?.email);
+      })
+      .catch((error) => {
+        console.error("API Error:", error);
+      });
+  }, []);
   return (
     <MainDashboard>
       <div>
@@ -31,6 +50,7 @@ export default function Profile() {
                         type="text"
                         name="hs-firstname-hire-us-1"
                         id="hs-firstname-hire-us-1"
+                        value={user?.first_name}
                         className="border py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
                       />
                     </div>
@@ -43,6 +63,7 @@ export default function Profile() {
                       </label>
                       <input
                         type="text"
+                        value={user?.last_name}
                         name="hs-lastname-hire-us-1"
                         id="hs-lastname-hire-us-1"
                         className="border py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
@@ -59,6 +80,7 @@ export default function Profile() {
                     </label>
                     <input
                       type="email"
+                      value={user?.email}
                       name="hs-work-email-hire-us-1"
                       id="hs-work-email-hire-us-1"
                       autoComplete="email"
@@ -90,6 +112,7 @@ export default function Profile() {
                       </label>
                       <input
                         type="text"
+                        value={user?.role_name}
                         name="hs-company-website-hire-us-1"
                         id="hs-company-website-hire-us-1"
                         className="border py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
@@ -97,20 +120,6 @@ export default function Profile() {
                     </div>
                   </div>
                   {/* End Grid */}
-                  <div>
-                    <label
-                      htmlFor="hs-about-hire-us-1"
-                      className="block text-sm text-gray-700 font-medium dark:text-white"
-                    >
-                      Country
-                    </label>
-                    <input
-                      type="text"
-                      name="hs-company-website-hire-us-1"
-                      id="hs-company-website-hire-us-1"
-                      className="border py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
-                    />
-                  </div>
                 </div>
                 {/* End Grid */}
                 <div className="mt-6 grid">

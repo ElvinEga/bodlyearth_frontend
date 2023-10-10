@@ -72,16 +72,12 @@ const LogIn = () => {
       .then((response) => {
         console.log(JSON.stringify(response.data));
         //console.log(JSON.stringify(response));
-        const accessToken = response?.data?.access_token;
-        const roles = response?.data?.role;
-        const userId = response?.data?.id;
-        const userEmail = response?.data?.email;
+        const userData = response?.data;
+        const accessToken = userData?.access_token;
 
         // Save user data to local storage
-        localStorage.setItem("useremail", userEmail);
-        localStorage.setItem("userid", userId);
+        localStorage.setItem("user_data", JSON.stringify(userData));
         localStorage.setItem("accesstoken", accessToken);
-        localStorage.setItem("roles", roles);
 
         navigate(from, { replace: true });
         const welcomeMessage = "Login successful.";
