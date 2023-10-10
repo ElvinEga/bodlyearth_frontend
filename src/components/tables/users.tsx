@@ -172,7 +172,7 @@ export default function UsersTable() {
                         <div className="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]">
                           <div className="flex justify-between items-center py-3 px-4 border-b dark:border-gray-700">
                             <h3 className="font-bold text-gray-800 dark:text-white">
-                              Add Member
+                              Add New User
                             </h3>
                             <button
                               type="button"
@@ -200,13 +200,67 @@ export default function UsersTable() {
                               htmlFor="input-label"
                               className="block text-sm font-medium mb-2 dark:text-white"
                             >
-                              Employee Name
+                              Name
+                            </label>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                              <div>
+                                <label
+                                  htmlFor="hs-firstname-contacts-1"
+                                  className="sr-only"
+                                >
+                                  First Name
+                                </label>
+                                <input
+                                  type="text"
+                                  name="hs-firstname-contacts-1"
+                                  id="hs-firstname-contacts-1"
+                                  className="border py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
+                                  placeholder="First Name"
+                                />
+                              </div>
+                              <div>
+                                <label
+                                  htmlFor="hs-lastname-contacts-1"
+                                  className="sr-only"
+                                >
+                                  Last Name
+                                </label>
+                                <input
+                                  type="text"
+                                  name="hs-lastname-contacts-1"
+                                  id="hs-lastname-contacts-1"
+                                  className="border py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
+                                  placeholder="Last Name"
+                                />
+                              </div>
+                            </div>
+                          </div>
+                          <div className="p-4 overflow-y-auto">
+                            <label
+                              htmlFor="input-label"
+                              className="block text-sm font-medium mb-2 dark:text-white"
+                            >
+                              Email
                             </label>
                             <input
-                              type="text"
+                              type="email"
                               id="input-label"
                               className="py-3 px-4 border block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
-                              placeholder="Name"
+                              placeholder="email@company.com"
+                            />
+                          </div>
+                          <div className="p-4 overflow-y-auto">
+                            <label
+                              htmlFor="input-label"
+                              className="block text-sm font-medium mb-2 dark:text-white"
+                            >
+                              Phone Number
+                            </label>
+                            <input
+                              type="tel"
+                              id="input-label"
+                              className="py-3 px-4 border block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
+                              placeholder="+25470"
                             />
                           </div>
                           <div className="p-4 overflow-y-auto">
@@ -228,15 +282,16 @@ export default function UsersTable() {
                               htmlFor="input-label"
                               className="block text-sm font-medium mb-2 dark:text-white"
                             >
-                              Email
+                              Select Company
                             </label>
                             <input
-                              type="email"
+                              type="text"
                               id="input-label"
                               className="py-3 px-4 border block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
-                              placeholder="email@company.com"
+                              placeholder="Select Company"
                             />
                           </div>
+
                           <div className="flex justify-end items-center gap-x-2 py-3 px-4 border-t dark:border-gray-700">
                             <button
                               type="button"
@@ -249,7 +304,7 @@ export default function UsersTable() {
                               className="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
                               href="/companies"
                             >
-                              Invite
+                              Add User
                             </a>
                           </div>
                         </div>
