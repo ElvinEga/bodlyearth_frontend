@@ -18,6 +18,7 @@ import CreatePassword from "./pages/login/createPassword";
 import LandingPage from "./pages/landing";
 import { AuthProvider } from "./context/AuthProvider";
 import Auth from "./context/AuthRoute";
+import UsersList from "./pages/users";
 
 function App() {
   return (
@@ -32,19 +33,19 @@ function App() {
           <Route path="/dashboard" element={<Home />} />
           <Route path="/help" element={<HelpPage />} />
           <Route path="/team" element={<TeamMembers />} />
-          <Route path="/resources" element={<Resources />} />'
-          <Route path="/roles" element={<Roles />} />
-          <Route path="/companies" element={<Companies />} />
-          <Route path="/recent_activity" element={<RecentActivity />} />'
+          <Route path="/users" element={<UsersList />} />
+
           <Route path="/profile" element={<Profile />} />
-          <Route path="/admin" element={<AdminHome />} />
           {/* we want to protect these routes */}
           <Route element={<Auth allowedRoles={["admin"]} />}>
             <Route path="/" element={<LandingPage />} />
 
             <Route path="/engagement" element={<Engagement />} />
-
-            <Route path="/team" element={<TeamMembers />} />
+            <Route path="/roles" element={<Roles />} />
+            <Route path="/companies" element={<Companies />} />
+            <Route path="/recent_activity" element={<RecentActivity />} />
+            <Route path="/resources" element={<Resources />} />
+            <Route path="/admin" element={<AdminHome />} />
           </Route>
         </Routes>
       </AuthProvider>
