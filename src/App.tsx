@@ -20,6 +20,7 @@ import { AuthProvider } from "./context/AuthProvider";
 import Auth from "./context/AuthRoute";
 import UsersList from "./pages/users";
 import { UserProvider } from "./context/UserProvider";
+import UnauthorizedPage from "./pages/unauthorized";
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
           <Route path="/login" element={<LogIn />} />
           <Route path="/verify" element={<OtpPage />} />
           <Route path="/create_password" element={<CreatePassword />} />
+          <Route path="/unauthorized" element={<UnauthorizedPage />} />
           {/* <UserProvider> */}
           <Route path="/dashboard" element={<Home />} />
           <Route path="/help" element={<HelpPage />} />
