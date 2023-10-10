@@ -458,32 +458,51 @@ export default function UsersTable() {
                       </td>
                       <td className="h-px w-px whitespace-nowrap">
                         <div className="px-6 py-1.5">
-                          <a data-hs-overlay="#hs-ai-invoice-modal">
-                            <div className="py-1 px-2 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-green-700 text-white shadow-sm align-middle hover:bg-green-200 text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white">
-                              <i className="bi bi-envelope"></i>
-                              Invite
+                          <div className="hs-dropdown relative inline-block [--placement:bottom-right]">
+                            <button
+                              id="hs-table-dropdown-6"
+                              type="button"
+                              className="hs-dropdown-toggle py-1.5 px-2 inline-flex justify-center items-center gap-2 rounded-md text-gray-700 align-middle focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800"
+                            >
+                              <svg
+                                className="w-4 h-4"
+                                xmlns="http://www.w3.org/2000/svg"
+                                width={16}
+                                height={16}
+                                fill="currentColor"
+                                viewBox="0 0 16 16"
+                              >
+                                <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z" />
+                              </svg>
+                            </button>
+                            <div
+                              className="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden mt-2 divide-y divide-gray-200 min-w-[10rem] z-10 bg-white shadow-2xl rounded-lg p-2 mt-2 dark:divide-gray-700 dark:bg-gray-800 dark:border dark:border-gray-700"
+                              aria-labelledby="hs-table-dropdown-6"
+                            >
+                              <div className="py-2 first:pt-0 last:pb-0">
+                                <a
+                                  className="flex items-center gap-x-3 py-2 px-3 rounded-md text-sm text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
+                                  href="#"
+                                >
+                                  Invite
+                                </a>
+                                <a
+                                  className="flex items-center gap-x-3 py-2 px-3 rounded-md text-sm text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
+                                  href="#"
+                                >
+                                  Suspend
+                                </a>
+                              </div>
+                              <div className="py-2 first:pt-0 last:pb-0">
+                                <a
+                                  className="flex items-center gap-x-3 py-2 px-3 rounded-md text-sm text-red-600 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-red-500 dark:hover:bg-gray-700"
+                                  href="#"
+                                >
+                                  Delete
+                                </a>
+                              </div>
                             </div>
-                          </a>
-                          <a
-                            className="ml-3"
-                            href="javascript:;"
-                            data-hs-overlay="#hs-ai-invoice-modal"
-                          >
-                            <div className="py-1 px-2 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-orange-500 text-white shadow-sm align-middle hover:bg-orange-200 text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white">
-                              <i className="bi bi-slash-circle"></i>
-                              Suspend
-                            </div>
-                          </a>
-                          <a
-                            className="ml-3"
-                            href="javascript:;"
-                            data-hs-overlay="#hs-ai-invoice-modal"
-                          >
-                            <div className="py-1 px-2 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-red-500 text-white shadow-sm align-middle hover:bg-red-200 text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white">
-                              <i className="bi bi-trash"></i>
-                              Remove
-                            </div>
-                          </a>
+                          </div>
                         </div>
                       </td>
                     </tr>
