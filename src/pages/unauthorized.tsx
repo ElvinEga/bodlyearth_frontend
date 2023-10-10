@@ -25,7 +25,7 @@ const UnauthorizedPage = () => {
           <div className="mt-10 flex flex-col justify-center items-center gap-2 sm:flex-row sm:gap-3">
             <a
               className="w-full sm:w-auto inline-flex justify-center items-center gap-x-3 text-center bg-blue-600 hover:bg-blue-700 border border-transparent text-white text-sm font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:ring-offset-white transition py-3 px-4 dark:focus:ring-offset-gray-800"
-              href="/"
+              href="/dashboard"
             >
               <i className="bi bi-chevron-left text-lg" />
               Go back Home
