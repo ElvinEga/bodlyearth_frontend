@@ -32,8 +32,12 @@ function App() {
           <Route path="/dashboard" element={<Home />} />
           <Route path="/help" element={<HelpPage />} />
           <Route path="/team" element={<TeamMembers />} />
-
+          <Route path="/resources" element={<Resources />} />'
+          <Route path="/roles" element={<Roles />} />
+          <Route path="/companies" element={<Companies />} />
+          <Route path="/recent_activity" element={<RecentActivity />} />'
           <Route path="/profile" element={<Profile />} />
+          <Route path="/admin" element={<AdminHome />} />
           {/* we want to protect these routes */}
           <Route element={<Auth allowedRoles={["admin"]} />}>
             <Route path="/" element={<LandingPage />} />
@@ -41,11 +45,6 @@ function App() {
             <Route path="/engagement" element={<Engagement />} />
 
             <Route path="/team" element={<TeamMembers />} />
-            <Route path="/roles" element={<Roles />} />
-            <Route path="/companies" element={<Companies />} />
-            <Route path="/recent_activity" element={<RecentActivity />} />
-            <Route path="/resources" element={<Resources />} />
-            <Route path="/admin" element={<AdminHome />} />
           </Route>
         </Routes>
       </AuthProvider>

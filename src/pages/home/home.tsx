@@ -1,6 +1,8 @@
 "use client";
 
+import React, { useState } from "react";
 import DatepickerComponent from "../../components/DatePicker";
+import Dropdown from "../../components/Dropdown";
 import Gauge from "../../components/Gauge";
 import PdfComponent from "../../components/PdfComponent";
 import BreadHeader from "../../components/breadheader";
@@ -9,6 +11,62 @@ import LocationPickerMap from "../../components/locationpicker";
 import TopGauge from "../../components/topgauge";
 
 const Home = () => {
+  const options = [
+    {
+      id: "1",
+      name: "Maize",
+    },
+    {
+      id: "2",
+      name: "Potato",
+    },
+    {
+      id: "3",
+      name: "Grass",
+    },
+    {
+      id: "4",
+      name: "Tomato",
+    },
+    {
+      id: "5",
+      name: "Onion",
+    },
+    {
+      id: "6",
+      name: "Tea",
+    },
+    {
+      id: "7",
+      name: "Green gram",
+    },
+    {
+      id: "8",
+      name: "Avocado",
+    },
+    {
+      id: "9",
+      name: "Macadamia",
+    },
+    {
+      id: "10",
+      name: "Cow peas",
+    },
+    {
+      id: "11",
+      name: "Sesame",
+    },
+    {
+      id: "12",
+      name: "Papaya",
+    },
+  ];
+
+  const [selectedOption, setSelectedOption] = useState<Option | null>(null);
+
+  const handleSelect = (selected: Option | null) => {
+    setSelectedOption(selected);
+  };
   const handlePrint = () => {
     const printContents = document.getElementById("printablediv")?.innerHTML;
     const originalContents = document.body.innerHTML;
@@ -140,21 +198,7 @@ const Home = () => {
                 </div>
               </div>
               <div className="mb-5">
-                <label
-                  htmlFor="hs-select-label"
-                  className="block text-sm font-medium mb-2 dark:text-white"
-                >
-                  select Crop
-                </label>
-                <select
-                  id="hs-select-label"
-                  className="py-3 px-4 pr-9 block w-full border border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
-                >
-                  <option>Select Crop</option>
-                  <option>Wheat</option>
-                  <option>Maize</option>
-                  <option>Soguam</option>
-                </select>
+                <Dropdown options={options} onSelect={handleSelect} />
               </div>
               <button
                 type="submit"
