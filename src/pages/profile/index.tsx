@@ -1,26 +1,26 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import BreadHeader from "../../components/breadheader";
 import MainDashboard from "../../components/dashboards/main_dashboard";
 import axiosPrivate from "../../api/axiosPrivate";
 import { UserDetails } from "../../data/userData";
 import { useUser } from "../../context/UserProvider";
+import { useQuery } from "@tanstack/react-query";
 
 export default function Profile() {
   const { userData } = useUser();
   const [user, setUser] = useState<UserDetails>();
 
-  useEffect(() => {
+  useQuery(["userDetails"], () => {
     const PROFILE_URL = `/auth/${userData.id}`;
-    axiosPrivate<UserDetails>({ method: "GET", url: PROFILE_URL })
+    return axiosPrivate<UserDetails>({ method: "GET", url: PROFILE_URL })
       .then((data) => {
         setUser(data);
-        // console.log("API Response:", user?.email);
-        // alert(user?.email);
       })
       .catch((error) => {
         console.error("API Error:", error);
       });
-  }, []);
+  });
+
   return (
     <MainDashboard>
       <div>

@@ -16,43 +16,47 @@ import HelpPage from "./pages/help";
 import AdminHome from "./pages/home/adminhome";
 import CreatePassword from "./pages/login/createPassword";
 import LandingPage from "./pages/landing";
-import { AuthProvider } from "./context/AuthProvider";
 import Auth from "./context/AuthRoute";
 import UsersList from "./pages/users";
 import { UserProvider } from "./context/UserProvider";
 import UnauthorizedPage from "./pages/unauthorized";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
 
 function App() {
   return (
     <>
-      <UserProvider>
-        <Routes>
-          {/* public routes */}
-          <Route path="/login" element={<LogIn />} />
-          <Route path="/verify" element={<OtpPage />} />
-          <Route path="/create_password" element={<CreatePassword />} />
-          <Route path="/unauthorized" element={<UnauthorizedPage />} />
-          {/* <UserProvider> */}
-          <Route path="/dashboard" element={<Home />} />
-          <Route path="/help" element={<HelpPage />} />
-          <Route path="/team" element={<TeamMembers />} />
-          <Route path="/users" element={<UsersList />} />
+      <QueryClientProvider client={queryClient}>
+        <UserProvider>
+          <Routes>
+            {/* public routes */}
+            <Route path="/login" element={<LogIn />} />
+            <Route path="/verify" element={<OtpPage />} />
+            <Route path="/create_password" element={<CreatePassword />} />
+            <Route path="/unauthorized" element={<UnauthorizedPage />} />
+            {/* <UserProvider> */}
+            <Route path="/dashboard" element={<Home />} />
+            <Route path="/help" element={<HelpPage />} />
+            <Route path="/team" element={<TeamMembers />} />
+            <Route path="/users" element={<UsersList />} />
 
-          <Route path="/profile" element={<Profile />} />
-          {/* we want to protect these routes */}
-          <Route element={<Auth allowedRoles={["admin"]} />}>
-            <Route path="/" element={<LandingPage />} />
+            <Route path="/profile" element={<Profile />} />
+            {/* we want to protect these routes */}
+            <Route element={<Auth allowedRoles={["admin"]} />}>
+              <Route path="/" element={<LandingPage />} />
 
-            <Route path="/engagement" element={<Engagement />} />
-            <Route path="/roles" element={<Roles />} />
-            <Route path="/companies" element={<Companies />} />
-            <Route path="/recent_activity" element={<RecentActivity />} />
-            <Route path="/resources" element={<Resources />} />
-            <Route path="/admin" element={<AdminHome />} />
-          </Route>
-          {/* </UserProvider> */}
-        </Routes>
-      </UserProvider>
+              <Route path="/engagement" element={<Engagement />} />
+              <Route path="/roles" element={<Roles />} />
+              <Route path="/companies" element={<Companies />} />
+              <Route path="/recent_activity" element={<RecentActivity />} />
+              <Route path="/resources" element={<Resources />} />
+              <Route path="/admin" element={<AdminHome />} />
+            </Route>
+            {/* </UserProvider> */}
+          </Routes>
+        </UserProvider>
+      </QueryClientProvider>
     </>
   );
 }
