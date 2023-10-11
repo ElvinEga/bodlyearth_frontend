@@ -6,11 +6,9 @@ interface RequireAuthProps {
 }
 
 const Auth: React.FC<RequireAuthProps> = ({ allowedRoles }) => {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  // const { auth } = useContext(AuthContext);
   const { userData } = useUser();
   const location = useLocation();
+  // const { auth } = useContext(AuthContext);
 
   return allowedRoles.find((role: string) =>
     userData.role_name.includes(role)
