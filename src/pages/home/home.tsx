@@ -9,6 +9,7 @@ import BreadHeader from "../../components/breadheader";
 import MainDashboard from "../../components/dashboards/main_dashboard";
 import LocationPickerMap from "../../components/locationpicker";
 import TopGauge from "../../components/topgauge";
+import { useUser } from "../../context/UserProvider";
 
 const Home = () => {
   const options = [
@@ -61,6 +62,7 @@ const Home = () => {
       name: "Papaya",
     },
   ];
+  const { userData } = useUser();
 
   const [selectedOption, setSelectedOption] = useState<Option | null>(null);
 
@@ -82,7 +84,7 @@ const Home = () => {
       <div>
         <BreadHeader
           home="Home"
-          title="Hello Admin"
+          title={`Hello ${userData.first_name}`}
           description="Here's What We have today"
         />
 

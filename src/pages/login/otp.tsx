@@ -3,7 +3,7 @@
 import { Link } from "react-router-dom";
 import OTPInput from "../../components/otpinput";
 import { useEffect, useState } from "react";
-import { axiosPrivate } from "../../api/axios";
+import axiosPrivate from "../../api/axiosPrivate";
 // import useAuth from "../../hooks/useAuth";
 
 // const PASSWORD_URL = "/auth/create-password";
@@ -72,10 +72,10 @@ const OtpPage = () => {
       user_id: userId,
     };
     console.log(data);
-    await axiosPrivate
-      .post(RESEND_URL, JSON.stringify(data))
-      .then((response) => {
-        console.log(JSON.stringify(response.data));
+
+    axiosPrivate({ method: "POST", url: RESEND_URL, data })
+      .then((data) => {
+        console.log(JSON.stringify(data));
 
         // navigate(from, { replace: true });
         const mssg = "Code Resent.";
@@ -96,6 +96,7 @@ const OtpPage = () => {
     alert(errMsg);
     alert(successMsg);
   };
+
   return (
     <>
       <div className="flex justify-center h-screen">
