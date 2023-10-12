@@ -7,10 +7,24 @@ import Gauge from "../../components/Gauge";
 import PdfComponent from "../../components/PdfComponent";
 import BreadHeader from "../../components/breadheader";
 import MainDashboard from "../../components/dashboards/main_dashboard";
-import LocationPickerMap from "../../components/locationpicker";
 import TopGauge from "../../components/topgauge";
 import { useUser } from "../../context/UserProvider";
 import AutocompleteInput from "../../components/AutocompleteInput";
+import MapComponent from "../../components/MapComponent";
+
+export interface MapCrop {
+  isMarkerPlaced: boolean;
+  isLocationProtected: boolean;
+  selectedCrop: string;
+  locationName: string;
+  loanPeriod: string;
+  mapLocation: MapLocation;
+}
+
+export interface MapLocation {
+  lat: number | null;
+  lng: number | null;
+}
 
 const Home = () => {
   const options = [
@@ -63,9 +77,22 @@ const Home = () => {
       name: "Papaya",
     },
   ];
+
   const { userData } = useUser();
 
   const [selectedOption, setSelectedOption] = useState<Option | null>(null);
+  const [mapCrop, setMapCrop] = useState<MapCrop>({
+    isMarkerPlaced: true,
+    isLocationProtected: false,
+    selectedCrop: "",
+    locationName: "",
+    loanPeriod: "",
+    mapLocation: {
+      lat: 0, // Initial latitude value
+      lng: 0, // Initial longitude value
+    },
+  });
+
   const [selectedLocation, setSelectedLocation] = useState<{
     lat: number;
     lng: number;
@@ -90,6 +117,38 @@ const Home = () => {
       document.body.innerHTML = originalContents;
     }
   };
+
+  const handleMarkerPlaced = ({ lat, lng }) => {
+    setSelectedLocation({ lat, lng });
+    setMapCrop((prevState) => ({
+      ...prevState,
+      isMarkerPlaced: false,
+      isLocationProtected: false,
+      selectedCrop: "",
+      locationName: "",
+      loanPeriod: "",
+      mapLocation: {
+        lat: lat, // New latitude value
+        lng: lng, // New longitude value
+      },
+    }));
+  };
+
+  const handleMarkerClear = () => {
+    setMapCrop((prevState) => ({
+      ...prevState,
+      isMarkerPlaced: false,
+      isLocationProtected: false,
+      selectedCrop: "",
+      locationName: "",
+      loanPeriod: "",
+      mapLocation: {
+        lat: null, // New latitude value
+        lng: null, // New longitude value
+      },
+    }));
+  };
+
   return (
     <MainDashboard>
       <div>
@@ -275,13 +334,12 @@ const Home = () => {
             </div>
           </div>
           <div className="bg-white border border-gray-200 shadow-sm rounded-xl dark:bg-slate-900 dark:border-gray-700 dark:shadow-slate-700/[.7] bg-card col-span-3">
-            <div className="flex flex-col p-6">
-              <h3 className="font-semibold leading-none tracking-tight">
-                Overview
-              </h3>
-            </div>
             <div>
-              <LocationPickerMap location={selectedLocation} />
+              <MapComponent
+                mapLocation={selectedLocation}
+                onMarkerPlaced={handleMarkerPlaced}
+                onMarkerClear={handleMarkerClear}
+              />
             </div>
           </div>
           <div className="bg-card text-card-foreground bg-white border border-gray-200 shadow-sm rounded-xl dark:bg-slate-900 dark:border-gray-700 dark:shadow-slate-700/[.7] col-span-2">
