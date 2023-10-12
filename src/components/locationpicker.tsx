@@ -6,6 +6,7 @@ import {
   Polygon,
   FeatureGroup,
   LayerGroup,
+  useMap,
 } from "react-leaflet";
 import { EditControl } from "react-leaflet-draw";
 import "leaflet/dist/leaflet.css"; // Import leaflet CSS
@@ -36,24 +37,33 @@ const LocationPickerMap: React.FC = () => {
   ]);
   const [polygon] = useState<LatLngTuple[]>([]);
   const featureGroupRef = useRef<L.FeatureGroup | null>(null);
-  const markerRef = useRef<L.Marker | null>(null);
+  // const markerRef = useRef<L.Marker | null>(null);
+  const mapRef = useRef();
+  let existingLayer = [];
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  const handleMapClick = (e: LeafletMouseEvent) => {
-    const { lat, lng } = e.latlng;
-    setPosition([lat, lng]);
 
-    // Remove the previous marker when a new one is placed
-    if (markerRef.current) {
-      markerRef.current.setLatLng([lat, lng]);
+  const _onCreated = (e) => {
+    const type = e.layerType;
+    const layer = e.layer;
+    if (type === "marker") {
+      // Do marker specific actions
+      console.log("_onCreated: marker created", e);
+      const latlng = layer.getLatLng();
+      existingLayer.push(layer);
+      console.log("_onCreated: markerPosition", existingLayer);
+      // onMarkerPlaced(latlng);
+      map.setView(latlng, 14);
     } else {
-      // Create a new marker if it doesn't exist
-      const newMarker = new L.Marker([lat, lng], {
-        icon: customMarkerIcon,
-      });
-      markerRef.current = newMarker;
-      newMarker.addTo(featureGroupRef.current!);
+      console.log("_onCreated: something else created:", type, e);
     }
+    console.log("coords", layer.getLatLng());
+  };
+  const _onDeleted = (e) => {
+    let numDeleted = 0;
+    e.layers.eachLayer((layer) => {
+      numDeleted += 1;
+    });
+    console.log(`onDeleted: removed ${numDeleted} layers`, e);
   };
 
   const onDrawCreate = () => {
@@ -64,8 +74,10 @@ const LocationPickerMap: React.FC = () => {
     }
   };
   const _onDrawStart = () => {
-    // const { lat, lng } = e.latlng;
-    // setPosition([lat, lng]);
+    console.log("_onDrawStart", e);
+    for (const layer of existingLayer) {
+      map.removeLayer(layer);
+    }
   };
 
   return (
@@ -74,7 +86,6 @@ const LocationPickerMap: React.FC = () => {
         center={position}
         zoom={15}
         style={{ height: "400px", width: "100%" }}
-        // onClick={handleMapClick}
       >
         <TileLayer
           url={`https://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}`}
@@ -85,9 +96,11 @@ const LocationPickerMap: React.FC = () => {
         <LayerGroup>
           <FeatureGroup ref={featureGroupRef}>
             <EditControl
-              position="topleft"
-              onCreated={onDrawCreate}
               onDrawStart={_onDrawStart}
+              position="topleft"
+              // onEdited={_onEdited}
+              onCreated={_onCreated}
+              onDeleted={_onDeleted}
               draw={{
                 marker: true,
                 polyline: false,
