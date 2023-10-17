@@ -1,92 +1,23 @@
-import GaugeComponent from "react-gauge-component";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import MiniChart from "./MiniChart";
 
-function Gauge() {
-  const [currentValue] = useState(30);
+interface Content {
+  level: number;
+}
+
+function Gauge(props: Content) {
+  const [, setCurrentValue] = useState(props.level);
+  useEffect(() => {
+    setCurrentValue(props.level);
+  }, [props]);
+
   return (
     <>
       <div className="pt-6">
         <div className="mx-auto">
-          <div>
-            <div>
-              <GaugeComponent
-                labels={{
-                  valueLabel: {
-                    formatTextValue: (value) => value + "",
-                    matchColorWithArc: true,
-                    style: {
-                      fontSize: "48px",
-                      fontWeight: 700,
-                      fill: "#374151",
-                      textShadow: "none",
-                    },
-                  },
-                  tickLabels: {
-                    defaultTickValueConfig: {
-                      formatTextValue: (value) => value + "",
-                      style: {
-                        fontSize: "12px",
-                        fontWeight: 700,
-                        fill: "#6B7280",
-                        textShadow: "none",
-                      },
-                    },
-                    defaultTickLineConfig: {
-                      // char: "_",
-                      hide: true,
-                      style: {
-                        // display: "none",
-                        fontSize: "12px",
-                        fill: "#6B7280",
-                        textShadow: "none",
-                      },
-                    },
-                  },
-                }}
-                arc={{
-                  padding: 0.8,
-                  subArcs: [
-                    {
-                      limit: 30,
-                      color: "#24E500",
-                      showTick: true,
-                      tooltip: { text: "Low" },
-                    },
-                    {
-                      limit: 55,
-                      color: "#7fff00",
-                      showTick: true,
-                      tooltip: { text: "Fine" },
-                    },
-
-                    {
-                      limit: 70,
-                      color: "#FFFF00",
-                      showTick: true,
-                      tooltip: { text: "Fine" },
-                    },
-                    {
-                      limit: 80,
-                      color: "#F6435C",
-                      showTick: true,
-                      tooltip: { text: "Fine" },
-                    },
-                    {
-                      limit: 90,
-                      color: "#E32227",
-                      showTick: true,
-                      tooltip: { text: "Fine" },
-                    },
-                    {
-                      limit: 100,
-                      color: "#BF181D",
-                      showTick: true,
-                      tooltip: { text: "Full" },
-                    },
-                  ],
-                }}
-                value={currentValue}
-              />
+          <div className="group flex flex-col">
+            <div className="flex justify-center items-center">
+              <MiniChart indexScore={props.level?.toFixed(2)} />
             </div>
             <div className="lg:block hidden mt-10">
               <div className="flex justify-between items-center gap-x-4 px-8">

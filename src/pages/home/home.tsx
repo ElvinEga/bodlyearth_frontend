@@ -1,8 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DatepickerComponent from "../../components/DatePicker";
-import Dropdown from "../../components/Dropdown";
 import Gauge from "../../components/Gauge";
 import PdfComponent from "../../components/PdfComponent";
 import BreadHeader from "../../components/breadheader";
@@ -11,6 +10,9 @@ import TopGauge from "../../components/topgauge";
 import { useUser } from "../../context/UserProvider";
 import AutocompleteInput from "../../components/AutocompleteInput";
 import MapComponent from "../../components/MapComponent";
+import { format } from "date-fns";
+import axiosPrivate from "../../api/axiosPrivate";
+import { ClimateScores, RiskData } from "../../data/riskData";
 
 export interface MapCrop {
   isMarkerPlaced: boolean;
@@ -31,56 +33,102 @@ const Home = () => {
     {
       id: "1",
       name: "Maize",
+      value: "maize",
     },
     {
       id: "2",
       name: "Potato",
+      value: "potato",
     },
     {
       id: "3",
       name: "Grass",
+      value: "grass",
     },
     {
       id: "4",
       name: "Tomato",
+      value: "tomato",
     },
     {
       id: "5",
       name: "Onion",
+      value: "onion",
     },
     {
       id: "6",
       name: "Tea",
+      value: "tea",
     },
     {
       id: "7",
       name: "Green gram",
+      value: "green_gram",
     },
     {
       id: "8",
       name: "Avocado",
+      value: "avocado",
     },
     {
       id: "9",
       name: "Macadamia",
+      value: "macadamia",
     },
     {
       id: "10",
       name: "Cow peas",
+      value: "cow_peas",
     },
     {
       id: "11",
       name: "Sesame",
+      value: "sesame",
     },
     {
       id: "12",
       name: "Papaya",
+      value: "papaya",
     },
   ];
 
-  const { userData } = useUser();
+  const initialClimateScores: ClimateScores = {
+    rainfall_risk: 0,
+    temperature_risk: 0,
+    drought_score: 0,
+    rainfall_score: 0,
+    temperature_score: 0,
+    composite_climate_score: 0,
+    drought_risk: 0,
+    composite_climate_risk: 0,
+  };
 
+  const climate_indices = ["Drought", "Rainfall", "Temperature"];
+
+  const water_indices = [
+    "Water Availability",
+    "Water Erosion",
+    "Aquifer Health",
+  ];
+
+  const soil_indices = ["Top Soil Fertility", "Soil pH", "Nutrient capacity"];
+
+  const { userData } = useUser();
+  const [climateScores, setClimateScores] =
+    useState<ClimateScores>(initialClimateScores);
+
+  const [riskData, setRiskData] = useState<RiskData>();
+
+  const [selectedCrop, setSelectedCrop] = useState("");
   const [selectedOption, setSelectedOption] = useState<Option | null>(null);
+  const [formValues, setFormValues] = useState({
+    crop: "",
+    latitude: 1.291744,
+    longitude: 36.604086,
+    startDate: "2025-01-01",
+    endDate: "2027-12-30",
+  });
+
   const [mapCrop, setMapCrop] = useState<MapCrop>({
     isMarkerPlaced: true,
     isLocationProtected: false,
@@ -92,6 +140,22 @@ const Home = () => {
       lng: 0, // Initial longitude value
     },
   });
+
+  const getFormattedTodayDate = (selectedDate: Date): string => {
+    return format(selectedDate, "yyyy-MM-dd"); // Format the date as "yyyy-MM-dd"
+  };
+  const [fromDate, setFromDate] = useState("");
+  const [toDate, setToDate] = useState("");
+
+  const handleFromDateChange = (selectedDate: Date) => {
+    const fDate = getFormattedTodayDate(selectedDate);
+    setFromDate(fDate);
+  };
+
+  const handleToDateChange = (selectedDate: Date) => {
+    const fDate = getFormattedTodayDate(selectedDate);
+    setToDate(fDate);
+  };
 
   const [selectedLocation, setSelectedLocation] = useState<{
     lat: number;
@@ -149,6 +213,42 @@ const Home = () => {
     }));
   };
 
+  const handleCropSelect = (event) => {
+    const selectedCropName = event.target.value;
+    setSelectedCrop(selectedCropName);
+
+    // Update the form with the selected crop name
+    setFormValues({
+      ...formValues,
+      crop: selectedCropName,
+    });
+  };
+
+  const onSubmit = async () => {
+    const RISK_URL = `/risk/v1/risk_score/get_score`;
+    await axiosPrivate<RiskData>({
+      method: "POST",
+      url: RISK_URL,
+      data: JSON.stringify(formValues),
+    })
+      .then((data) => {
+        console.log(JSON.stringify(data));
+        setRiskData(data);
+        setClimateScores(data.climate_scores);
+        // console.log(JSON.stringify(climateScores));
+      })
+      .catch((error) => {
+        console.error("API Error:", error);
+      });
+  };
+
+  useEffect(() => {
+    // Set initial values for "from date" and "to date" when the component is mounted
+    const today = new Date();
+    handleFromDateChange(today);
+    handleToDateChange(today);
+  }, []);
+
   return (
     <MainDashboard>
       <div>
@@ -186,6 +286,7 @@ const Home = () => {
                 <input
                   type="text"
                   id="input-label"
+                  value={`${fromDate} to ${toDate}`}
                   data-hs-overlay="#hs-focus-datepicker-modal"
                   className="py-3 px-4 block w-full border border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
                   placeholder="Date Period"
@@ -230,7 +331,9 @@ const Home = () => {
                             >
                               From
                             </label>
-                            <DatepickerComponent />
+                            <DatepickerComponent
+                              onChange={handleFromDateChange}
+                            />
                           </div>
                           <span className="mx-4 text-gray-500">to</span>
                           <div className="relative">
@@ -240,7 +343,9 @@ const Home = () => {
                             >
                               To
                             </label>
-                            <DatepickerComponent />
+                            <DatepickerComponent
+                              onChange={handleToDateChange}
+                            />
                           </div>
                         </div>
                       </div>
@@ -265,12 +370,29 @@ const Home = () => {
                 </div>
               </div>
               <div className="mb-5">
-                <Dropdown options={options} onSelect={handleSelect} />
+                <label
+                  htmlFor="hs-select-label"
+                  className="block text-sm font-medium mb-2 dark:text-white"
+                >
+                  Select a Crop:
+                </label>
+                <select
+                  className="py-3 px-4 pr-9 block w-full border border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
+                  onChange={handleCropSelect}
+                  value={selectedCrop}
+                >
+                  <option value="">Select Crop</option>
+                  {options.map((option) => (
+                    <option key={option.id} value={option.value}>
+                      {option.name}
+                    </option>
+                  ))}
+                </select>
               </div>
               <button
-                type="submit"
                 className="py-3 px-4 inline-flex justify-center w-full items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
-                data-hs-overlay="#hs-bg-gray-on-hover-cards"
+                // data-hs-overlay="#hs-bg-gray-on-hover-cards"
+                onClick={onSubmit}
               >
                 Compute Score
               </button>
@@ -347,15 +469,38 @@ const Home = () => {
               <h3 className="font-semibold leading-none tracking-tight">
                 Composite Risk Score
               </h3>
-              <Gauge />
+              <Gauge level={riskData?.composite_total_risk} />
             </div>
           </div>
         </div>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-5">
-          <TopGauge level={20} />
-          <TopGauge level={56} />
-          <TopGauge level={90} />
+          <TopGauge
+            pillar="CLIMATE"
+            rainfall_risk={riskData?.climate_scores.rainfall_risk}
+            temperature_risk={riskData?.climate_scores.temperature_risk}
+            drought_risk={riskData?.climate_scores.drought_risk}
+            composite_climate_risk={
+              riskData?.climate_scores.composite_climate_risk
+            }
+            categories={climate_indices}
+          />
+          <TopGauge
+            pillar="WATER"
+            rainfall_risk={riskData?.water_scores.ground_water_risk}
+            temperature_risk={riskData?.water_scores.rainfall_erosivity_risk}
+            drought_risk={riskData?.water_scores.location_aquaduct_risk}
+            composite_climate_risk={riskData?.water_scores.composite_water_risk}
+            categories={water_indices}
+          />
+          <TopGauge
+            pillar="SOIL"
+            rainfall_risk={riskData?.soil_scores.cation_exchange_capacity_risk}
+            temperature_risk={riskData?.soil_scores.soil_ph_risk}
+            drought_risk={riskData?.soil_scores.soil_organic_carbon_risk}
+            composite_climate_risk={riskData?.soil_scores.composite_soil_risk}
+            categories={soil_indices}
+          />
         </div>
         {/* End Grid */}
       </div>

@@ -30,7 +30,7 @@ const MapComponent: React.FC<MapComponentProps> = ({
   onMarkerPlaced,
   onMarkerClear,
 }) => {
-  const bioFile = "/src/json/biodiversity.json";
+  const bioFile = "/json/biodiversity.json";
   const geoJSONStyle = {
     fillColor: "red",
     weight: 2,
@@ -57,7 +57,7 @@ const MapComponent: React.FC<MapComponentProps> = ({
       <MapContainer
         center={[CENTER_LAT, CENTER_LON]}
         zoom={19}
-        style={{ height: "400px", width: "100%" }}
+        style={{ height: "460px", width: "100%" }}
         scrollWheelZoom={true}
       >
         <TileLayer
