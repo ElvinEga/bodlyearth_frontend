@@ -6,7 +6,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "../../api/axios";
-const LOGIN_URL = "/auth/sign-in";
+const LOGIN_URL = "/app/v1/auth/sign-in";
 // const RESETPWD_URL = "/auth/reset-password";
 
 interface FormData {
