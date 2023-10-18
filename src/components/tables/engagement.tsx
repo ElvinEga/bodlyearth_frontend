@@ -1,5 +1,4 @@
 import { requestData } from "../../data/requestData";
-import PdfComponent from "../PdfComponent";
 
 function getStatusClassName(status: string) {
   let className = "";
@@ -19,8 +18,8 @@ function getStatusClassName(status: string) {
 }
 export default function EngagementTable() {
   const handlePrint = () => {
-    let printContents = document.getElementById("printablediv")?.innerHTML;
-    let originalContents = document.body.innerHTML;
+    const printContents = document.getElementById("printablediv")?.innerHTML;
+    const originalContents = document.body.innerHTML;
 
     if (printContents) {
       document.body.innerHTML = printContents;
@@ -411,7 +410,7 @@ export default function EngagementTable() {
                                   id="printablediv"
                                   className="p-4 overflow-y-auto"
                                 >
-                                  <PdfComponent />
+                                  {/* <PdfComponent /> */}
                                 </div>
                               </div>
                             </div>

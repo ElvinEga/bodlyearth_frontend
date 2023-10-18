@@ -1,3 +1,6 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
+
 import ReactApexChart from "react-apexcharts";
 
 const GradientBarChart = ({ categories, scores }) => {
@@ -62,6 +65,7 @@ const GradientBarChart = ({ categories, scores }) => {
       },
     },
     yaxis: {
+      min: 10,
       max: 100,
       labels: {
         show: true,

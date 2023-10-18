@@ -1,6 +1,8 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 "use client";
 
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import DatepickerComponent from "../../components/DatePicker";
 import Gauge from "../../components/Gauge";
 import PdfComponent from "../../components/PdfComponent";
@@ -13,6 +15,9 @@ import MapComponent from "../../components/MapComponent";
 import { format } from "date-fns";
 import axiosPrivate from "../../api/axiosPrivate";
 import { ClimateScores, RiskData } from "../../data/riskData";
+import { isInProtectedArea } from "../../components/utils";
+import Swal from "sweetalert2";
+import ButtonLoading from "../../components/ButtonLoading";
 
 export interface MapCrop {
   isMarkerPlaced: boolean;
@@ -92,6 +97,14 @@ const Home = () => {
     },
   ];
 
+  const initialFormValues = {
+    crop: "",
+    latitude: 1.291744,
+    longitude: 36.604086,
+    startDate: "2025-01-01",
+    endDate: "2027-12-30",
+  };
+
   const initialClimateScores: ClimateScores = {
     rainfall_risk: 0,
     temperature_risk: 0,
@@ -118,16 +131,13 @@ const Home = () => {
     useState<ClimateScores>(initialClimateScores);
 
   const [riskData, setRiskData] = useState<RiskData>();
+  const [isLoading, setIsLoading] = useState(false);
+  const [isComputed, setIsComputed] = useState(false);
+  const [isLocationProtected, setIsLocationProtected] = useState(false);
 
   const [selectedCrop, setSelectedCrop] = useState("");
   const [selectedOption, setSelectedOption] = useState<Option | null>(null);
-  const [formValues, setFormValues] = useState({
-    crop: "",
-    latitude: 1.291744,
-    longitude: 36.604086,
-    startDate: "2025-01-01",
-    endDate: "2027-12-30",
-  });
+  const [formValues, setFormValues] = useState(initialFormValues);
 
   const [mapCrop, setMapCrop] = useState<MapCrop>({
     isMarkerPlaced: true,
@@ -182,20 +192,63 @@ const Home = () => {
     }
   };
 
+  const isFormValid = (): boolean => {
+    // eslint-disable-next-line no-unsafe-optional-chaining
+    const latitude = selectedLocation?.lat;
+    const longitude = selectedLocation?.lng;
+    if (
+      latitude === null ||
+      longitude === null ||
+      selectedCrop === "" ||
+      fromDate === "" ||
+      isLocationProtected == true
+    ) {
+      if (isLocationProtected == true) {
+        Swal.fire({
+          icon: "error",
+          title: "You have selected a Protected Area.",
+          text: "Select an area that is not protected to proceed",
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Fields Required",
+          text: "Please Provide all the fields required",
+        });
+      }
+
+      return false;
+    }
+    return true;
+  };
+
   const handleMarkerPlaced = ({ lat, lng }) => {
     setSelectedLocation({ lat, lng });
     setMapCrop((prevState) => ({
       ...prevState,
-      isMarkerPlaced: false,
+      isMarkerPlaced: true,
       isLocationProtected: false,
-      selectedCrop: "",
+      selectedCrop: selectedCrop,
       locationName: "",
-      loanPeriod: "",
+      startDate: fromDate,
+      endDate: toDate,
       mapLocation: {
         lat: lat, // New latitude value
         lng: lng, // New longitude value
       },
     }));
+    isInProtectedArea([lng, lat]).then((result) => {
+      if (result === true) {
+        setIsLocationProtected(true);
+        Swal.fire({
+          icon: "warning",
+          title: "You have selected a protected area.",
+          text: "Select an area that is not protected to proceed",
+        });
+      } else {
+        setIsLocationProtected(false);
+      }
+    });
   };
 
   const handleMarkerClear = () => {
@@ -205,12 +258,20 @@ const Home = () => {
       isLocationProtected: false,
       selectedCrop: "",
       locationName: "",
-      loanPeriod: "",
+      startDate: "",
+      endDate: "",
       mapLocation: {
         lat: null, // New latitude value
         lng: null, // New longitude value
       },
     }));
+  };
+
+  const handleClearForm = () => {
+    setFormValues(initialFormValues);
+    // setRiskData(Risk);
+    setClimateScores(initialClimateScores);
+    setIsComputed(false);
   };
 
   const handleCropSelect = (event) => {
@@ -225,19 +286,39 @@ const Home = () => {
   };
 
   const onSubmit = async () => {
+    if (!isFormValid()) {
+      return;
+    }
+
+    const latitude = selectedLocation?.lat;
+    const longitude = selectedLocation?.lng;
+
+    // Update the form with the selected crop name
+    setFormValues({
+      ...formValues,
+      crop: selectedCrop,
+      startDate: fromDate,
+      endDate: toDate,
+      latitude: latitude,
+      longitude: longitude,
+    });
+
     const RISK_URL = `/risk/v1/risk_score/get_score`;
+    setIsLoading(true);
     await axiosPrivate<RiskData>({
       method: "POST",
       url: RISK_URL,
       data: JSON.stringify(formValues),
     })
       .then((data) => {
-        console.log(JSON.stringify(data));
+        // console.log(JSON.stringify(data));
         setRiskData(data);
         setClimateScores(data.climate_scores);
-        // console.log(JSON.stringify(climateScores));
+        setIsLoading(false);
+        setIsComputed(true);
       })
       .catch((error) => {
+        setIsLoading(false);
         console.error("API Error:", error);
       });
   };
@@ -274,7 +355,12 @@ const Home = () => {
                 >
                   Location
                 </label>
-                <AutocompleteInput onLocationSelect={handleLocationSelect} />
+                <AutocompleteInput
+                  value={`LatLng(${selectedLocation?.lat || "Latitude"}, ${
+                    selectedLocation?.lng || "Longitude"
+                  })`}
+                  onLocationSelect={handleLocationSelect}
+                />
               </div>
               <div className="mb-5">
                 <label
@@ -369,7 +455,7 @@ const Home = () => {
                   </div>
                 </div>
               </div>
-              <div className="mb-5">
+              <div className="mb-4">
                 <label
                   htmlFor="hs-select-label"
                   className="block text-sm font-medium mb-2 dark:text-white"
@@ -389,13 +475,60 @@ const Home = () => {
                   ))}
                 </select>
               </div>
-              <button
-                className="py-3 px-4 inline-flex justify-center w-full items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
-                // data-hs-overlay="#hs-bg-gray-on-hover-cards"
+
+              <div className="flex mb-4">
+                <div className="hs-tooltip inline-block [--placement:bottom]">
+                  <p className="text-xl text-gray-700 dark:text-gray-400">
+                    <i className="bi bi-exclamation-circle-fill mr-1"></i>
+                    Biodiversity
+                  </p>
+                  <span
+                    className="w-80 hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block absolute invisible z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded-md shadow-sm dark:bg-slate-700"
+                    role="tooltip"
+                  >
+                    Biodiversity regions are geographically defined protected
+                    areas that are effectively maintained through legal or other
+                    ways to preserve biological diversity as well as natural
+                    resources and related cultural resources, such as forests
+                    and wildlife sanctuaries.(JUCN 1994)
+                  </span>
+                </div>
+                <div className="ml-auto flex items-center space-x-3">
+                  {isLocationProtected ? (
+                    <i className="bi bi-exclamation-triangle-fill text-2xl text-red-500"></i>
+                  ) : (
+                    <i className="bi bi-patch-check-fill text-2xl text-green-500"></i>
+                  )}
+                </div>
+              </div>
+
+              {!isLoading && !isComputed ? (
+                <button
+                  className="py-3 px-4 inline-flex justify-center w-full items-center gap-2 rounded-md border border-transparent font-semibold bg-green-500 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
+                  // data-hs-overlay="#hs-bg-gray-on-hover-cards"
+                  onClick={onSubmit}
+                >
+                  Compute Score
+                </button>
+              ) : (
+                ""
+              )}
+              <ButtonLoading
                 onClick={onSubmit}
-              >
-                Compute Score
-              </button>
+                isLoading={isLoading}
+                text="Loading ..."
+              />
+              {isComputed ? (
+                <button
+                  className="py-3 px-4 inline-flex justify-center w-full items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
+                  // data-hs-overlay="#hs-bg-gray-on-hover-cards"
+                  onClick={handleClearForm}
+                >
+                  Compute New Score
+                </button>
+              ) : (
+                ""
+              )}
             </div>
             <div
               id="hs-bg-gray-on-hover-cards"
@@ -449,7 +582,12 @@ const Home = () => {
                     </div>
                   </div>
                   <div id="printablediv" className="p-4 overflow-y-auto">
-                    <PdfComponent />
+                    <PdfComponent
+                      myRiskdata={riskData}
+                      loanPeriod={formValues.startDate}
+                      crop={formValues.crop}
+                      myLocation={selectedLocation}
+                    />
                   </div>
                 </div>
               </div>
@@ -470,6 +608,25 @@ const Home = () => {
                 Composite Risk Score
               </h3>
               <Gauge level={riskData?.composite_total_risk} />
+
+              {isComputed ? (
+                <div>
+                  <h2 className="font-semibold leading-none tracking-tight mt-5">
+                    CLIMATE ADAPTATION PLAN
+                  </h2>
+                  <p className="text-sm mt-3">
+                    {riskData?.adaptations[1].Suggestion}
+                  </p>
+                  <button
+                    className="mt-3 py-3 px-4 inline-flex justify-center w-full items-center gap-2 rounded-md border border-transparent font-semibold bg-green-500 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
+                    data-hs-overlay="#hs-bg-gray-on-hover-cards"
+                  >
+                    View Full Report
+                  </button>
+                </div>
+              ) : (
+                ""
+              )}
             </div>
           </div>
         </div>

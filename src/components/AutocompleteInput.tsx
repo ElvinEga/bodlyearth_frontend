@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback } from "react";
+import React, { useRef, useCallback } from "react";
 import { StandaloneSearchBox, useLoadScript } from "@react-google-maps/api";
 
 type SearchBox = google.maps.places.SearchBox;
@@ -8,10 +8,12 @@ const googleMapsApiKey = import.meta.env.VITE_MAP_API_KEY;
 
 interface AutocompleteInputProps {
   onLocationSelect: (location: { lat: number; lng: number } | null) => void;
+  value?: string;
 }
 
 const AutocompleteInput: React.FC<AutocompleteInputProps> = ({
   onLocationSelect,
+  value,
 }) => {
   const searchBoxRef = useRef<SearchBox>();
 
@@ -47,6 +49,7 @@ const AutocompleteInput: React.FC<AutocompleteInputProps> = ({
 
   const { isLoaded } = useLoadScript({
     googleMapsApiKey,
+    // @ts-ignore
     libraries,
   });
 
@@ -67,6 +70,7 @@ const AutocompleteInput: React.FC<AutocompleteInputProps> = ({
           placeholder="Enter a Location"
         />
       </StandaloneSearchBox>
+      <p className="text-gray-500 text-sm pt-2">{value}</p>
     </div>
   );
 };

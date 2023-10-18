@@ -14,11 +14,6 @@ const getFormattedTodayDate = (): string => {
 const DatepickerComponent: React.FC<DatePickerProps> = ({ onChange }) => {
   const [show, setShow] = useState<boolean>(false);
 
-  const handleChange = (sDate: Date) => {
-    // console.log(selectedDate);
-    selectedDate = sDate;
-  };
-
   const handleClose = (state: boolean) => {
     setShow(state);
   };

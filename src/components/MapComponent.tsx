@@ -1,3 +1,6 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
+
 import React, { useState, useEffect } from "react";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css"; // Import leaflet CSS
@@ -11,7 +14,7 @@ const CENTER_LON = 36.80925;
 
 function SetViewOnLocationChange({ mapLocation }) {
   const map = useMap();
-  map.setView(mapLocation, map.getZoom());
+  map.setView(mapLocation, 19);
   return (
     <Marker position={mapLocation}>
       <Popup>{`lat: ${mapLocation[0]} lon:${mapLocation[1]}`}</Popup>
