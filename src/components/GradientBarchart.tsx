@@ -62,6 +62,7 @@ const GradientBarChart = ({ categories, scores }) => {
       },
     },
     yaxis: {
+      min: 10,
       max: 100,
       labels: {
         show: true,
