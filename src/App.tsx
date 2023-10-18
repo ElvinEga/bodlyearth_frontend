@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { Routes, Route } from "react-router-dom";
 import Home from "./pages/home/home";
@@ -25,6 +26,10 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 const queryClient = new QueryClient();
 
 function App() {
+  useEffect(() => {
+    // @ts-ignore
+    import("preline");
+  }, []);
   return (
     <>
       <QueryClientProvider client={queryClient}>
