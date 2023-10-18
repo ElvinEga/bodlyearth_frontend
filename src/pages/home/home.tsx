@@ -188,7 +188,7 @@ const Home = () => {
     }
   };
 
-  const isFormValid = () => {
+  const isFormValid = (): boolean => {
     // eslint-disable-next-line no-unsafe-optional-chaining
     const latitude = selectedLocation?.lat;
     const longitude = selectedLocation?.lng;
@@ -197,13 +197,22 @@ const Home = () => {
       longitude === null ||
       selectedCrop === "" ||
       fromDate === "" ||
-      isLocationProtected == false
+      isLocationProtected == true
     ) {
-      Swal.fire({
-        icon: "error",
-        title: "Fields Required",
-        text: "Please Provide all the fields required",
-      });
+      if (isLocationProtected == true) {
+        Swal.fire({
+          icon: "error",
+          title: "You have selected a Protected Area.",
+          text: "Select an area that is not protected to proceed",
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Fields Required",
+          text: "Please Provide all the fields required",
+        });
+      }
+
       return false;
     }
     return true;
@@ -230,7 +239,7 @@ const Home = () => {
         Swal.fire({
           icon: "warning",
           title: "You have selected a protected area.",
-          text: "Select an area that is not protected to proceed ",
+          text: "Select an area that is not protected to proceed",
         });
       } else {
         setIsLocationProtected(false);
@@ -266,7 +275,7 @@ const Home = () => {
   };
 
   const onSubmit = async () => {
-    if (!isFormValid) {
+    if (!isFormValid()) {
       return;
     }
 
@@ -336,7 +345,9 @@ const Home = () => {
                   Location
                 </label>
                 <AutocompleteInput
-                  value={`LatLng(${selectedLocation?.lat}, ${selectedLocation?.lng})`}
+                  value={`LatLng(${selectedLocation?.lat || "Latitude"}, ${
+                    selectedLocation?.lng || "Longitude"
+                  })`}
                   onLocationSelect={handleLocationSelect}
                 />
               </div>
