@@ -16,7 +16,6 @@ import { ClimateScores, RiskData } from "../../data/riskData";
 import { isInProtectedArea } from "../../components/utils";
 import Swal from "sweetalert2";
 import ButtonLoading from "../../components/ButtonLoading";
-import { LatLng } from "leaflet";
 
 export interface MapCrop {
   isMarkerPlaced: boolean;
@@ -96,6 +95,14 @@ const Home = () => {
     },
   ];
 
+  const initialFormValues = {
+    crop: "",
+    latitude: 1.291744,
+    longitude: 36.604086,
+    startDate: "2025-01-01",
+    endDate: "2027-12-30",
+  };
+
   const initialClimateScores: ClimateScores = {
     rainfall_risk: 0,
     temperature_risk: 0,
@@ -123,17 +130,12 @@ const Home = () => {
 
   const [riskData, setRiskData] = useState<RiskData>();
   const [isLoading, setIsLoading] = useState(false);
+  const [isComputed, setIsComputed] = useState(false);
   const [isLocationProtected, setIsLocationProtected] = useState(false);
 
   const [selectedCrop, setSelectedCrop] = useState("");
   const [selectedOption, setSelectedOption] = useState<Option | null>(null);
-  const [formValues, setFormValues] = useState({
-    crop: "",
-    latitude: 1.291744,
-    longitude: 36.604086,
-    startDate: "2025-01-01",
-    endDate: "2027-12-30",
-  });
+  const [formValues, setFormValues] = useState(initialFormValues);
 
   const [mapCrop, setMapCrop] = useState<MapCrop>({
     isMarkerPlaced: true,
@@ -263,6 +265,13 @@ const Home = () => {
     }));
   };
 
+  const handleClearForm = () => {
+    setFormValues(initialFormValues);
+    // setRiskData(Risk);
+    setClimateScores(initialClimateScores);
+    setIsComputed(false);
+  };
+
   const handleCropSelect = (event) => {
     const selectedCropName = event.target.value;
     setSelectedCrop(selectedCropName);
@@ -304,7 +313,7 @@ const Home = () => {
         setRiskData(data);
         setClimateScores(data.climate_scores);
         setIsLoading(false);
-        // console.log(JSON.stringify(climateScores));
+        setIsComputed(true);
       })
       .catch((error) => {
         setIsLoading(false);
@@ -491,9 +500,9 @@ const Home = () => {
                 </div>
               </div>
 
-              {!isLoading ? (
+              {!isLoading && !isComputed ? (
                 <button
-                  className="py-3 px-4 inline-flex justify-center w-full items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
+                  className="py-3 px-4 inline-flex justify-center w-full items-center gap-2 rounded-md border border-transparent font-semibold bg-green-500 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
                   // data-hs-overlay="#hs-bg-gray-on-hover-cards"
                   onClick={onSubmit}
                 >
@@ -507,6 +516,17 @@ const Home = () => {
                 isLoading={isLoading}
                 text="Loading ..."
               />
+              {isComputed ? (
+                <button
+                  className="py-3 px-4 inline-flex justify-center w-full items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
+                  // data-hs-overlay="#hs-bg-gray-on-hover-cards"
+                  onClick={handleClearForm}
+                >
+                  Compute New Score
+                </button>
+              ) : (
+                ""
+              )}
             </div>
             <div
               id="hs-bg-gray-on-hover-cards"
@@ -560,7 +580,12 @@ const Home = () => {
                     </div>
                   </div>
                   <div id="printablediv" className="p-4 overflow-y-auto">
-                    <PdfComponent />
+                    <PdfComponent
+                      myRiskdata={riskData}
+                      loanPeriod={formValues.startDate}
+                      crop={formValues.crop}
+                      myLocation={selectedLocation}
+                    />
                   </div>
                 </div>
               </div>
@@ -581,6 +606,25 @@ const Home = () => {
                 Composite Risk Score
               </h3>
               <Gauge level={riskData?.composite_total_risk} />
+
+              {isComputed ? (
+                <div>
+                  <h2 className="font-semibold leading-none tracking-tight mt-5">
+                    CLIMATE ADAPTATION PLAN
+                  </h2>
+                  <p className="text-sm mt-3">
+                    {riskData?.adaptations[1].Suggestion}
+                  </p>
+                  <button
+                    className="mt-3 py-3 px-4 inline-flex justify-center w-full items-center gap-2 rounded-md border border-transparent font-semibold bg-green-500 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
+                    data-hs-overlay="#hs-bg-gray-on-hover-cards"
+                  >
+                    View Full Report
+                  </button>
+                </div>
+              ) : (
+                ""
+              )}
             </div>
           </div>
         </div>

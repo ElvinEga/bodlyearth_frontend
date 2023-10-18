@@ -4,7 +4,7 @@ export interface RiskData {
   water_scores: WaterScores;
   composite_total_score: number;
   composite_total_risk: number;
-  // adaptations: Adaptations;
+  adaptations: Adaptations;
 }
 
 export interface ClimateScores {
@@ -16,9 +16,9 @@ export interface ClimateScores {
   temperature_risk: number;
   drought_risk: number;
   composite_climate_risk: number;
-  // drought_raw_data: DroughtRawData;
-  // rainfall_raw_data: RainfallRawData;
-  // temperature_raw_data: TemperatureRawData;
+  drought_raw_data: DroughtRawData;
+  rainfall_raw_data: RainfallRawData;
+  temperature_raw_data: TemperatureRawData;
 }
 
 export interface DroughtRawData {
@@ -102,4 +102,49 @@ export interface WaterScores {
   rainfall_erosivity_risk: number;
   location_aquaduct_risk: number;
   composite_water_risk: number;
+}
+
+export interface Adaptations {
+  "1": N1;
+  "2": N2;
+  "3": N3;
+  "4": N4;
+  "5": N5;
+  "6": N6;
+}
+
+export interface N1 {
+  Pillar: string;
+  Index: string;
+  Suggestion: string;
+}
+
+export interface N2 {
+  Pillar: string;
+  Index: string;
+  Suggestion: string;
+}
+
+export interface N3 {
+  Pillar: string;
+  Index: string;
+  Suggestion: string;
+}
+
+export interface N4 {
+  Pillar: string;
+  Index: string;
+  Suggestion: string;
+}
+
+export interface N5 {
+  Pillar: string;
+  Index: string;
+  Suggestion: string;
+}
+
+export interface N6 {
+  Pillar: string;
+  Index: string;
+  Suggestion: string;
 }

@@ -19,7 +19,7 @@ const MiniChart = ({ indexScore }) => {
         className=""
         style={{
           position: "absolute",
-          zIndex: 150,
+          zIndex: 30,
           margin: "auto",
           width: "calc(11.5% - 1vw)",
           aspectRatio: "1/1",

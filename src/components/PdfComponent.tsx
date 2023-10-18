@@ -1,10 +1,24 @@
-import GaugeComponent from "react-gauge-component";
-import { useState } from "react";
 import TopGauge from "./topgauge";
-
-export default function PdfComponent() {
-  // const [currentValue, setCurrentValue] = useState(30);
-  const [currentValue] = useState(30);
+import Gauge from "./Gauge";
+import { RiskData } from "../data/riskData";
+interface RiskDataProps {
+  myRiskdata: RiskData;
+  loanPeriod: string;
+  crop: string;
+  myLocation: {
+    lat: number;
+    lng: number;
+  };
+}
+const climate_indices = ["Drought", "Rainfall", "Temperature"];
+const water_indices = ["Water Availability", "Water Erosion", "Aquifer Health"];
+const soil_indices = ["Top Soil Fertility", "Soil pH", "Nutrient capacity"];
+const PdfComponent = ({
+  myRiskdata,
+  loanPeriod,
+  crop,
+  myLocation,
+}: RiskDataProps) => {
   return (
     <>
       {/* Invoice */}
@@ -21,28 +35,29 @@ export default function PdfComponent() {
           <div>
             <div className="grid space-y-3">
               <dl className="grid sm:flex gap-x-3 text-sm">
-                <dt className="min-w-[150px] max-w-[200px] text-gray-500">
-                  To:
+                <dt className="min-w-[108px] max-w-[200px] text-gray-500">
+                  Full Name:
                 </dt>
                 <dd className="text-gray-800 dark:text-gray-200">
-                  <a
-                    className="inline-flex items-center gap-x-1.5 text-blue-600 decoration-2 hover:underline font-medium"
-                    href="#"
-                  >
-                    name@site.com
-                  </a>
+                  <input
+                    type="text"
+                    id="input-label"
+                    className="py-3 px-4 block w-full border border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
+                    placeholder="Full Name"
+                  />
                 </dd>
               </dl>
               <dl className="grid sm:flex gap-x-3 text-sm">
-                <dt className="min-w-[150px] max-w-[200px] text-gray-500">
-                  Name:
+                <dt className="min-w-[100px] max-w-[200px] text-gray-500">
+                  Phone Number:
                 </dt>
                 <dd className="font-medium text-gray-800 dark:text-gray-200">
-                  <span className="block font-semibold">Elvin Ambasa</span>
-                  <address className="not-italic font-normal">
-                    0701064273,
-                    <br />
-                  </address>
+                  <input
+                    type="tel"
+                    id="phone_number"
+                    className="py-3 px-4 block w-full border border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
+                    placeholder="+254"
+                  />
                 </dd>
               </dl>
             </div>
@@ -52,14 +67,19 @@ export default function PdfComponent() {
             <div className="grid space-y-3">
               <dl className="grid sm:flex gap-x-3 text-sm">
                 <dt className="min-w-[150px] max-w-[200px] text-gray-500">
-                  Location:
+                  Location(Town):
                 </dt>
                 <dd className="font-medium text-gray-800 dark:text-gray-200">
-                  <span className="block font-semibold">Elvin Ambasa</span>
+                  <input
+                    type="text"
+                    id="input-label"
+                    className="mb-3 py-3 px-4 block w-full border border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
+                    placeholder="Location"
+                  />
                   <address className="not-italic font-normal">
-                    Nairobi,Kenya,
-                    <br />
-                    LatLng(1.041554, 35.233106),
+                    {`LatLng(${myLocation?.lat || "Latitude"}, ${
+                      myLocation?.lng || "Longitude"
+                    })`}
                   </address>
                 </dd>
               </dl>
@@ -69,29 +89,35 @@ export default function PdfComponent() {
         </div>
         {/* End Grid */}
         <div className="mt-5">
-          <h4 className="text-lg mb-2 font-semibold text-gray-800 dark:text-gray-200">
+          <h4 className="text-2xl mb-2 font-semibold text-gray-800 dark:text-gray-200">
             Climate Adaptation Suggestions To Improve Your Score
           </h4>
-          <p className="text-gray-500">
-            Consider investing in crop rotation with crop varieties that are
-            drought tolerant such as sorghum, cowpeas, cassava, etc. Crop
-            rotation helps to maintain soil fertility over many harvest cycles.
-            This is a low-cost investment with high returns.
+          <h4 className="text-lg mb-2 font-semibold text-gray-800 dark:text-gray-200">
+            {myRiskdata?.adaptations[1].Pillar}
+          </h4>
+          <p className="text-gray-500 mt-2">
+            <li>{myRiskdata?.adaptations[1].Suggestion}</li>
           </p>
-          <p className="text-gray-500">
-            Investment in drainage systems is required to redirect water to
-            storage areas during rainy seasons. This water can be used for
-            irrigation. We also recommend that you dig ditches and trenches to
-            divert and distribute excess rainwater. This is a medium-cost
-            investment with big returns.
+          <p className="text-gray-500 mt-2">
+            <li>{myRiskdata?.adaptations[2].Suggestion}</li>
           </p>
-          <p className="text-gray-500">
-            Invest in agroforestry (planting trees on the farm or shade tree
-            planting) since it increases the retention of organic carbon in
-            soils. We recommend planting a minimum of 5 native/ indigenous trees
-            to add organic matter to the soil through leaf falls and also
-            improve soil structure. This is a low-cost investment with high
-            returns.
+          <h4 className="text-lg mb-2 font-semibold text-gray-800 dark:text-gray-200 mt-2">
+            {myRiskdata?.adaptations[3].Pillar}
+          </h4>
+          <p className="text-gray-500 mt-2">
+            <li>{myRiskdata?.adaptations[3].Suggestion}</li>
+          </p>
+          <p className="text-gray-500 mt-2">
+            <li>{myRiskdata?.adaptations[4].Suggestion}</li>
+          </p>
+          <h4 className="text-lg mb-2 font-semibold text-gray-800 dark:text-gray-200 mt-2">
+            {myRiskdata?.adaptations[5].Pillar}
+          </h4>
+          <p className="text-gray-500 mt-2">
+            <li> {myRiskdata?.adaptations[5].Suggestion}</li>
+          </p>
+          <p className="text-gray-500 mt-2">
+            <li>{myRiskdata?.adaptations[6].Suggestion}</li>
           </p>
         </div>
         <div className="mt-5">
@@ -116,85 +142,7 @@ export default function PdfComponent() {
             <h3 className="  font-semibold text-gray-800 dark:group-hover:text-gray-400 dark:text-gray-200">
               Composite Risk Score
             </h3>
-            <GaugeComponent
-              className="w-72"
-              labels={{
-                valueLabel: {
-                  formatTextValue: (value) => value + "",
-                  matchColorWithArc: true,
-                  style: {
-                    fontSize: "48px",
-                    fontWeight: 700,
-                    fill: "#374151",
-                    textShadow: "none",
-                  },
-                },
-                tickLabels: {
-                  defaultTickValueConfig: {
-                    formatTextValue: (value) => value + "",
-                    style: {
-                      fontSize: "12px",
-                      fontWeight: 700,
-                      fill: "#6B7280",
-                      textShadow: "none",
-                    },
-                  },
-                  defaultTickLineConfig: {
-                    // char: "_",
-                    hide: true,
-                    style: {
-                      // display: "none",
-                      fontSize: "12px",
-                      fill: "#6B7280",
-                      textShadow: "none",
-                    },
-                  },
-                },
-              }}
-              arc={{
-                padding: 0.8,
-                subArcs: [
-                  {
-                    limit: 30,
-                    color: "#16A34A",
-                    showTick: true,
-                    tooltip: { text: "Low" },
-                  },
-                  {
-                    limit: 55,
-                    color: "#A3E635",
-                    showTick: true,
-                    tooltip: { text: "Fine" },
-                  },
-
-                  {
-                    limit: 70,
-                    color: "#facc15",
-                    showTick: true,
-                    tooltip: { text: "Fine" },
-                  },
-                  {
-                    limit: 80,
-                    color: "#F87171",
-                    showTick: true,
-                    tooltip: { text: "Fine" },
-                  },
-                  {
-                    limit: 90,
-                    color: "#ef4449",
-                    showTick: true,
-                    tooltip: { text: "Fine" },
-                  },
-                  {
-                    limit: 100,
-                    color: "#DC2626",
-                    showTick: true,
-                    tooltip: { text: "Full" },
-                  },
-                ],
-              }}
-              value={currentValue}
-            />
+            <Gauge level={myRiskdata?.composite_total_risk} />
             <div className="w-full pl-10">
               <div className="mt-2 sm:mt-2">
                 <h4 className="text-xs font-semibold uppercase text-gray-800 dark:text-gray-200">
@@ -204,13 +152,13 @@ export default function PdfComponent() {
                   <li className="inline-flex items-center gap-x-2 py-3 px-4 text-sm border text-gray-800 -mt-px first:rounded-t-lg first:mt-0 last:rounded-b-lg dark:border-gray-700 dark:text-gray-200">
                     <div className="flex items-center justify-between w-full">
                       <span>Loan Period</span>
-                      <span>11-2023</span>
+                      <span>{loanPeriod}</span>
                     </div>
                   </li>
                   <li className="inline-flex items-center gap-x-2 py-3 px-4 text-sm border text-gray-800 -mt-px first:rounded-t-lg first:mt-0 last:rounded-b-lg dark:border-gray-700 dark:text-gray-200">
                     <div className="flex items-center justify-between w-full">
                       <span>Crop</span>
-                      <span>Maize</span>
+                      <span>{crop}</span>
                     </div>
                   </li>
                   <li className="inline-flex items-center gap-x-2 py-3 px-4 text-sm font-semibold bg-gray-50 border text-gray-800 -mt-px first:rounded-t-lg first:mt-0 last:rounded-b-lg dark:bg-slate-800 dark:border-gray-700 dark:text-gray-200">
@@ -226,11 +174,53 @@ export default function PdfComponent() {
         </div>
         {/* End Table */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-5">
-          <TopGauge level={20} />
-          <TopGauge level={56} />
-          <TopGauge level={90} />
+          <TopGauge
+            pillar="CLIMATE"
+            rainfall_risk={myRiskdata?.climate_scores.rainfall_risk}
+            temperature_risk={myRiskdata?.climate_scores.temperature_risk}
+            drought_risk={myRiskdata?.climate_scores.drought_risk}
+            composite_climate_risk={
+              myRiskdata?.climate_scores.composite_climate_risk
+            }
+            categories={climate_indices}
+          />
+          <TopGauge
+            pillar="WATER"
+            rainfall_risk={myRiskdata?.water_scores.ground_water_risk}
+            temperature_risk={myRiskdata?.water_scores.rainfall_erosivity_risk}
+            drought_risk={myRiskdata?.water_scores.location_aquaduct_risk}
+            composite_climate_risk={
+              myRiskdata?.water_scores.composite_water_risk
+            }
+            categories={water_indices}
+          />
+          <TopGauge
+            pillar="SOIL"
+            rainfall_risk={
+              myRiskdata?.soil_scores.cation_exchange_capacity_risk
+            }
+            temperature_risk={myRiskdata?.soil_scores.soil_ph_risk}
+            drought_risk={myRiskdata?.soil_scores.soil_organic_carbon_risk}
+            composite_climate_risk={myRiskdata?.soil_scores.composite_soil_risk}
+            categories={soil_indices}
+          />
         </div>
         <>
+          <div className="mt-5">
+            <p>Add a comment(Optional)</p>
+            <textarea
+              className=" mt-2 py-3 px-4 block w-full border-gray-200 rounded-md border text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
+              rows={3}
+              placeholder="Enter a comment ..."
+              defaultValue={""}
+            />
+            <button
+              type="button"
+              className=" mt-3 py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
+            >
+              SAVE
+            </button>
+          </div>
           <div className="mt-8">
             <h4 className="text-lg font-semibold text-gray-800 dark:text-gray-200">
               Thank you!
@@ -254,4 +244,6 @@ export default function PdfComponent() {
       {/* End Invoice */}
     </>
   );
-}
+};
+
+export default PdfComponent;
