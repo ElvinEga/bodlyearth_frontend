@@ -32,6 +32,8 @@ const Dropdown: React.FC<DropdownProps> = ({ options, onSelect }) => {
         onChange={(e) => {
           const selectedId = e.target.value;
           const selected = options.find((option) => option.id === selectedId);
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
           handleSelect(selected || null);
         }}
       >

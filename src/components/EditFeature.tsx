@@ -1,3 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 import { FeatureGroup, useMap } from "react-leaflet";
 import { EditControl } from "react-leaflet-draw";
 

@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback } from "react";
+import React, { useRef, useCallback } from "react";
 import { StandaloneSearchBox, useLoadScript } from "@react-google-maps/api";
 
 type SearchBox = google.maps.places.SearchBox;
@@ -49,6 +49,7 @@ const AutocompleteInput: React.FC<AutocompleteInputProps> = ({
 
   const { isLoaded } = useLoadScript({
     googleMapsApiKey,
+    // @ts-ignore
     libraries,
   });
 

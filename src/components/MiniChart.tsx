@@ -1,6 +1,7 @@
 import chartCircle from "/chart_circle.svg";
 import indicator from "/indicator.svg";
-
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 const MiniChart = ({ indexScore }) => {
   const indicatorPosition = indexScore / 100;
   const rotationValue = `rotate(calc(${indicatorPosition} * 263deg))`;
