@@ -11,7 +11,7 @@ const CENTER_LON = 36.80925;
 
 function SetViewOnLocationChange({ mapLocation }) {
   const map = useMap();
-  map.setView(mapLocation, map.getZoom());
+  map.setView(mapLocation, 19);
   return (
     <Marker position={mapLocation}>
       <Popup>{`lat: ${mapLocation[0]} lon:${mapLocation[1]}`}</Popup>
