@@ -3,6 +3,13 @@
 import { FeatureGroup, useMap } from "react-leaflet";
 import { EditControl } from "react-leaflet-draw";
 
+const customIcon = new L.Icon({
+  iconUrl: "/marker-icon.svg", // Path to your custom marker icon
+  iconSize: [40, 40], // Set the size of your icon
+  iconAnchor: [16, 32], // Set the anchor point for the icon
+  popupAnchor: [0, -32], // Set the anchor point for the popup
+});
+
 const EditFeature = ({ onMarkerPlaced, onMarkerClear }) => {
   let existingLayer = [];
   const map = useMap();
@@ -27,7 +34,7 @@ const EditFeature = ({ onMarkerPlaced, onMarkerClear }) => {
       console.log("_onCreated: markerPosition", existingLayer);
       onMarkerPlaced(latlng);
       console.log("hook lat lng", latlng);
-      map.setView(latlng, 14);
+      map.setView(latlng, map.getZoom());
     } else {
       console.log("_onCreated: something else created:", type, e);
     }
@@ -70,6 +77,9 @@ const EditFeature = ({ onMarkerPlaced, onMarkerClear }) => {
     console.log("_onDeleteStop", e);
   };
 
+  // Set the initial zoom level
+  const initialZoom = map.getZoom();
+
   return (
     <FeatureGroup>
       <EditControl
@@ -79,12 +89,18 @@ const EditFeature = ({ onMarkerPlaced, onMarkerClear }) => {
         onCreated={_onCreated}
         onDeleted={_onDeleted}
         draw={{
-          marker: true,
+          marker: {
+            icon: customIcon, // Set the custom marker icon
+          },
+          // marker: true,
           polyline: false,
           rectangle: false,
           circlemarker: false,
           circle: false,
           polygon: true,
+        }}
+        view={{
+          zoom: initialZoom, // Set the initial zoom level
         }}
       />
     </FeatureGroup>

@@ -12,11 +12,18 @@ import EditFeature from "./EditFeature";
 const CENTER_LAT = -0.919238;
 const CENTER_LON = 36.80925;
 
+const customIcon = new L.Icon({
+  iconUrl: "/marker-icon.svg", // Path to your custom marker icon
+  iconSize: [40, 40], // Set the size of your icon
+  iconAnchor: [16, 32], // Set the anchor point for the icon
+  popupAnchor: [0, -32], // Set the anchor point for the popup
+});
+
 function SetViewOnLocationChange({ mapLocation }) {
   const map = useMap();
-  map.setView(mapLocation, 19);
+  map.setView(mapLocation, map.getZoom());
   return (
-    <Marker position={mapLocation}>
+    <Marker position={mapLocation} icon={customIcon}>
       <Popup>{`lat: ${mapLocation[0]} lon:${mapLocation[1]}`}</Popup>
     </Marker>
   );
