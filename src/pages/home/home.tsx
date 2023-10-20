@@ -68,7 +68,7 @@ const Home = () => {
     {
       id: "7",
       name: "Green gram",
-      value: "green_gram",
+      value: "green gram",
     },
     {
       id: "8",
@@ -83,7 +83,7 @@ const Home = () => {
     {
       id: "10",
       name: "Cow peas",
-      value: "cow_peas",
+      value: "cow peas",
     },
     {
       id: "11",

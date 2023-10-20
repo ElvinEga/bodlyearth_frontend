@@ -93,31 +93,31 @@ const PdfComponent = ({
             Climate Adaptation Suggestions To Improve Your Score
           </h4>
           <h4 className="text-lg mb-2 font-semibold text-gray-800 dark:text-gray-200">
-            {myRiskdata?.adaptations[1].Pillar}
+            {myRiskdata?.adaptations[1]?.Pillar}
           </h4>
           <p className="text-gray-500 mt-2">
-            <li>{myRiskdata?.adaptations[1].Suggestion}</li>
+            <li>{myRiskdata?.adaptations[1]?.Suggestion}</li>
           </p>
           <p className="text-gray-500 mt-2">
-            <li>{myRiskdata?.adaptations[2].Suggestion}</li>
+            <li>{myRiskdata?.adaptations[2]?.Suggestion}</li>
           </p>
           <h4 className="text-lg mb-2 font-semibold text-gray-800 dark:text-gray-200 mt-2">
-            {myRiskdata?.adaptations[3].Pillar}
+            {myRiskdata?.adaptations[3]?.Pillar}
           </h4>
           <p className="text-gray-500 mt-2">
-            <li>{myRiskdata?.adaptations[3].Suggestion}</li>
+            <li>{myRiskdata?.adaptations[3]?.Suggestion}</li>
           </p>
           <p className="text-gray-500 mt-2">
-            <li>{myRiskdata?.adaptations[4].Suggestion}</li>
+            <li>{myRiskdata?.adaptations[4]?.Suggestion}</li>
           </p>
           <h4 className="text-lg mb-2 font-semibold text-gray-800 dark:text-gray-200 mt-2">
-            {myRiskdata?.adaptations[5].Pillar}
+            {myRiskdata?.adaptations[5]?.Pillar}
           </h4>
           <p className="text-gray-500 mt-2">
-            <li> {myRiskdata?.adaptations[5].Suggestion}</li>
+            <li> {myRiskdata?.adaptations[5]?.Suggestion}</li>
           </p>
           <p className="text-gray-500 mt-2">
-            <li>{myRiskdata?.adaptations[6].Suggestion}</li>
+            <li>{myRiskdata?.adaptations[6]?.Suggestion}</li>
           </p>
         </div>
         <div className="mt-5">
