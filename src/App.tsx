@@ -47,16 +47,13 @@ function App() {
             <Route path="/users" element={<UsersList />} />
             <Route path="/resources" element={<Resources />} />
             <Route path="/engagement" element={<Engagement />} />
-
             <Route path="/profile" element={<Profile />} />
             {/* we want to protect these routes */}
             <Route element={<Auth allowedRoles={["admin"]} />}>
               <Route path="/" element={<LandingPage />} />
-
               <Route path="/roles" element={<Roles />} />
               <Route path="/companies" element={<Companies />} />
               <Route path="/recent_activity" element={<RecentActivity />} />
-
               <Route path="/admin" element={<AdminHome />} />
             </Route>
             {/* </UserProvider> */}

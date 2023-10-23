@@ -11,7 +11,11 @@ interface RiskDataProps {
   };
 }
 const climate_indices = ["Drought", "Rainfall", "Temperature"];
-const water_indices = ["Water Availability", "Water Erosion", "Aquifer Health"];
+const water_indices = [
+  "Groundwater Availability",
+  "Water Erosion",
+  "Water Stress",
+];
 const soil_indices = ["Top Soil Fertility", "Soil pH", "Nutrient capacity"];
 const PdfComponent = ({
   myRiskdata,

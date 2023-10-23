@@ -119,9 +119,9 @@ const Home = () => {
   const climate_indices = ["Drought", "Rainfall", "Temperature"];
 
   const water_indices = [
-    "Water Availability",
+    "Groundwater Availability",
     "Water Erosion",
-    "Aquifer Health",
+    "Water Stress",
   ];
 
   const soil_indices = ["Top Soil Fertility", "Soil pH", "Nutrient capacity"];
@@ -268,10 +268,28 @@ const Home = () => {
   };
 
   const handleClearForm = () => {
-    setFormValues(initialFormValues);
-    // setRiskData(Risk);
-    setClimateScores(initialClimateScores);
-    setIsComputed(false);
+    Swal.fire({
+      title: "Do you want to save the changes?",
+      showDenyButton: true,
+      showCancelButton: true,
+      confirmButtonText: "Save",
+      denyButtonText: `Don't save`,
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        setFormValues(initialFormValues);
+        // setRiskData(Risk);
+        setClimateScores(initialClimateScores);
+        setIsComputed(false);
+        Swal.fire("Saved!", "", "success");
+      } else if (result.isDenied) {
+        setFormValues(initialFormValues);
+        // setRiskData(Risk);
+        setClimateScores(initialClimateScores);
+        setIsComputed(false);
+        Swal.fire("Changes are not saved", "", "info");
+      }
+    });
   };
 
   const handleCropSelect = (event) => {
@@ -312,8 +330,21 @@ const Home = () => {
     })
       .then((data) => {
         // console.log(JSON.stringify(data));
-        setRiskData(data);
-        setClimateScores(data.climate_scores);
+        if (
+          data === null ||
+          data === undefined ||
+          Object.keys(data).length === 0
+        ) {
+          // Handle empty data
+          Swal.fire({
+            icon: "warning",
+            title: "Area Data Not Available",
+            text: "Error retriving data From Area",
+          });
+        } else {
+          setRiskData(data);
+          setClimateScores(data.climate_scores);
+        }
         setIsLoading(false);
         setIsComputed(true);
       })
@@ -336,7 +367,7 @@ const Home = () => {
         <BreadHeader
           home="Home"
           title={`Hello ${userData.first_name}`}
-          description="Here's What We have today"
+          description="Input data to calculate Risk"
         />
 
         {/* Grid */}
@@ -634,9 +665,9 @@ const Home = () => {
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-5">
           <TopGauge
             pillar="CLIMATE"
-            rainfall_risk={riskData?.climate_scores.rainfall_risk}
-            temperature_risk={riskData?.climate_scores.temperature_risk}
-            drought_risk={riskData?.climate_scores.drought_risk}
+            rainfall_risk={riskData?.climate_scores.drought_risk}
+            temperature_risk={riskData?.climate_scores.rainfall_risk}
+            drought_risk={riskData?.climate_scores.temperature_risk}
             composite_climate_risk={
               riskData?.climate_scores.composite_climate_risk
             }
@@ -652,9 +683,9 @@ const Home = () => {
           />
           <TopGauge
             pillar="SOIL"
-            rainfall_risk={riskData?.soil_scores.cation_exchange_capacity_risk}
+            rainfall_risk={riskData?.soil_scores.soil_organic_carbon_risk}
             temperature_risk={riskData?.soil_scores.soil_ph_risk}
-            drought_risk={riskData?.soil_scores.soil_organic_carbon_risk}
+            drought_risk={riskData?.soil_scores.cation_exchange_capacity_risk}
             composite_climate_risk={riskData?.soil_scores.composite_soil_risk}
             categories={soil_indices}
           />
