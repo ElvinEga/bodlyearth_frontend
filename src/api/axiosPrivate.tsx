@@ -6,7 +6,6 @@ import { API_BASE_URL } from "../constants";
 /**
  * Creates an initial 'axios' instance with custom settings.
  */
-const accessToken = localStorage.getItem("access_token");
 const instance = axiosClient.create({
   baseURL: API_BASE_URL,
   headers: {
@@ -14,7 +13,7 @@ const instance = axiosClient.create({
     "Content-Type": "application/json; charset=utf-8",
     "x-adpata-application": "user",
     "x-client-identifier": "web",
-    Authorization: `Bearer ${accessToken}`,
+    // Authorization: `Bearer ${accessToken}`,
   },
 });
 
@@ -49,7 +48,10 @@ instance.interceptors.response.use(
  * @returns A promise object of a response of the HTTP request with the 'data' object already
  * destructured.
  */
-const axiosPrivate = <T,>(cfg: AxiosRequestConfig) =>
-  instance.request<unknown, T>(cfg);
+const axiosPrivate = <T,>(cfg: AxiosRequestConfig) => {
+  const accessToken = localStorage.getItem("accesstoken");
+  instance.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+  return instance.request<unknown, T>(cfg);
+};
 
 export default axiosPrivate; // Export the axiosPrivate function as the default export
