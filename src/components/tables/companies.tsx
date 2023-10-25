@@ -173,7 +173,7 @@ export default function CompaniesTable() {
                         <div className="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]">
                           <div className="flex justify-between items-center py-3 px-4 border-b dark:border-gray-700">
                             <h3 className="font-bold text-gray-800 dark:text-white">
-                              Register Company
+                              Register
                             </h3>
                             <button
                               type="button"
@@ -201,7 +201,7 @@ export default function CompaniesTable() {
                               htmlFor="input-label"
                               className="block text-sm font-medium mb-2 dark:text-white"
                             >
-                              Company Name
+                              Name
                             </label>
                             <input
                               type="text"
@@ -215,13 +215,13 @@ export default function CompaniesTable() {
                               htmlFor="input-label"
                               className="block text-sm font-medium mb-2 dark:text-white"
                             >
-                              Country
+                              Website
                             </label>
                             <input
                               type="text"
                               id="input-label"
                               className="py-3 px-4 border block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
-                              placeholder="Account Number"
+                              placeholder="https://adaptacs.com"
                             />
                           </div>
                           <div className="p-4 overflow-y-auto">
@@ -229,15 +229,15 @@ export default function CompaniesTable() {
                               htmlFor="input-label"
                               className="block text-sm font-medium mb-2 dark:text-white"
                             >
-                              Email
+                              Description
                             </label>
-                            <input
-                              type="email"
-                              id="input-label"
-                              className="py-3 px-4 border block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
-                              placeholder="email@company.com"
-                            />
+                            <textarea
+                              class="py-3 px-4 block w-full border border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
+                              rows="3"
+                              placeholder="Description"
+                            ></textarea>
                           </div>
+
                           <div className="flex justify-end items-center gap-x-2 py-3 px-4 border-t dark:border-gray-700">
                             <button
                               type="button"
