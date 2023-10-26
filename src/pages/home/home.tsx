@@ -99,10 +99,10 @@ const Home = () => {
 
   const initialFormValues = {
     crop: "",
-    latitude: 1.291744,
-    longitude: 36.604086,
-    startDate: "2025-01-01",
-    endDate: "2027-12-30",
+    latitude: null,
+    longitude: null,
+    startDate: "",
+    endDate: "",
   };
 
   const initialClimateScores: ClimateScores = {
@@ -137,7 +137,7 @@ const Home = () => {
 
   const [selectedCrop, setSelectedCrop] = useState("");
   const [selectedOption, setSelectedOption] = useState<Option | null>(null);
-  const [formValues, setFormValues] = useState(initialFormValues);
+  const [formValues, setFormValues] = useState({});
 
   const [mapCrop, setMapCrop] = useState<MapCrop>({
     isMarkerPlaced: true,
@@ -160,11 +160,19 @@ const Home = () => {
   const handleFromDateChange = (selectedDate: Date) => {
     const fDate = getFormattedTodayDate(selectedDate);
     setFromDate(fDate);
+    setFormValues({
+      ...formValues,
+      startDate: fromDate,
+    });
   };
 
   const handleToDateChange = (selectedDate: Date) => {
     const fDate = getFormattedTodayDate(selectedDate);
     setToDate(fDate);
+    setFormValues({
+      ...formValues,
+      endDate: toDate,
+    });
   };
 
   const [selectedLocation, setSelectedLocation] = useState<{
@@ -176,6 +184,11 @@ const Home = () => {
     location: { lat: number; lng: number } | null
   ) => {
     setSelectedLocation(location);
+    setFormValues({
+      ...formValues,
+      longitude: location.lng,
+      latitude: location.lat,
+    });
   };
 
   const handleSelect = (selected: Option | null) => {
@@ -194,13 +207,15 @@ const Home = () => {
 
   const isFormValid = (): boolean => {
     // eslint-disable-next-line no-unsafe-optional-chaining
-    const latitude = selectedLocation?.lat;
-    const longitude = selectedLocation?.lng;
     if (
-      latitude === null ||
-      longitude === null ||
-      selectedCrop === "" ||
-      fromDate === "" ||
+      formValues.latitude == null ||
+      formValues.longitude == null ||
+      formValues.crop == null ||
+      formValues.crop == "" ||
+      formValues.startDate == null ||
+      formValues.startDate == "" ||
+      formValues.endDate == null ||
+      formValues.endDate == "" ||
       isLocationProtected == true
     ) {
       if (isLocationProtected == true) {
@@ -224,6 +239,11 @@ const Home = () => {
 
   const handleMarkerPlaced = ({ lat, lng }) => {
     setSelectedLocation({ lat, lng });
+    setFormValues({
+      ...formValues,
+      longitude: lng,
+      latitude: lat,
+    });
     setMapCrop((prevState) => ({
       ...prevState,
       isMarkerPlaced: true,
@@ -277,12 +297,14 @@ const Home = () => {
     }).then((result) => {
       /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
+        setSelectedCrop("");
         setFormValues(initialFormValues);
         // setRiskData(Risk);
         setClimateScores(initialClimateScores);
         setIsComputed(false);
         Swal.fire("Saved!", "", "success");
       } else if (result.isDenied) {
+        setSelectedCrop("");
         setFormValues(initialFormValues);
         // setRiskData(Risk);
         setClimateScores(initialClimateScores);
@@ -295,11 +317,17 @@ const Home = () => {
   const handleCropSelect = (event) => {
     const selectedCropName = event.target.value;
     setSelectedCrop(selectedCropName);
+    const latitude = selectedLocation?.lat;
+    const longitude = selectedLocation?.lng;
 
     // Update the form with the selected crop name
     setFormValues({
       ...formValues,
       crop: selectedCropName,
+      startDate: fromDate,
+      endDate: toDate,
+      latitude: latitude,
+      longitude: longitude,
     });
   };
 
@@ -312,14 +340,16 @@ const Home = () => {
     const longitude = selectedLocation?.lng;
 
     // Update the form with the selected crop name
-    setFormValues({
-      ...formValues,
+    setFormValues((prevState) => ({
+      ...prevState,
       crop: selectedCrop,
       startDate: fromDate,
       endDate: toDate,
       latitude: latitude,
       longitude: longitude,
-    });
+    }));
+
+    alert(formValues.latitude);
 
     const RISK_URL = `/risk/v1/risk_score/get_score`;
     setIsLoading(true);
