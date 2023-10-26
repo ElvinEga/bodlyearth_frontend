@@ -1,4 +1,29 @@
 import { requestTeamData } from "../../data/requestData";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import axiosPrivate from "../../api/axiosPrivate";
+import Swal from "sweetalert2";
+
+const schema = yup.object().shape({
+  first_name: yup.string().required("Name is required"),
+  last_name: yup.string().required("Name is required"),
+  username: yup.string().required("Name is required"),
+  email: yup.string().required("Description is required"),
+  password: yup.string().required("A Valid Password is Required!"),
+});
+
+interface FormData {
+  first_name: string;
+  last_name: string;
+  username: string;
+  email: string;
+  password: string;
+}
+
+interface TeamData {
+  message: string;
+}
 
 function getStatusClassName(status: string) {
   let className = "";
@@ -16,7 +41,42 @@ function getStatusClassName(status: string) {
 
   return className;
 }
+
 export default function TeamTable() {
+  const URL = `/team_back_office/v1/team_back_office/O37Pf2Be/create_team_user`;
+
+  const {
+    register: registerForm,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormData>({
+    resolver: yupResolver(schema),
+  });
+
+  const onSubmit = async (data: FormData) => {
+    return axiosPrivate<TeamData>({
+      method: "POST",
+      url: URL,
+      data: data,
+    })
+      .then((data) => {
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: data.message,
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      })
+      .catch((error) => {
+        console.error("API Error:", error);
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Something went wrong!",
+        });
+      });
+  };
   return (
     <>
       {/* Card */}
@@ -195,63 +255,98 @@ export default function TeamTable() {
                               </svg>
                             </button>
                           </div>
-                          <div className="p-4 overflow-y-auto">
-                            <label
-                              htmlFor="input-label"
-                              className="block text-sm font-medium mb-2 dark:text-white"
-                            >
-                              Employee Name
-                            </label>
-                            <input
-                              type="text"
-                              id="input-label"
-                              className="py-3 px-4 border block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
-                              placeholder="Name"
-                            />
-                          </div>
-                          <div className="p-4 overflow-y-auto">
-                            <label
-                              htmlFor="input-label"
-                              className="block text-sm font-medium mb-2 dark:text-white"
-                            >
-                              Role
-                            </label>
-                            <input
-                              type="text"
-                              id="input-label"
-                              className="py-3 px-4 border block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
-                              placeholder="Role"
-                            />
-                          </div>
-                          <div className="p-4 overflow-y-auto">
-                            <label
-                              htmlFor="input-label"
-                              className="block text-sm font-medium mb-2 dark:text-white"
-                            >
-                              Email
-                            </label>
-                            <input
-                              type="email"
-                              id="input-label"
-                              className="py-3 px-4 border block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
-                              placeholder="email@company.com"
-                            />
-                          </div>
-                          <div className="flex justify-end items-center gap-x-2 py-3 px-4 border-t dark:border-gray-700">
-                            <button
-                              type="button"
-                              className="hs-dropdown-toggle py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800"
-                              data-hs-overlay="#hs-focus-management-modal"
-                            >
-                              Close
-                            </button>
-                            <a
-                              className="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
-                              href="/companies"
-                            >
-                              Invite
-                            </a>
-                          </div>
+                          <form onSubmit={handleSubmit(onSubmit)}>
+                            <div className="p-4 overflow-y-auto">
+                              <label
+                                htmlFor="input-label"
+                                className="block text-sm font-medium mb-2 dark:text-white"
+                              >
+                                First Name
+                              </label>
+                              <input
+                                type="text"
+                                id="input-label"
+                                className="py-3 px-4 border block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
+                                placeholder="First Name"
+                                {...registerForm("first_name")}
+                              />
+                            </div>
+                            <div className="p-4 overflow-y-auto">
+                              <label
+                                htmlFor="input-label"
+                                className="block text-sm font-medium mb-2 dark:text-white"
+                              >
+                                Last Name
+                              </label>
+                              <input
+                                type="text"
+                                id="input-label"
+                                className="py-3 px-4 border block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
+                                placeholder="Last Name"
+                                {...registerForm("last_name")}
+                              />
+                            </div>
+                            <div className="p-4 overflow-y-auto">
+                              <label
+                                htmlFor="input-label"
+                                className="block text-sm font-medium mb-2 dark:text-white"
+                              >
+                                Username
+                              </label>
+                              <input
+                                type="text"
+                                id="input-label"
+                                className="py-3 px-4 border block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
+                                placeholder="Username"
+                                {...registerForm("username")}
+                              />
+                            </div>
+                            <div className="p-4 overflow-y-auto">
+                              <label
+                                htmlFor="input-label"
+                                className="block text-sm font-medium mb-2 dark:text-white"
+                              >
+                                Email
+                              </label>
+                              <input
+                                type="email"
+                                id="input-label"
+                                className="py-3 px-4 border block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
+                                placeholder="email@company.com"
+                                {...registerForm("email")}
+                              />
+                            </div>
+                            <div className="p-4 overflow-y-auto">
+                              <label
+                                htmlFor="password"
+                                className="block text-sm font-medium mb-2 dark:text-white"
+                              >
+                                Password
+                              </label>
+                              <input
+                                id="password"
+                                type="passowrd"
+                                className="py-3 px-4 border block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
+                                placeholder="*******"
+                                {...registerForm("password")}
+                              />
+                            </div>
+                            <div className="flex justify-end items-center gap-x-2 py-3 px-4 border-t dark:border-gray-700">
+                              <button
+                                type="button"
+                                className="hs-dropdown-toggle py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800"
+                                data-hs-overlay="#hs-focus-management-modal"
+                              >
+                                Close
+                              </button>
+                              <button
+                                type="submit"
+                                className="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
+                              >
+                                Invite
+                              </button>
+                            </div>
+                          </form>
                         </div>
                       </div>
                     </div>
