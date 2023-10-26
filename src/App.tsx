@@ -17,7 +17,6 @@ import HelpPage from "./pages/help";
 import AdminHome from "./pages/home/adminhome";
 import CreatePassword from "./pages/login/createPassword";
 import LandingPage from "./pages/landing";
-import Auth from "./context/AuthRoute";
 import UsersList from "./pages/users";
 import { UserProvider } from "./context/UserProvider";
 import UnauthorizedPage from "./pages/unauthorized";

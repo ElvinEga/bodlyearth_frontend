@@ -45,12 +45,7 @@ function getStatusClassName(status: string) {
 export default function TeamTable() {
   const URL = `/team_back_office/v1/team_back_office/O37Pf2Be/create_team_user`;
 
-  const {
-    register: registerForm,
-    handleSubmit,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    formState: { errors },
-  } = useForm<FormData>({
+  const { register: registerForm, handleSubmit } = useForm<FormData>({
     resolver: yupResolver(schema),
   });
 

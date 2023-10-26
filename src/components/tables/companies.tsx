@@ -39,12 +39,7 @@ function getStatusClassName(status: string) {
 }
 const URL = `/team_back_office/v1/team_back_office/create_team`;
 export default function CompaniesTable() {
-  const {
-    register: registerForm,
-    handleSubmit,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    formState: { errors },
-  } = useForm<FormData>({
+  const { register: registerForm, handleSubmit } = useForm<FormData>({
     resolver: yupResolver(schema),
   });
 
