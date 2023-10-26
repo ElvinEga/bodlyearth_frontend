@@ -33,11 +33,11 @@ export interface MapLocation {
   lng: number | null;
 }
 
-const getFormattedFutureDate = (numberOfMonths: number): string => {
-  const today = new Date();
-  today.setMonth(today.getMonth() + numberOfMonths);
-  return format(today, "yyyy-MM-dd"); // Format the date as "yyyy-MM-dd"
-};
+// const getFormattedFutureDate = (numberOfMonths: number): string => {
+//   const today = new Date();
+//   today.setMonth(today.getMonth() + numberOfMonths);
+//   return format(today, "yyyy-MM-dd"); // Format the date as "yyyy-MM-dd"
+// };
 
 const Home = () => {
   const options = [
