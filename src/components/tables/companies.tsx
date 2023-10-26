@@ -42,6 +42,7 @@ export default function CompaniesTable() {
   const {
     register: registerForm,
     handleSubmit,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     formState: { errors },
   } = useForm<FormData>({
     resolver: yupResolver(schema),
@@ -287,8 +288,7 @@ export default function CompaniesTable() {
                                 Description
                               </label>
                               <textarea
-                                class="py-3 px-4 block w-full border border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
-                                rows="3"
+                                className="py-3 px-4 block w-full border border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
                                 placeholder="Description"
                                 {...registerForm("description")}
                               ></textarea>

@@ -48,6 +48,7 @@ export default function TeamTable() {
   const {
     register: registerForm,
     handleSubmit,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     formState: { errors },
   } = useForm<FormData>({
     resolver: yupResolver(schema),
