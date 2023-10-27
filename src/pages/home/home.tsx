@@ -33,11 +33,20 @@ export interface MapLocation {
   lng: number | null;
 }
 
-// const getFormattedFutureDate = (numberOfMonths: number): string => {
-//   const today = new Date();
-//   today.setMonth(today.getMonth() + numberOfMonths);
-//   return format(today, "yyyy-MM-dd"); // Format the date as "yyyy-MM-dd"
-// };
+const getFormattedFutureDate = (numberOfMonths: number): string => {
+  const today = new Date();
+  today.setMonth(today.getMonth() + numberOfMonths);
+  return format(today, "yyyy-MM-dd"); // Format the date as "yyyy-MM-dd"
+};
+
+const getDateToday = (): string => {
+  const today = new Date();
+  return format(today, "yyyy-MM-dd"); // Format the date as "yyyy-MM-dd"
+};
+
+const getFormattedTodayDate = (selectedDate: Date): string => {
+  return format(selectedDate, "yyyy-MM-dd"); // Format the date as "yyyy-MM-dd"
+};
 
 const Home = () => {
   const options = [
@@ -157,11 +166,23 @@ const Home = () => {
     },
   });
 
-  const getFormattedTodayDate = (selectedDate: Date): string => {
-    return format(selectedDate, "yyyy-MM-dd"); // Format the date as "yyyy-MM-dd"
-  };
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
+  const [toMonths, setToMonths] = useState(1);
+
+  const handleChangeMonth = (event) => {
+    const months = parseInt(event.target.value);
+    setToMonths(months);
+    const tDate = getFormattedFutureDate(months);
+    const fDate = getDateToday;
+    setFromDate(fDate);
+    setToDate(tDate);
+    setFormValues({
+      ...formValues,
+      startDate: fromDate,
+      endDate: toDate,
+    });
+  };
 
   const handleFromDateChange = (selectedDate: Date) => {
     const fDate = getFormattedTodayDate(selectedDate);
@@ -434,16 +455,18 @@ const Home = () => {
                   htmlFor="hs-select-label"
                   className="block text-sm font-medium mb-2 dark:text-white"
                 >
-                  Loan Period
+                  Loan Period (Months)
                 </label>
                 <input
-                  type="text"
+                  type="number"
                   id="input-label"
-                  value={`${fromDate} to ${toDate}`}
-                  data-hs-overlay="#hs-focus-datepicker-modal"
+                  value={`${toMonths}`}
+                  onChange={handleChangeMonth}
+                  // data-hs-overlay="#hs-focus-datepicker-modal"
                   className="py-3 px-4 block w-full border border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
-                  placeholder="Date Period"
+                  placeholder="Date Period in Months"
                 />
+                <p className="text-gray-500 text-sm pt-2">{`${fromDate} to ${toDate}`}</p>
                 <div
                   id="hs-focus-datepicker-modal"
                   className="hs-overlay hidden w-full h-full fixed top-0 left-0 z-[60] overflow-x-hidden overflow-y-auto"
