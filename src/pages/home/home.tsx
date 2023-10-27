@@ -171,7 +171,10 @@ const Home = () => {
   const [toMonths, setToMonths] = useState(1);
 
   const handleChangeMonth = (event) => {
-    const months = parseInt(event.target.value);
+    let months = parseInt(event.target.value);
+    if (months < 1) {
+      months = 1;
+    }
     setToMonths(months);
     const tDate = getFormattedFutureDate(months);
     const fDate = getDateToday;
@@ -184,6 +187,21 @@ const Home = () => {
     });
   };
 
+  const handleBlur = () => {
+    if (toMonths < 1 || isNaN(toMonths)) {
+      setToMonths(1);
+      const tDate = getFormattedFutureDate(1);
+      const fDate = getDateToday;
+      setFromDate(fDate);
+      setToDate(tDate);
+      setFormValues({
+        ...formValues,
+        startDate: fromDate,
+        endDate: toDate,
+      });
+    }
+  };
+
   const handleFromDateChange = (selectedDate: Date) => {
     const fDate = getFormattedTodayDate(selectedDate);
     setFromDate(fDate);
@@ -193,8 +211,8 @@ const Home = () => {
     });
   };
 
-  const handleToDateChange = (selectedDate: Date) => {
-    const fDate = getFormattedTodayDate(selectedDate);
+  const handleToDateChange = () => {
+    const fDate = getFormattedFutureDate(1);
     setToDate(fDate);
     setFormValues({
       ...formValues,
@@ -376,7 +394,7 @@ const Home = () => {
       longitude: longitude,
     }));
 
-    alert(formValues.latitude);
+    // alert(formValues.latitude);
 
     const RISK_URL = `/risk/v1/risk_score/get_score`;
     setIsLoading(true);
@@ -415,7 +433,7 @@ const Home = () => {
     // Set initial values for "from date" and "to date" when the component is mounted
     const today = new Date();
     handleFromDateChange(today);
-    handleToDateChange(today);
+    handleToDateChange();
   }, []);
 
   return (
@@ -462,6 +480,7 @@ const Home = () => {
                   id="input-label"
                   value={`${toMonths}`}
                   onChange={handleChangeMonth}
+                  onBlur={handleBlur}
                   // data-hs-overlay="#hs-focus-datepicker-modal"
                   className="py-3 px-4 block w-full border border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
                   placeholder="Date Period in Months"
