@@ -35,6 +35,7 @@ function App() {
         <UserProvider>
           <Routes>
             {/* public routes */}
+            <Route path="/signin" element={<LogIn />} />
             <Route path="/login" element={<LogIn />} />
             <Route path="/verify" element={<OtpPage />} />
             <Route path="/create_password" element={<CreatePassword />} />
@@ -49,7 +50,7 @@ function App() {
             <Route path="/profile" element={<Profile />} />
             {/* we want to protect these routes */}
             {/* <Route element={<Auth allowedRoles={["admin"]} />}> */}
-            <Route path="/" element={<LandingPage />} />
+            <Route path="/" element={<Home />} />
             <Route path="/roles" element={<Roles />} />
             <Route path="/companies" element={<Companies />} />
             <Route path="/recent_activity" element={<RecentActivity />} />
