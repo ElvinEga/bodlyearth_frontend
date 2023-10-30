@@ -66,11 +66,11 @@ const AutocompleteInput: React.FC<AutocompleteInputProps> = ({
         <input
           type="text"
           id="input-label"
-          className="py-3 px-4 block w-full border border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
+          className="h-10 py-3 px-4 block w-full border border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
           placeholder="Enter a Location"
         />
       </StandaloneSearchBox>
-      <p className="text-gray-500 text-sm pt-2">{value}</p>
+      <p className="text-gray-500 text-xs pt-2">{value}</p>
     </div>
   );
 };
