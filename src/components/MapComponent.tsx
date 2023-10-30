@@ -9,8 +9,8 @@ import { GeoJSON } from "react-leaflet/GeoJSON";
 import { LatLngTuple } from "leaflet";
 import EditFeature from "./EditFeature";
 
-const CENTER_LAT = -0.919238;
-const CENTER_LON = 36.80925;
+const CENTER_LAT = -0.362256735;
+const CENTER_LON = 35.3099136;
 
 const customIcon = new L.Icon({
   iconUrl: "/marker-icon.svg", // Path to your custom marker icon
@@ -66,7 +66,7 @@ const MapComponent: React.FC<MapComponentProps> = ({
       </div> */}
       <MapContainer
         center={[CENTER_LAT, CENTER_LON]}
-        zoom={19}
+        zoom={17}
         style={{ height: "380px", width: "100%" }}
         scrollWheelZoom={true}
       >

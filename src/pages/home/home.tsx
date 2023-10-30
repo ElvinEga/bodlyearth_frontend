@@ -3,7 +3,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import DatepickerComponent from "../../components/DatePicker";
 import Gauge from "../../components/Gauge";
 import PdfComponent from "../../components/PdfComponent";
 import BreadHeader from "../../components/breadheader";
