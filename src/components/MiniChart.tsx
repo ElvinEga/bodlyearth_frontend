@@ -43,7 +43,7 @@ const MiniChart = ({ indexScore, width }: MiniChartProps) => {
         <img src={indicator} style={{ width: "15%", margin: "auto" }} />
       </div>
       <div className="absolute z-60 flex flex-col justify-center items-center h-full mx-auto">
-        <p id="ind_t_2" className="text-3xl font-semibold">
+        <p id="ind_t_2" className="text-2xl font-semibold">
           {indexScore ? indexScore : "--"}
         </p>
       </div>

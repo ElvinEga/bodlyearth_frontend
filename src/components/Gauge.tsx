@@ -20,7 +20,7 @@ function Gauge(props: Content) {
               <MiniChart
                 // @ts-ignore
                 indexScore={props.level?.toFixed(2)}
-                width={200}
+                width={150}
               />
             </div>
           </div>

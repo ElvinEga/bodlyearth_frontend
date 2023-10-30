@@ -42,17 +42,17 @@ const TopGauge: React.FC<GaugeChartProps> = ({
     <>
       {/* Card */}
       <div className="group flex flex-col  bg-white border border-gray-200 shadow-sm rounded-xl dark:bg-slate-900 dark:border-gray-700 dark:shadow-slate-700/[.7]">
-        <h3 className="font-semibold leading-none tracking-tight p-5">
+        <h3 className="font-semibold text-sm leading-none tracking-tight p-5">
           {pillar} RISK
         </h3>
         <div className="flex justify-center items-center">
           <MiniChart
             // @ts-ignore
             indexScore={composite_climate_risk?.toFixed(2)}
-            width={130}
+            width={120}
           />
         </div>
-        <div className="pr-5 pt-5">
+        <div className="pr-3 pt-3">
           <div className="horizontal-bar-chart" id="chart">
             <GradientBarChart categories={categories} scores={series} />
           </div>

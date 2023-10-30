@@ -60,14 +60,14 @@ const MapComponent: React.FC<MapComponentProps> = ({
 
   return (
     <div className="map-picker">
-      <div className="p-2">
+      {/* <div className="p-2">
         <span className="text-sm">Latitude: {mapLocation?.lat}</span>
         <span className="ml-5 text-sm">Longitude: {mapLocation?.lng}</span>
-      </div>
+      </div> */}
       <MapContainer
         center={[CENTER_LAT, CENTER_LON]}
         zoom={19}
-        style={{ height: "460px", width: "100%" }}
+        style={{ height: "380px", width: "100%" }}
         scrollWheelZoom={true}
       >
         <TileLayer
