@@ -1,17 +1,17 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useUser } from "../context/UserProvider";
 import ThemeChanger from "./DarkSwitch";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 
 const Navbar = () => {
   const [activeLink, setActiveLink] = useState("/dashboard");
   const { userData } = useUser();
 
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleLinkClick = (link: string) => {
     setActiveLink(link);
-    getLinkClass(link);
   };
 
   const getLinkClass = (link: string) => {
@@ -21,6 +21,10 @@ const Navbar = () => {
         : "text-gray-800"
     } hover:text-gray-500 sm:py-6 dark:text-gray-500 dark:hover:text-gray-800`;
   };
+
+  useEffect(() => {
+    setActiveLink(location.pathname);
+  }, [location]);
 
   const signOut = async () => {
     // await logout();
