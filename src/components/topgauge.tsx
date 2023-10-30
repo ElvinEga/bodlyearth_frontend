@@ -46,7 +46,11 @@ const TopGauge: React.FC<GaugeChartProps> = ({
           {pillar} RISK
         </h3>
         <div className="flex justify-center items-center">
-          <MiniChart indexScore={composite_climate_risk?.toFixed(2)} />
+          <MiniChart
+            // @ts-ignore
+            indexScore={composite_climate_risk?.toFixed(2)}
+            width={130}
+          />
         </div>
         <div className="pr-5 pt-5">
           <div className="horizontal-bar-chart" id="chart">

@@ -2,19 +2,29 @@ import chartCircle from "/chart_circle.svg";
 import indicator from "/indicator.svg";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-const MiniChart = ({ indexScore }) => {
+
+interface MiniChartProps {
+  indexScore: number;
+  width: number;
+}
+const MiniChart = ({ indexScore, width }: MiniChartProps) => {
   const indicatorPosition = indexScore / 100;
   const rotationValue = `rotate(calc(${indicatorPosition} * 263deg))`;
   const translationValue = `translateY(45%)`;
+  const percentageValue = width + "px";
   return (
     <div
       id="chart"
       className="flex justify-center items-center float-left w-30"
     >
       <img
-        style={{ transform: "scaleY(-1) rotate(-90deg)" }}
+        style={{
+          transform: "scaleY(-1) rotate(-90deg)",
+          width: `${width}px`,
+        }}
         src={chartCircle}
-        className="w-full"
+        className={`${width}px`}
+        // className="w-full"
       />
       <div
         className=""
@@ -22,7 +32,7 @@ const MiniChart = ({ indexScore }) => {
           position: "absolute",
           zIndex: 30,
           margin: "auto",
-          width: "calc(11.5% - 1vw)",
+          width: `${percentageValue}`,
           aspectRatio: "1/1",
           display: "flex",
           justifyContent: "center",
