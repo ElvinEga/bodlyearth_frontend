@@ -440,7 +440,6 @@ const Home = () => {
     <MainDashboard>
       <div>
         <BreadHeader
-          home="Home"
           title={`Hello ${userData.first_name}`}
           description="Input data to calculate Risk"
         />

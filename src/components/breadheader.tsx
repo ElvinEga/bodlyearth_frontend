@@ -53,10 +53,10 @@ const BreadHeader = (props: Content) => {
             {props.home}
           </p>
         )}
-        <h1 className="block text-2xl font-bold text-gray-800 sm:text-3xl dark:text-white">
+        <h1 className="block text-2xl font-bold text-gray-800 sm:text-2xl dark:text-white">
           {props.title}
         </h1>
-        <p className="mt-2 text-lg text-gray-800 dark:text-gray-400">
+        <p className="mt-2 text text-gray-800 dark:text-gray-400">
           {props.description}
         </p>
       </header>

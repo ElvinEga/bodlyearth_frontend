@@ -90,7 +90,7 @@ const LogIn = () => {
         } else if (err.response?.status === 400) {
           setErrMsg("Missing Username or Password");
         } else if (err.response?.status === 401) {
-          setErrMsg("You have netered an Invalid Email or Password");
+          setErrMsg("You have Entered an Invalid Email or Password");
         } else {
           setErrMsg("Login Failed");
         }
