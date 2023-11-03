@@ -1,4 +1,9 @@
 export interface RiskData {
+  total_scores: TotalScores;
+  location_score_id: string;
+}
+
+export interface TotalScores {
   climate_scores: ClimateScores;
   soil_scores: SoilScores;
   water_scores: WaterScores;
