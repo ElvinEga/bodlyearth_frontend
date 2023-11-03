@@ -1,8 +1,8 @@
 import TopGauge from "./topgauge";
 import Gauge from "./Gauge";
-import { RiskData } from "../data/riskData";
+import { TotalScores } from "../data/riskData";
 interface RiskDataProps {
-  myRiskdata: RiskData;
+  myRiskdata: TotalScores;
   loanPeriod: string;
   crop: string;
   myLocation: {
