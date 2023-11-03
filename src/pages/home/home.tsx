@@ -432,6 +432,13 @@ const Home = () => {
         } else {
           setRiskData(data.total_scores);
           setClimateScores(data.climate_scores);
+          if (data.total_scores.composite_total_risk > 79) {
+            Swal.fire({
+              icon: "warning",
+              title: "High Risk Level.",
+              text: "The Area you have selected has high risk",
+            });
+          }
         }
         setIsLoading(false);
         setIsComputed(true);
