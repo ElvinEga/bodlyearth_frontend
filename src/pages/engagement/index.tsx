@@ -7,7 +7,7 @@ export default function Engagement() {
     <MainDashboard>
       <div>
         <BreadHeader
-          title="Scores History"
+          title="My History"
           description="Search, Edit and View Scores For Land Profiles"
         />
         <EngagementTable />
