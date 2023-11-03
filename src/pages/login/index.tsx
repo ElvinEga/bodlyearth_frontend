@@ -6,7 +6,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "../../api/axios";
-const LOGIN_URL = "/app/v1/auth/sign-in";
+const LOGIN_URL = "/app_auth/v1/auth/sign-in";
 // const RESETPWD_URL = "/auth/reset-password";
 
 interface FormData {
@@ -74,10 +74,14 @@ const LogIn = () => {
         //console.log(JSON.stringify(response));
         const userData = response?.data;
         const accessToken = userData?.access_token;
+        const userId = userData?.id;
+        const email = userData?.email;
 
         // Save user data to local storage
         localStorage.setItem("user_data", JSON.stringify(userData));
+        localStorage.setItem("userId", userId);
         localStorage.setItem("accesstoken", accessToken);
+        localStorage.setItem("email", email);
 
         navigate(from, { replace: true });
         const welcomeMessage = "Login successful.";

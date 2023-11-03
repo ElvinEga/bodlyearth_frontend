@@ -5,13 +5,27 @@ import axiosPrivate from "../../api/axiosPrivate";
 import { UserDetails } from "../../data/userData";
 import { useUser } from "../../context/UserProvider";
 import { useQuery } from "@tanstack/react-query";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import Swal from "sweetalert2";
+
+interface FormData {
+  old_password: string;
+  new_password: string;
+  confirm_password: string;
+  email: string;
+}
 
 export default function Profile() {
   const { userData } = useUser();
   const [user, setUser] = useState<UserDetails>();
+  const storedUserId = localStorage.getItem("userId");
+  const accessToken = localStorage.getItem("accesstoken");
+  const email = localStorage.getItem("email");
 
   useQuery(["userDetails"], () => {
-    const PROFILE_URL = `/auth/${userData.id}`;
+    const PROFILE_URL = `/app_auth/v1/auth/${storedUserId}`;
     return axiosPrivate<UserDetails>({ method: "GET", url: PROFILE_URL })
       .then((data) => {
         setUser(data);
@@ -20,6 +34,55 @@ export default function Profile() {
         console.error("API Error:", error);
       });
   });
+
+  const schema = yup.object().shape({
+    new_password: yup.string().min(8).max(20).required("Password is Required!"),
+    old_password: yup.string().min(8).max(20).required("Password is Required!"),
+    confirm_password: yup
+      .string()
+      .min(8)
+      .max(20)
+      .oneOf([yup.ref("confirm_password")], "Passwords must match"),
+  });
+  const {
+    register: changePassword,
+    handleSubmit: handleSubmit,
+    formState: { errors },
+  } = useForm<FormData>({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    resolver: yupResolver(schema) as any,
+  });
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const onSubmit = (data: any) => {
+    data.email = email;
+    console.log(data);
+    const PROFILE_URL = `/app_auth/v1/reset_password/${accessToken}`;
+    axiosPrivate({
+      method: "POST",
+      url: PROFILE_URL,
+      data: JSON.stringify(data),
+    })
+      .then((data) => {
+        // setUser(data);
+        console.log(JSON.stringify(data));
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Password Chnaged",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      })
+      .catch((error) => {
+        console.error("API Error:", error);
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Something went wrong!",
+        });
+      });
+  };
 
   return (
     <MainDashboard>
@@ -88,7 +151,7 @@ export default function Profile() {
                     />
                   </div>
                   {/* Grid */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
+                  {/* <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
                     <div>
                       <label
                         htmlFor="hs-company-hire-us-1"
@@ -118,7 +181,7 @@ export default function Profile() {
                         className="border py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
                       />
                     </div>
-                  </div>
+                  </div> */}
                   {/* End Grid */}
                 </div>
                 {/* End Grid */}
@@ -140,7 +203,7 @@ export default function Profile() {
               <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200">
                 Password information
               </h2>
-              <form>
+              <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="mt-6 grid gap-4 lg:gap-6">
                   {/* Grid */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
@@ -153,10 +216,16 @@ export default function Profile() {
                       </label>
                       <input
                         type="password"
-                        name="hs-firstname-hire-us-1"
-                        id="hs-firstname-hire-us-1"
+                        id="old_password"
                         className="border py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
+                        {...changePassword("old_password")}
                       />
+                      <p
+                        className="text-sm text-red-600 mt-2"
+                        id="hs-validation-name-error-helper"
+                      >
+                        {errors.confirm_password?.message}
+                      </p>
                     </div>
                     <div>
                       <label
@@ -167,10 +236,16 @@ export default function Profile() {
                       </label>
                       <input
                         type="password"
-                        name="hs-lastname-hire-us-1"
-                        id="hs-lastname-hire-us-1"
+                        id="new_password"
                         className="border py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
+                        {...changePassword("new_password")}
                       />
+                      <p
+                        className="text-sm text-red-600 mt-2"
+                        id="hs-validation-name-error-helper"
+                      >
+                        {errors.new_password?.message}
+                      </p>
                     </div>
                   </div>
                   {/* End Grid */}
@@ -183,10 +258,15 @@ export default function Profile() {
                     </label>
                     <input
                       type="password"
-                      name="hs-work-email-hire-us-1"
-                      id="hs-work-email-hire-us-1"
                       className="border py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
+                      {...changePassword("confirm_password")}
                     />
+                    <p
+                      className="text-sm text-red-600 mt-2"
+                      id="hs-validation-name-error-helper"
+                    >
+                      {errors.confirm_password?.message}
+                    </p>
                   </div>
                 </div>
                 {/* End Grid */}
