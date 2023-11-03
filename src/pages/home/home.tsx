@@ -233,6 +233,18 @@ const Home = () => {
       longitude: location.lng,
       latitude: location.lat,
     });
+    isInProtectedArea([location.lng, location.lat]).then((result) => {
+      if (result === true) {
+        setIsLocationProtected(true);
+        Swal.fire({
+          icon: "warning",
+          title: "You have selected a protected area.",
+          text: "Select an area that is not protected to proceed",
+        });
+      } else {
+        setIsLocationProtected(false);
+      }
+    });
   };
 
   const handleSelect = (selected: Option | null) => {
@@ -347,6 +359,7 @@ const Home = () => {
         setClimateScores(initialClimateScores);
         setIsComputed(false);
         Swal.fire("Saved!", "", "success");
+        window.location.reload();
       } else if (result.isDenied) {
         setSelectedCrop("");
         setFormValues(initialFormValues);
@@ -354,6 +367,7 @@ const Home = () => {
         setClimateScores(initialClimateScores);
         setIsComputed(false);
         Swal.fire("Changes are not saved", "", "info");
+        window.location.reload();
       }
     });
   };
@@ -395,7 +409,7 @@ const Home = () => {
 
     // alert(formValues.latitude);
 
-    const RISK_URL = `/risk/v1/risk_score/location_scores/get_score`;
+    const RISK_URL = `/risk/v1/risk_score/get_score`;
     setIsLoading(true);
     await axiosPrivate<RiskData>({
       method: "POST",
@@ -416,8 +430,15 @@ const Home = () => {
             text: "Error retriving data From Area",
           });
         } else {
-          setRiskData(data);
+          setRiskData(data.total_scores);
           setClimateScores(data.climate_scores);
+          if (data.total_scores.composite_total_risk > 79) {
+            Swal.fire({
+              icon: "warning",
+              title: "High Risk Level.",
+              text: "The Area you have selected has high risk",
+            });
+          }
         }
         setIsLoading(false);
         setIsComputed(true);
@@ -609,7 +630,7 @@ const Home = () => {
                   <div id="printablediv" className="p-4 overflow-y-auto">
                     <PdfComponent
                       myRiskdata={riskData}
-                      loanPeriod={formValues.startDate}
+                      loanPeriod={toMonths}
                       crop={formValues.crop}
                       myLocation={selectedLocation}
                     />

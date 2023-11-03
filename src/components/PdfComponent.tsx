@@ -1,8 +1,8 @@
 import TopGauge from "./topgauge";
 import Gauge from "./Gauge";
-import { RiskData } from "../data/riskData";
+import { TotalScores } from "../data/riskData";
 interface RiskDataProps {
-  myRiskdata: RiskData;
+  myRiskdata: TotalScores;
   loanPeriod: string;
   crop: string;
   myLocation: {
@@ -156,7 +156,7 @@ const PdfComponent = ({
                   <li className="inline-flex items-center gap-x-2 py-3 px-4 text-sm border text-gray-800 -mt-px first:rounded-t-lg first:mt-0 last:rounded-b-lg dark:border-gray-700 dark:text-gray-200">
                     <div className="flex items-center justify-between w-full">
                       <span>Loan Period</span>
-                      <span>{loanPeriod}</span>
+                      <span>{loanPeriod} Months</span>
                     </div>
                   </li>
                   <li className="inline-flex items-center gap-x-2 py-3 px-4 text-sm border text-gray-800 -mt-px first:rounded-t-lg first:mt-0 last:rounded-b-lg dark:border-gray-700 dark:text-gray-200">
