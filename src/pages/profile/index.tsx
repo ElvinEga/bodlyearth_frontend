@@ -3,7 +3,6 @@ import BreadHeader from "../../components/breadheader";
 import MainDashboard from "../../components/dashboards/main_dashboard";
 import axiosPrivate from "../../api/axiosPrivate";
 import { UserDetails } from "../../data/userData";
-import { useUser } from "../../context/UserProvider";
 import { useQuery } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -18,7 +17,6 @@ interface FormData {
 }
 
 export default function Profile() {
-  const { userData } = useUser();
   const [user, setUser] = useState<UserDetails>();
   const storedUserId = localStorage.getItem("userId");
   const accessToken = localStorage.getItem("accesstoken");
