@@ -630,7 +630,7 @@ const Home = () => {
                   <div id="printablediv" className="p-4 overflow-y-auto">
                     <PdfComponent
                       myRiskdata={riskData}
-                      loanPeriod={formValues.startDate}
+                      loanPeriod={toMonths}
                       crop={formValues.crop}
                       myLocation={selectedLocation}
                     />
