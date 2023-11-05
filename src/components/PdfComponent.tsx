@@ -10,7 +10,7 @@ interface RiskDataProps {
     lng: number;
   };
 }
-const climate_indices = ["Drought", "Rainfall", "Temperature"];
+const climate_indices = ["Drought", "Rainfall", "Aridity"];
 const water_indices = [
   "Groundwater Availability",
   "Water Erosion",

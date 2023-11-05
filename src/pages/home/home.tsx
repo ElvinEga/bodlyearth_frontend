@@ -130,7 +130,7 @@ const Home = () => {
     composite_climate_risk: 0,
   };
 
-  const climate_indices = ["Drought", "Rainfall", "Temperature"];
+  const climate_indices = ["Drought", "Rainfall", "Aridity"];
 
   const water_indices = [
     "Groundwater Availability",
@@ -277,8 +277,8 @@ const Home = () => {
       if (isLocationProtected == true) {
         Swal.fire({
           icon: "error",
-          title: "You have selected a Protected Area.",
-          text: "Select an area that is not protected to proceed",
+          title: "STOP.",
+          text: "You have selected a Protected Area",
         });
       } else {
         Swal.fire({
@@ -318,8 +318,8 @@ const Home = () => {
         setIsLocationProtected(true);
         Swal.fire({
           icon: "warning",
-          title: "You have selected a protected area.",
-          text: "Select an area that is not protected to proceed",
+          title: "STOP.",
+          text: "You have selected a Protected Area",
         });
       } else {
         setIsLocationProtected(false);
@@ -435,8 +435,8 @@ const Home = () => {
           if (data.total_scores.composite_total_risk > 79) {
             Swal.fire({
               icon: "warning",
-              title: "High Risk Level.",
-              text: "The Area you have selected has high risk",
+              title: "The risk in the selected area is too high.",
+              text: "It is recommended not to proceed with this project.",
             });
           }
         }
