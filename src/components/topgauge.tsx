@@ -25,9 +25,27 @@ const TopGauge: React.FC<GaugeChartProps> = ({
 }) => {
   // const temperatureScore = composite_climate_risk;
 
+  // Check and modify rainfall_risk and temperature_risk if they are 0
+
+  // const modifiedRainfallRisk =
+  //   rainfall_risk && rainfall_risk < 10 ? 10 : rainfall_risk;
+  // const modifiedTemperatureRisk =
+  //   temperature_risk && temperature_risk < 10 ? 10 : temperature_risk;
+  // const modifiedDroughtRisk =
+  //   drought_risk && drought_risk < 10 ? 10 : drought_risk;
+
+  const modifiedRainfallRisk = rainfall_risk === 0 ? 12 : rainfall_risk;
+  const modifiedTemperatureRisk =
+    temperature_risk === 0 ? 12 : temperature_risk;
+  const modifiedDroughtRisk = temperature_risk === 0 ? 12 : drought_risk;
+
   const initialSeries = [
     {
-      data: [rainfall_risk, temperature_risk, drought_risk], // Replace with your data values
+      data: [
+        modifiedRainfallRisk,
+        modifiedTemperatureRisk,
+        modifiedDroughtRisk,
+      ], // Replace with your data values
     },
   ];
 

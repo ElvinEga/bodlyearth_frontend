@@ -589,19 +589,12 @@ const Home = () => {
                     <div>
                       {/* Col */}
                       <div className="inline-flex gap-x-2 mr-5">
-                        <a
-                          className="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800"
-                          href="#"
-                        >
-                          <i className="bi bi-download"></i>
-                          PDF
-                        </a>
                         <button
                           className="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
                           onClick={handlePrint}
                         >
                           <i className="bi bi-printer-fill"></i>
-                          Print
+                          Print/Save PDF
                         </button>
                       </div>
                       {/* Col */}
