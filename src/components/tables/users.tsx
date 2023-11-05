@@ -1,4 +1,8 @@
-import { requestUsersData } from "../../data/requestData";
+import { useState } from "react";
+import axiosPrivate from "../../api/axiosPrivate";
+import { useQuery } from "@tanstack/react-query";
+import { UserListData } from "../../data/userData";
+import Swal from "sweetalert2";
 
 function getStatusClassName(status: string) {
   let className = "";
@@ -17,6 +21,23 @@ function getStatusClassName(status: string) {
   return className;
 }
 export default function UsersTable() {
+  const [userList, setUser] = useState<UserListData>();
+
+  useQuery(["userDetails"], () => {
+    const URL = `/back_office/v1/back_office_router/get_all_users`;
+    return axiosPrivate<UserListData>({ method: "GET", url: URL })
+      .then((data) => {
+        setUser(data);
+      })
+      .catch((error) => {
+        Swal.fire({
+          icon: "error",
+          title: "Not Authorized.",
+          text: "You are not Authorized to access this Section",
+        });
+        console.error("API Error:", error);
+      });
+  });
   return (
     <>
       {/* Card */}
@@ -344,14 +365,14 @@ export default function UsersTable() {
                     <th scope="col" className="px-6 py-3 text-left">
                       <div className="flex items-center gap-x-2">
                         <span className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
-                          Role
+                          Username
                         </span>
                       </div>
                     </th>
                     <th scope="col" className="px-6 py-3 text-left">
                       <div className="flex items-center gap-x-2">
                         <span className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
-                          Type
+                          Role
                         </span>
                       </div>
                     </th>
@@ -380,7 +401,7 @@ export default function UsersTable() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                  {requestUsersData.map((data) => (
+                  {userList?.users.map((data) => (
                     <tr>
                       <td className="h-px w-px whitespace-nowrap">
                         <div className="pl-6 py-3">
@@ -402,12 +423,12 @@ export default function UsersTable() {
                           <div className="flex items-center gap-x-3">
                             <span className="inline-flex items-center justify-center h-[2.375rem] w-[2.375rem] rounded-full bg-blue-300 dark:bg-blue-700">
                               <span className="font-medium text-blue-800 leading-none dark:text-blue-200">
-                                {data.name.charAt(0)}
+                                {data.username.charAt(0).toUpperCase()}
                               </span>
                             </span>
                             <div className="grow">
                               <span className="block text-sm font-semibold text-gray-800 dark:text-gray-200">
-                                {data.name}
+                                {data.first_name}
                               </span>
                               <span className="block text-sm text-gray-500">
                                 {data.email}
@@ -419,41 +440,37 @@ export default function UsersTable() {
                       <td className="h-px w-px whitespace-nowrap">
                         <div className="px-6 py-3">
                           <span className="block text-sm font-semibold text-gray-800 dark:text-gray-200">
-                            {data.role}
+                            {data.username}
                           </span>
-                          <span className="inline-flex items-center gap-1.5 py-1 px-2 rounded-md text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200">
+                          {/* <span className="inline-flex items-center gap-1.5 py-1 px-2 rounded-md text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200">
                             {data.department}
-                          </span>
+                          </span> */}
                         </div>
                       </td>
 
                       <td className="h-px w-px whitespace-nowrap">
                         <div className="px-6 py-2">
                           <span className="text-sm text-gray-600 dark:text-gray-400">
-                            {data.type}
+                            {data.role}
                           </span>
                         </div>
                       </td>
 
                       <td className="h-px w-px whitespace-nowrap">
                         <div className="px-6 py-3">
-                          <span className={getStatusClassName(data.status)}>
-                            {data.status}
+                          <span className={getStatusClassName("Active")}>
+                            Active
                           </span>
                         </div>
                       </td>
                       <td className="h-px w-px whitespace-nowrap">
                         <div className="px-6 py-3">
-                          <span className="text-sm text-gray-500">
-                            {data.login}
-                          </span>
+                          <span className="text-sm text-gray-500">login</span>
                         </div>
                       </td>
                       <td className="h-px w-px whitespace-nowrap">
                         <div className="px-6 py-3">
-                          <span className="text-sm text-gray-500">
-                            {data.created}
-                          </span>
+                          <span className="text-sm text-gray-500">2023</span>
                         </div>
                       </td>
                       <td className="h-px w-px whitespace-nowrap">

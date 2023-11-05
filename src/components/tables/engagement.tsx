@@ -1,4 +1,7 @@
-import { requestData } from "../../data/requestData";
+import { useState } from "react";
+import { ScoreData } from "../../data/scoreData";
+import axiosPrivate from "../../api/axiosPrivate";
+import { useQuery } from "@tanstack/react-query";
 
 function getStatusClassName(status: string) {
   let className = "";
@@ -17,6 +20,20 @@ function getStatusClassName(status: string) {
   return className;
 }
 export default function EngagementTable() {
+  const storedUserId = localStorage.getItem("userId");
+  const [scoreList, setScore] = useState<ScoreData>();
+
+  useQuery(["userDetails"], () => {
+    const URL = `/risk/v1/risk_score/location_scores/${storedUserId}/scores`;
+    return axiosPrivate<ScoreData>({ method: "GET", url: URL })
+      .then((data) => {
+        setScore(data);
+      })
+      .catch((error) => {
+        console.error("API Error:", error);
+      });
+  });
+
   const handlePrint = () => {
     const printContents = document.getElementById("printablediv")?.innerHTML;
     const originalContents = document.body.innerHTML;
@@ -247,7 +264,7 @@ export default function EngagementTable() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                  {requestData.map((data) => (
+                  {scoreList?.scores.map((data) => (
                     <tr>
                       <td className="h-px w-px whitespace-nowrap">
                         <div className="pl-6 py-3">
@@ -269,16 +286,16 @@ export default function EngagementTable() {
                           <div className="flex items-center gap-x-3">
                             <span className="inline-flex items-center justify-center h-[2.375rem] w-[2.375rem] rounded-full bg-blue-300 dark:bg-blue-700">
                               <span className="font-medium text-blue-800 leading-none dark:text-blue-200">
-                                {data.name.charAt(0)}
+                                {data.score_id.charAt(0)}
                               </span>
                             </span>
                             <div className="grow">
                               <span className="block text-sm font-semibold text-gray-800 dark:text-gray-200">
-                                {data.name}
+                                {data.score_id}
                               </span>
-                              <span className="block text-sm text-gray-500">
-                                {data.account}
-                              </span>
+                              {/* <span className="block text-sm text-gray-500">
+                                account
+                              </span> */}
                             </div>
                           </div>
                         </div>
@@ -286,10 +303,10 @@ export default function EngagementTable() {
                       <td className="h-px w-px whitespace-nowrap">
                         <div className="px-6 py-3">
                           <span className="block text-sm font-semibold text-gray-800 dark:text-gray-200">
-                            {data.location}
+                            LatLng
                           </span>
                           <span className="block text-sm text-gray-500">
-                            {data.address}
+                            address
                           </span>
                         </div>
                       </td>
@@ -298,14 +315,16 @@ export default function EngagementTable() {
                         <div className="px-6 py-3">
                           <div className="flex items-center gap-x-3">
                             <span className="text-xs text-gray-500">
-                              {data.score}/100
+                              {data.composite_total_risk}/100
                             </span>
                             <div className="flex w-full h-1.5 bg-gray-200 rounded-full overflow-hidden dark:bg-gray-700">
                               <div
-                                className={getColor(data.score)}
+                                className={getColor(data.composite_total_risk)}
                                 role="progressbar"
-                                style={{ width: `${data.score}%` }}
-                                aria-valuenow={data.score}
+                                style={{
+                                  width: `${data.composite_total_risk}%`,
+                                }}
+                                aria-valuenow={data.composite_total_risk}
                                 aria-valuemin={0}
                                 aria-valuemax={100}
                               />
@@ -316,26 +335,24 @@ export default function EngagementTable() {
 
                       <td className="h-px w-px whitespace-nowrap">
                         <div className="px-6 py-3">
-                          <span className={getStatusClassName(data.status)}>
-                            {data.status}
+                          <span className={getStatusClassName("Accepted")}>
+                            Saved
                           </span>
                         </div>
                       </td>
                       <td className="h-px w-px whitespace-nowrap">
                         <div className="px-6 py-3">
-                          <span className="text-sm text-gray-500">
-                            {data.created}
-                          </span>
+                          <span className="text-sm text-gray-500">2023</span>
                         </div>
                       </td>
                       <td className="h-px w-px whitespace-nowrap">
                         <div className="px-6 py-1.5">
-                          <a data-hs-overlay="#hs-ai-invoice-modal">
+                          {/* <a data-hs-overlay="#hs-ai-invoice-modal">
                             <div className="py-1 px-2 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white">
                               <i className="bi bi-pen"></i>
                               Edit
                             </div>
-                          </a>
+                          </a> */}
                           <a
                             className="ml-3"
                             href="javascript:;"
@@ -368,19 +385,12 @@ export default function EngagementTable() {
                                   <div>
                                     {/* Col */}
                                     <div className="inline-flex gap-x-2 mr-5">
-                                      <a
-                                        className="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800"
-                                        href="#"
-                                      >
-                                        <i className="bi bi-download"></i>
-                                        PDF
-                                      </a>
                                       <button
                                         className="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
                                         onClick={handlePrint}
                                       >
                                         <i className="bi bi-printer-fill"></i>
-                                        Print
+                                        Print/Save PDF
                                       </button>
                                     </div>
                                     {/* Col */}

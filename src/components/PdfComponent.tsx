@@ -1,6 +1,7 @@
 import TopGauge from "./topgauge";
 import Gauge from "./Gauge";
 import { TotalScores } from "../data/riskData";
+import MapWithMarker from "./MiniMap";
 interface RiskDataProps {
   myRiskdata: TotalScores;
   loanPeriod: string;
@@ -9,8 +10,9 @@ interface RiskDataProps {
     lat: number;
     lng: number;
   };
+  mapUrl: string;
 }
-const climate_indices = ["Drought", "Rainfall", "Temperature"];
+const climate_indices = ["Drought", "Rainfall", "Aridity"];
 const water_indices = [
   "Groundwater Availability",
   "Water Erosion",
@@ -22,7 +24,8 @@ const PdfComponent = ({
   loanPeriod,
   crop,
   myLocation,
-}: RiskDataProps) => {
+}: // mapUrl,
+RiskDataProps) => {
   return (
     <>
       {/* Invoice */}
@@ -136,10 +139,16 @@ const PdfComponent = ({
             <h3 className="mb-2 font-semibold text-gray-800 dark:group-hover:text-gray-400 dark:text-gray-200">
               Map
             </h3>
-            <img
-              className="w-full object-cover rounded-xl"
-              src="/img/mapview.jpg"
+            {/* <img
+              className="w-full object-none h-full  rounded-xl"
+              src={mapUrl}
               alt="Image Description"
+            /> */}
+            <MapWithMarker
+              markerPosition={[
+                myLocation?.lat | -0.3615164,
+                myLocation?.lng | 35.3084548,
+              ]}
             />
           </div>
           <div className="flex flex-col  items-center ">
@@ -181,7 +190,7 @@ const PdfComponent = ({
           <TopGauge
             pillar="CLIMATE"
             rainfall_risk={myRiskdata?.climate_scores.rainfall_risk}
-            temperature_risk={myRiskdata?.climate_scores.temperature_risk}
+            temperature_risk={myRiskdata?.climate_scores.aridity_risk}
             drought_risk={myRiskdata?.climate_scores.drought_risk}
             composite_climate_risk={
               myRiskdata?.climate_scores.composite_climate_risk

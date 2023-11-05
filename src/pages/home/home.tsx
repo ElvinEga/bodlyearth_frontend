@@ -2,7 +2,7 @@
 // @ts-nocheck
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Gauge from "../../components/Gauge";
 import PdfComponent from "../../components/PdfComponent";
 import BreadHeader from "../../components/breadheader";
@@ -17,6 +17,7 @@ import { ClimateScores, RiskData } from "../../data/riskData";
 import { isInProtectedArea } from "../../components/utils";
 import Swal from "sweetalert2";
 import ButtonLoading from "../../components/ButtonLoading";
+import { toJpeg } from "html-to-image";
 
 export interface MapCrop {
   isMarkerPlaced: boolean;
@@ -130,7 +131,7 @@ const Home = () => {
     composite_climate_risk: 0,
   };
 
-  const climate_indices = ["Drought", "Rainfall", "Temperature"];
+  const climate_indices = ["Drought", "Rainfall", "Aridity"];
 
   const water_indices = [
     "Groundwater Availability",
@@ -152,6 +153,8 @@ const Home = () => {
   const [selectedCrop, setSelectedCrop] = useState("");
   const [selectedOption, setSelectedOption] = useState<Option | null>(null);
   const [formValues, setFormValues] = useState({});
+  const elementRef = useRef(null);
+  const [mapUrl, setMapUrl] = useState("");
 
   const [mapCrop, setMapCrop] = useState<MapCrop>({
     isMarkerPlaced: true,
@@ -219,6 +222,21 @@ const Home = () => {
     });
   };
 
+  const htmlToImageConvert = () => {
+    toJpeg(elementRef.current, { cacheBust: false })
+      .then((dataUrl) => {
+        // const link = document.createElement("a");
+        // link.download = "my-image-name.png";
+        // link.href = dataUrl;
+        // link.click();
+        setMapUrl(dataUrl);
+        console.log(dataUrl);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   const [selectedLocation, setSelectedLocation] = useState<{
     lat: number;
     lng: number;
@@ -277,8 +295,8 @@ const Home = () => {
       if (isLocationProtected == true) {
         Swal.fire({
           icon: "error",
-          title: "You have selected a Protected Area.",
-          text: "Select an area that is not protected to proceed",
+          title: "STOP.",
+          text: "You have selected a Protected Area",
         });
       } else {
         Swal.fire({
@@ -318,8 +336,8 @@ const Home = () => {
         setIsLocationProtected(true);
         Swal.fire({
           icon: "warning",
-          title: "You have selected a protected area.",
-          text: "Select an area that is not protected to proceed",
+          title: "STOP.",
+          text: "You have selected a Protected Area",
         });
       } else {
         setIsLocationProtected(false);
@@ -390,6 +408,7 @@ const Home = () => {
   };
 
   const onSubmit = async () => {
+    // htmlToImageConvert();
     if (!isFormValid()) {
       return;
     }
@@ -435,8 +454,8 @@ const Home = () => {
           if (data.total_scores.composite_total_risk > 79) {
             Swal.fire({
               icon: "warning",
-              title: "High Risk Level.",
-              text: "The Area you have selected has high risk",
+              title: "The risk in the selected area is too high.",
+              text: "It is recommended not to proceed with this project.",
             });
           }
         }
@@ -589,19 +608,12 @@ const Home = () => {
                     <div>
                       {/* Col */}
                       <div className="inline-flex gap-x-2 mr-5">
-                        <a
-                          className="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800"
-                          href="#"
-                        >
-                          <i className="bi bi-download"></i>
-                          PDF
-                        </a>
                         <button
                           className="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
                           onClick={handlePrint}
                         >
                           <i className="bi bi-printer-fill"></i>
-                          Print
+                          Print/Save PDF
                         </button>
                       </div>
                       {/* Col */}
@@ -633,6 +645,7 @@ const Home = () => {
                       loanPeriod={toMonths}
                       crop={formValues.crop}
                       myLocation={selectedLocation}
+                      mapUrl={mapUrl}
                     />
                   </div>
                 </div>
@@ -640,7 +653,7 @@ const Home = () => {
             </div>
           </div>
           <div className="bg-white border border-gray-200 shadow-sm rounded-xl dark:bg-slate-900 dark:border-gray-700 dark:shadow-slate-700/[.7] bg-card col-span-3">
-            <div>
+            <div ref={elementRef}>
               <MapComponent
                 mapLocation={selectedLocation}
                 onMarkerPlaced={handleMarkerPlaced}
@@ -682,7 +695,7 @@ const Home = () => {
             pillar="CLIMATE"
             rainfall_risk={riskData?.climate_scores.drought_risk}
             temperature_risk={riskData?.climate_scores.rainfall_risk}
-            drought_risk={riskData?.climate_scores.temperature_risk}
+            drought_risk={riskData?.climate_scores.aridity_risk}
             composite_climate_risk={
               riskData?.climate_scores.composite_climate_risk
             }

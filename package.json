@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.1",
+    "@hugocxl/react-to-image": "^0.0.8",
     "@react-google-maps/api": "^2.19.2",
     "@tanstack/react-query": "^4.36.1",
     "@turf/nearest-point-to-line": "^6.5.0",
@@ -34,6 +35,7 @@
     "react-flagkit": "^2.0.4",
     "react-gauge-component": "^1.1.20",
     "react-hook-form": "^7.46.2",
+    "react-international-phone": "^4.0.3",
     "react-leaflet": "^4.2.1",
     "react-leaflet-draw": "^0.20.4",
     "react-router-dom": "^6.14.2",
