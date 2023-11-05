@@ -2,7 +2,7 @@
 // @ts-nocheck
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Gauge from "../../components/Gauge";
 import PdfComponent from "../../components/PdfComponent";
 import BreadHeader from "../../components/breadheader";
@@ -17,6 +17,7 @@ import { ClimateScores, RiskData } from "../../data/riskData";
 import { isInProtectedArea } from "../../components/utils";
 import Swal from "sweetalert2";
 import ButtonLoading from "../../components/ButtonLoading";
+import { toJpeg } from "html-to-image";
 
 export interface MapCrop {
   isMarkerPlaced: boolean;
@@ -152,6 +153,8 @@ const Home = () => {
   const [selectedCrop, setSelectedCrop] = useState("");
   const [selectedOption, setSelectedOption] = useState<Option | null>(null);
   const [formValues, setFormValues] = useState({});
+  const elementRef = useRef(null);
+  const [mapUrl, setMapUrl] = useState("");
 
   const [mapCrop, setMapCrop] = useState<MapCrop>({
     isMarkerPlaced: true,
@@ -217,6 +220,21 @@ const Home = () => {
       ...formValues,
       endDate: toDate,
     });
+  };
+
+  const htmlToImageConvert = () => {
+    toJpeg(elementRef.current, { cacheBust: false })
+      .then((dataUrl) => {
+        // const link = document.createElement("a");
+        // link.download = "my-image-name.png";
+        // link.href = dataUrl;
+        // link.click();
+        setMapUrl(dataUrl);
+        console.log(dataUrl);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const [selectedLocation, setSelectedLocation] = useState<{
@@ -390,6 +408,7 @@ const Home = () => {
   };
 
   const onSubmit = async () => {
+    // htmlToImageConvert();
     if (!isFormValid()) {
       return;
     }
@@ -626,6 +645,7 @@ const Home = () => {
                       loanPeriod={toMonths}
                       crop={formValues.crop}
                       myLocation={selectedLocation}
+                      mapUrl={mapUrl}
                     />
                   </div>
                 </div>
@@ -633,7 +653,7 @@ const Home = () => {
             </div>
           </div>
           <div className="bg-white border border-gray-200 shadow-sm rounded-xl dark:bg-slate-900 dark:border-gray-700 dark:shadow-slate-700/[.7] bg-card col-span-3">
-            <div>
+            <div ref={elementRef}>
               <MapComponent
                 mapLocation={selectedLocation}
                 onMarkerPlaced={handleMarkerPlaced}
