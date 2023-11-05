@@ -37,7 +37,7 @@ const TopGauge: React.FC<GaugeChartProps> = ({
   const modifiedRainfallRisk = rainfall_risk === 0 ? 12 : rainfall_risk;
   const modifiedTemperatureRisk =
     temperature_risk === 0 ? 12 : temperature_risk;
-  const modifiedDroughtRisk = temperature_risk === 0 ? 12 : drought_risk;
+  const modifiedDroughtRisk = drought_risk === 0 ? 12 : drought_risk;
 
   const initialSeries = [
     {

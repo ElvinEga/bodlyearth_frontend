@@ -14,16 +14,16 @@ export interface TotalScores {
 
 export interface ClimateScores {
   rainfall_score: number;
-  temperature_score: number;
+  aridity_score: number;
   drought_score: number;
   composite_climate_score: number;
   rainfall_risk: number;
-  temperature_risk: number;
+  aridity_risk: number;
   drought_risk: number;
   composite_climate_risk: number;
   drought_raw_data: DroughtRawData;
   rainfall_raw_data: RainfallRawData;
-  temperature_raw_data: TemperatureRawData;
+  aridity_raw_data: number;
 }
 
 export interface DroughtRawData {

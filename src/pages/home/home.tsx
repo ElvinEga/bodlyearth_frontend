@@ -695,7 +695,7 @@ const Home = () => {
             pillar="CLIMATE"
             rainfall_risk={riskData?.climate_scores.drought_risk}
             temperature_risk={riskData?.climate_scores.rainfall_risk}
-            drought_risk={riskData?.climate_scores.temperature_risk}
+            drought_risk={riskData?.climate_scores.aridity_risk}
             composite_climate_risk={
               riskData?.climate_scores.composite_climate_risk
             }
