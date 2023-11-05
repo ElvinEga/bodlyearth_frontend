@@ -1,6 +1,85 @@
 import MainDashboard from "../../components/dashboards/main_dashboard";
+import { useState } from "react";
+import axios from "axios";
+import Swal from "sweetalert2";
+import { PhoneInput } from "react-international-phone";
+import "react-international-phone/style.css";
+import styles from "../../css/phoneInput.module.css";
 
 export default function HelpPage() {
+  const [formData, setFormData] = useState({
+    secret: "A;eJsfEgF+A'*e{D&Lx_l+L5ME#/uYWe",
+    to_email: "info@adapta.earth",
+    email: "",
+    subject: "",
+    message: "",
+    html_message: "",
+    name: "",
+    phone: "",
+    companyName: "",
+    companyWebsite: "",
+  });
+
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const [phone] = useState("");
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (
+      !formData.name ||
+      !formData.message ||
+      !formData.companyName ||
+      !formData.companyWebsite
+    ) {
+      setError(
+        "Name, email, phone number, company name, company website, and message are required fields."
+      );
+      return;
+    }
+    const subject = `Contact us from ${formData.name} from ${formData.companyName}`;
+
+    try {
+      setFormData((prevData) => ({
+        ...prevData,
+        subject: subject,
+      }));
+
+      const response = await axios.post(
+        "https://api-dev.adaptacs.com/send_email/v1/send_email/frontend_send_email",
+        formData
+      );
+      const responseData = response.data;
+
+      if (responseData.success) {
+        setSuccess(responseData.data);
+      } else {
+        setError(responseData.message);
+      }
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: responseData.message,
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    } catch (error) {
+      setError("An error occurred while submitting the form.");
+      console.error("Error submitting form:", error);
+    }
+  };
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
   return (
     <MainDashboard>
       <div>
@@ -22,122 +101,159 @@ export default function HelpPage() {
                   <h2 className="mb-8 text-xl font-semibold text-gray-800 dark:text-gray-200">
                     Fill in the form
                   </h2>
-                  <form>
+                  <form onSubmit={handleSubmit}>
                     <div className="grid gap-4">
                       {/* Grid */}
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div>
                         <div>
-                          <label
-                            htmlFor="hs-firstname-contacts-1"
-                            className="sr-only"
-                          >
-                            First Name
+                          <label htmlFor="name" className="sr-only">
+                            Name
                           </label>
                           <input
                             type="text"
-                            name="hs-firstname-contacts-1"
-                            id="hs-firstname-contacts-1"
+                            name="name"
                             className="border py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
-                            placeholder="First Name"
-                          />
-                        </div>
-                        <div>
-                          <label
-                            htmlFor="hs-lastname-contacts-1"
-                            className="sr-only"
-                          >
-                            Last Name
-                          </label>
-                          <input
-                            type="text"
-                            name="hs-lastname-contacts-1"
-                            id="hs-lastname-contacts-1"
-                            className="border py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
-                            placeholder="Last Name"
+                            placeholder="Name"
+                            id="name"
+                            onChange={handleChange}
                           />
                         </div>
                       </div>
                       {/* End Grid */}
                       <div>
-                        <label
-                          htmlFor="hs-email-contacts-1"
-                          className="sr-only"
-                        >
+                        <label htmlFor="email" className="sr-only">
                           Email
                         </label>
                         <input
                           type="email"
-                          name="hs-email-contacts-1"
-                          id="hs-email-contacts-1"
+                          name="email"
                           autoComplete="email"
                           className="border py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
                           placeholder="Email"
+                          id="email"
+                          onChange={handleChange}
                         />
                       </div>
-                      <div>
-                        <label htmlFor="hs-phone-number-1" className="sr-only">
+                      <div className={styles["my-phone-input"]}>
+                        <label htmlFor="phone" className="sr-only">
                           Phone Number
                         </label>
-                        <input
-                          type="text"
-                          name="hs-phone-number-1"
-                          id="hs-phone-number-1"
-                          className="border py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
-                          placeholder="Phone Number"
+                        <PhoneInput
+                          className="w-full"
+                          defaultCountry="ke"
+                          inputClassName="w-full"
+                          name="phone"
+                          value={phone}
+                          // onChange={(phone) => handleChange}
                         />
                       </div>
                       {/* Grid */}
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                          <label
-                            htmlFor="hs-firstname-contacts-1"
-                            className="sr-only"
-                          >
+                          <label htmlFor="companyName" className="sr-only">
                             Company Name
                           </label>
                           <input
                             type="text"
-                            name="hs-firstname-contacts-1"
-                            id="hs-firstname-contacts-1"
+                            name="companyName"
                             className="border py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
-                            placeholder="First Name"
+                            placeholder="Company Name"
+                            id="companyName"
+                            onChange={handleChange}
                           />
                         </div>
                         <div>
-                          <label
-                            htmlFor="hs-lastname-contacts-1"
-                            className="sr-only"
-                          >
+                          <label htmlFor="companyWebsite" className="sr-only">
                             Company Website
                           </label>
                           <input
-                            type="text"
-                            name="hs-lastname-contacts-1"
-                            id="hs-lastname-contacts-1"
+                            type="url"
+                            name="companyWebsite"
                             className="border py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
-                            placeholder="Last Name"
+                            placeholder="Company Website"
+                            id="website"
+                            onChange={handleChange}
                           />
                         </div>
                       </div>
                       {/* End Grid */}
                       <div>
-                        <label
-                          htmlFor="hs-about-contacts-1"
-                          className="sr-only"
-                        >
+                        <label htmlFor="message" className="sr-only">
                           Message
                         </label>
                         <textarea
-                          id="hs-about-contacts-1"
-                          name="hs-about-contacts-1"
+                          name="message"
                           rows={4}
                           className="border py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
                           placeholder="Details"
-                          defaultValue={""}
+                          id="message"
+                          onChange={handleChange}
                         />
                       </div>
                     </div>
                     {/* End Grid */}
+                    {success && (
+                      <div
+                        className="max-w-xs bg-green-100 border border-green-200 text-sm text-green-500 rounded-md shadow-md"
+                        role="alert"
+                      >
+                        <div className="flex p-4">
+                          {success}
+                          <div className="ml-auto">
+                            <button
+                              type="button"
+                              className="inline-flex flex-shrink-0 justify-center items-center h-4 w-4 rounded-md text-green-400 hover:text-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-green-100 focus:ring-green-400 transition-all text-sm"
+                            >
+                              <span className="sr-only">Close</span>
+                              <svg
+                                className="w-3.5 h-3.5"
+                                width={16}
+                                height={16}
+                                viewBox="0 0 16 16"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path
+                                  d="M0.92524 0.687069C1.126 0.486219 1.39823 0.373377 1.68209 0.373377C1.96597 0.373377 2.2382 0.486219 2.43894 0.687069L8.10514 6.35813L13.7714 0.687069C13.8701 0.584748 13.9882 0.503105 14.1188 0.446962C14.2494 0.39082 14.3899 0.361248 14.5321 0.360026C14.6742 0.358783 14.8151 0.38589 14.9468 0.439762C15.0782 0.493633 15.1977 0.573197 15.2983 0.673783C15.3987 0.774389 15.4784 0.894026 15.5321 1.02568C15.5859 1.15736 15.6131 1.29845 15.6118 1.44071C15.6105 1.58297 15.5809 1.72357 15.5248 1.85428C15.4688 1.98499 15.3872 2.10324 15.2851 2.20206L9.61883 7.87312L15.2851 13.5441C15.4801 13.7462 15.588 14.0168 15.5854 14.2977C15.5831 14.5787 15.4705 14.8474 15.272 15.046C15.0735 15.2449 14.805 15.3574 14.5244 15.3599C14.2437 15.3623 13.9733 15.2543 13.7714 15.0591L8.10514 9.38812L2.43894 15.0591C2.23704 15.2543 1.96663 15.3623 1.68594 15.3599C1.40526 15.3574 1.13677 15.2449 0.938279 15.046C0.739807 14.8474 0.627232 14.5787 0.624791 14.2977C0.62235 14.0168 0.730236 13.7462 0.92524 13.5441L6.59144 7.87312L0.92524 2.20206C0.724562 2.00115 0.611816 1.72867 0.611816 1.44457C0.611816 1.16047 0.724562 0.887983 0.92524 0.687069Z"
+                                  fill="currentColor"
+                                />
+                              </svg>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                    {error && (
+                      <div
+                        className="max-w-xs bg-red-100 border border-red-200 text-sm text-red-500 rounded-md shadow-md"
+                        role="alert"
+                      >
+                        <div className="flex p-4">
+                          {error}
+                          <div className="ml-auto">
+                            <button
+                              type="button"
+                              className="inline-flex flex-shrink-0 justify-center items-center h-4 w-4 rounded-md text-red-400 hover:text-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-red-100 focus:ring-red-400 transition-all text-sm"
+                            >
+                              <span className="sr-only">Close</span>
+                              <svg
+                                className="w-3.5 h-3.5"
+                                width={16}
+                                height={16}
+                                viewBox="0 0 16 16"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path
+                                  d="M0.92524 0.687069C1.126 0.486219 1.39823 0.373377 1.68209 0.373377C1.96597 0.373377 2.2382 0.486219 2.43894 0.687069L8.10514 6.35813L13.7714 0.687069C13.8701 0.584748 13.9882 0.503105 14.1188 0.446962C14.2494 0.39082 14.3899 0.361248 14.5321 0.360026C14.6742 0.358783 14.8151 0.38589 14.9468 0.439762C15.0782 0.493633 15.1977 0.573197 15.2983 0.673783C15.3987 0.774389 15.4784 0.894026 15.5321 1.02568C15.5859 1.15736 15.6131 1.29845 15.6118 1.44071C15.6105 1.58297 15.5809 1.72357 15.5248 1.85428C15.4688 1.98499 15.3872 2.10324 15.2851 2.20206L9.61883 7.87312L15.2851 13.5441C15.4801 13.7462 15.588 14.0168 15.5854 14.2977C15.5831 14.5787 15.4705 14.8474 15.272 15.046C15.0735 15.2449 14.805 15.3574 14.5244 15.3599C14.2437 15.3623 13.9733 15.2543 13.7714 15.0591L8.10514 9.38812L2.43894 15.0591C2.23704 15.2543 1.96663 15.3623 1.68594 15.3599C1.40526 15.3574 1.13677 15.2449 0.938279 15.046C0.739807 14.8474 0.627232 14.5787 0.624791 14.2977C0.62235 14.0168 0.730236 13.7462 0.92524 13.5441L6.59144 7.87312L0.92524 2.20206C0.724562 2.00115 0.611816 1.72867 0.611816 1.44457C0.611816 1.16047 0.724562 0.887983 0.92524 0.687069Z"
+                                  fill="currentColor"
+                                />
+                              </svg>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    )}
                     <div className="mt-4 grid">
                       <button
                         type="submit"
