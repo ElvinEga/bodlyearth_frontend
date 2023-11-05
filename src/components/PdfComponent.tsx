@@ -24,8 +24,8 @@ const PdfComponent = ({
   loanPeriod,
   crop,
   myLocation,
-  mapUrl,
-}: RiskDataProps) => {
+}: // mapUrl,
+RiskDataProps) => {
   return (
     <>
       {/* Invoice */}
@@ -190,7 +190,7 @@ const PdfComponent = ({
           <TopGauge
             pillar="CLIMATE"
             rainfall_risk={myRiskdata?.climate_scores.rainfall_risk}
-            temperature_risk={myRiskdata?.climate_scores.temperature_risk}
+            temperature_risk={myRiskdata?.climate_scores.aridity_risk}
             drought_risk={myRiskdata?.climate_scores.drought_risk}
             composite_climate_risk={
               myRiskdata?.climate_scores.composite_climate_risk
