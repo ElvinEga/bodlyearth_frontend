@@ -643,7 +643,7 @@ const Home = () => {
                       </button>
                     </div>
                   </div>
-                  <div id="printablediv" className="p-4 overflow-y-auto">
+                  <div className="p-4 overflow-y-auto">
                     <PdfComponent
                       myRiskdata={riskData}
                       loanPeriod={toMonths}

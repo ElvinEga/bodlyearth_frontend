@@ -23,7 +23,7 @@ function SetViewOnLocationChange({
 }) {
   const map = useMap();
   // map.setView(mapLocation, map.getZoom());
-  map.setView(mapLocation, 18);
+  map.setView(mapLocation, 17);
   return (
     <Marker position={mapLocation} icon={customIcon}>
       <Popup>{`lat: ${mapLocation[0]} lon:${mapLocation[1]}`}</Popup>
@@ -32,10 +32,10 @@ function SetViewOnLocationChange({
 }
 const MapWithMarker: React.FC<MapWithMarkerProps> = ({ markerPosition }) => {
   return (
-    <div>
+    <div className="map-picker">
       <MapContainer
         center={markerPosition}
-        zoom={19}
+        zoom={17}
         zoomControl={false}
         style={{ height: "400px", width: "380px" }}
       >
