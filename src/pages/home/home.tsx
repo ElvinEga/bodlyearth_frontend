@@ -17,7 +17,6 @@ import { ClimateScores, RiskData } from "../../data/riskData";
 import { isInProtectedArea } from "../../components/utils";
 import Swal from "sweetalert2";
 import ButtonLoading from "../../components/ButtonLoading";
-import { toJpeg } from "html-to-image";
 
 export interface MapCrop {
   isMarkerPlaced: boolean;
@@ -154,7 +153,6 @@ const Home = () => {
   const [selectedOption, setSelectedOption] = useState<Option | null>(null);
   const [formValues, setFormValues] = useState({});
   const elementRef = useRef(null);
-  const [mapUrl, setMapUrl] = useState("");
 
   const [mapCrop, setMapCrop] = useState<MapCrop>({
     isMarkerPlaced: true,
@@ -220,21 +218,6 @@ const Home = () => {
       ...formValues,
       endDate: toDate,
     });
-  };
-
-  const htmlToImageConvert = () => {
-    toJpeg(elementRef.current, { cacheBust: false })
-      .then((dataUrl) => {
-        // const link = document.createElement("a");
-        // link.download = "my-image-name.png";
-        // link.href = dataUrl;
-        // link.click();
-        setMapUrl(dataUrl);
-        console.log(dataUrl);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
   };
 
   const [selectedLocation, setSelectedLocation] = useState<{
@@ -405,6 +388,12 @@ const Home = () => {
       latitude: latitude,
       longitude: longitude,
     });
+  };
+
+  const handleReportClick = () => {
+    setTimeout(() => {
+      window.dispatchEvent(new Event("resize"));
+    }, 100);
   };
 
   const onSubmit = async () => {
@@ -645,7 +634,6 @@ const Home = () => {
                       loanPeriod={toMonths}
                       crop={formValues.crop}
                       myLocation={selectedLocation}
-                      mapUrl={mapUrl}
                     />
                   </div>
                 </div>
@@ -679,6 +667,7 @@ const Home = () => {
                   <button
                     className="h-9 mt-3 py-3 px-4 inline-flex justify-center w-full items-center gap-2 rounded-md border border-transparent font-semibold bg-green-500 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
                     data-hs-overlay="#hs-bg-gray-on-hover-cards"
+                    onClick={handleReportClick}
                   >
                     View Full Report
                   </button>
