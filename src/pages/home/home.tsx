@@ -17,6 +17,7 @@ import { ClimateScores, RiskData } from "../../data/riskData";
 import { isInProtectedArea } from "../../components/utils";
 import Swal from "sweetalert2";
 import ButtonLoading from "../../components/ButtonLoading";
+import html2pdf from "html2pdf.js";
 
 export interface MapCrop {
   isMarkerPlaced: boolean;
@@ -260,6 +261,13 @@ const Home = () => {
       window.print();
       document.body.innerHTML = originalContents;
     }
+  };
+
+  const handleDownloadPDF = () => {
+    const modalContent = document.getElementById("printablediv");
+    console.log("generatePDF:modalContent: ", modalContent);
+
+    html2pdf().from(modalContent).save("modal_content.pdf");
   };
 
   const isFormValid = (): boolean => {
@@ -598,11 +606,18 @@ const Home = () => {
                       {/* Col */}
                       <div className="inline-flex gap-x-2 mr-5">
                         <button
+                          className="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800"
+                          onClick={handleDownloadPDF}
+                        >
+                          <i className="bi bi-download"></i>
+                          PDF
+                        </button>
+                        <button
                           className="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
                           onClick={handlePrint}
                         >
                           <i className="bi bi-printer-fill"></i>
-                          Print/Save PDF
+                          Print
                         </button>
                       </div>
                       {/* Col */}
@@ -628,7 +643,7 @@ const Home = () => {
                       </button>
                     </div>
                   </div>
-                  <div id="printablediv" className="p-4 overflow-y-auto">
+                  <div className="p-4 overflow-y-auto">
                     <PdfComponent
                       myRiskdata={riskData}
                       loanPeriod={toMonths}
