@@ -10,7 +10,6 @@ interface RiskDataProps {
     lat: number;
     lng: number;
   };
-  mapUrl: string;
 }
 const climate_indices = ["Drought", "Rainfall", "Aridity"];
 const water_indices = [
@@ -24,8 +23,7 @@ const PdfComponent = ({
   loanPeriod,
   crop,
   myLocation,
-}: // mapUrl,
-RiskDataProps) => {
+}: RiskDataProps) => {
   return (
     <>
       {/* Invoice */}
@@ -146,8 +144,8 @@ RiskDataProps) => {
             /> */}
             <MapWithMarker
               markerPosition={[
-                myLocation?.lat | -0.3615164,
-                myLocation?.lng | 35.3084548,
+                myLocation?.lat || -0.3615164,
+                myLocation?.lng || 35.3084548,
               ]}
             />
           </div>
