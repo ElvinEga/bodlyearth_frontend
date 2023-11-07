@@ -106,28 +106,42 @@ const PdfComponent = ({
               {myRiskdata?.adaptations[1]?.Pillar}
             </h4>
             <p className="text-gray-500 mt-2">
-              <li>{myRiskdata?.adaptations[1]?.Suggestion}</li>
+              {myRiskdata?.adaptations[1] && (
+                <li>{myRiskdata?.adaptations[1]?.Suggestion}</li>
+              )}
             </p>
             <p className="text-gray-500 mt-2">
-              <li>{myRiskdata?.adaptations[2]?.Suggestion}</li>
+              {myRiskdata?.adaptations[2] && (
+                <li>{myRiskdata?.adaptations[2]?.Suggestion}</li>
+              )}
             </p>
             <h4 className="text-lg mb-2 font-semibold text-gray-800 dark:text-gray-200 mt-2">
               {myRiskdata?.adaptations[3]?.Pillar}
             </h4>
             <p className="text-gray-500 mt-2">
-              <li>{myRiskdata?.adaptations[3]?.Suggestion}</li>
+              {myRiskdata?.adaptations[3] && (
+                <li>{myRiskdata?.adaptations[3]?.Suggestion}</li>
+              )}
             </p>
             <p className="text-gray-500 mt-2">
-              <li>{myRiskdata?.adaptations[4]?.Suggestion}</li>
+              {myRiskdata?.adaptations[4] && (
+                <li>{myRiskdata?.adaptations[4]?.Suggestion}</li>
+              )}
             </p>
             <h4 className="text-lg mb-2 font-semibold text-gray-800 dark:text-gray-200 mt-2">
               {myRiskdata?.adaptations[5]?.Pillar}
             </h4>
             <p className="text-gray-500 mt-2">
-              <li> {myRiskdata?.adaptations[5]?.Suggestion}</li>
+              {myRiskdata?.adaptations[5] && (
+                <li>{myRiskdata?.adaptations[5]?.Suggestion}</li>
+              )}
             </p>
             <p className="text-gray-500 mt-2">
-              <li>{myRiskdata?.adaptations[6]?.Suggestion}</li>
+              <p className="text-gray-500 mt-2">
+                {myRiskdata?.adaptations[6] && (
+                  <li>{myRiskdata?.adaptations[6]?.Suggestion}</li>
+                )}
+              </p>
             </p>
           </div>
           <div className="mt-5">
@@ -238,14 +252,11 @@ const PdfComponent = ({
               <p className="block text-sm font-medium text-gray-800 dark:text-gray-200">
                 info@adapta.com
               </p>
-              <p className="block text-sm font-medium text-gray-800 dark:text-gray-200">
-                +254 (062) 109-9222
-              </p>
             </div>
           </div>
           <p className="mt-5 text-sm text-gray-500">© 2023 ADAPTA.</p>
         </div>
-        <div className="mt-5">
+        <div className="mt-5 px-4 sm:px-6 lg:px-8">
           <p>Add a comment(Optional)</p>
           <textarea
             className=" mt-2 py-3 px-4 block w-full border-gray-200 rounded-md border text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
