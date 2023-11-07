@@ -60,9 +60,21 @@ const TopGauge: React.FC<GaugeChartProps> = ({
     <>
       {/* Card */}
       <div className="group flex flex-col  bg-white border border-gray-200 shadow-sm rounded-xl dark:bg-slate-900 dark:border-gray-700 dark:shadow-slate-700/[.7]">
-        <h3 className="font-semibold text-sm leading-none tracking-tight p-5">
-          {pillar} RISK
-        </h3>
+        <div className="hs-tooltip inline-block [--placement:bottom]">
+          <h3 className="font-semibold text-sm leading-none tracking-tight p-5">
+            {pillar} RISK
+          </h3>
+          <span
+            className="w-80 hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block absolute invisible z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded-md shadow-sm dark:bg-slate-700"
+            role="tooltip"
+          >
+            Climate Risk regions are geographically defined protected areas that
+            are effectively maintained through legal or other ways to preserve
+            biological diversity as well as natural resources and related
+            cultural resources, such as forests and wildlife sanctuaries.(JUCN
+            1994)
+          </span>
+        </div>
         <div className="flex justify-center items-center">
           <MiniChart
             // @ts-ignore
