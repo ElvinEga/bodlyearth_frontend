@@ -34,7 +34,7 @@ const GradientBarChart = ({ categories, scores }) => {
     },
     colors: scores.map((sc) => pickColor(sc)),
     dataLabels: {
-      enabled: true,
+      enabled: false,
       textAnchor: "start",
       style: {
         colors: ["#fff"],
@@ -84,6 +84,18 @@ const GradientBarChart = ({ categories, scores }) => {
     chart: {
       toolbar: {
         show: false,
+      },
+      animations: {
+        enabled: true,
+        speed: 1500,
+        animateGradually: {
+          enabled: true,
+          delay: 1500,
+        },
+        dynamicAnimation: {
+          enabled: true,
+          speed: 1500,
+        },
       },
     },
     theme: {
