@@ -20,6 +20,7 @@ import UsersList from "./pages/users";
 import { UserProvider } from "./context/UserProvider";
 import UnauthorizedPage from "./pages/unauthorized";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import Scores from "./pages/resources/scores";
 
 const queryClient = new QueryClient();
 
@@ -45,6 +46,7 @@ function App() {
             <Route path="/team" element={<TeamMembers />} />
             <Route path="/users" element={<UsersList />} />
             <Route path="/resources" element={<Resources />} />
+            <Route path="/scores" element={<Scores />} />
             <Route path="/engagement" element={<Engagement />} />
             <Route path="/profile" element={<Profile />} />
             {/* we want to protect these routes */}
