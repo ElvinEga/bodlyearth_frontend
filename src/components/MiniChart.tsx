@@ -38,6 +38,7 @@ const MiniChart = ({ indexScore, width }: MiniChartProps) => {
           justifyContent: "center",
           alignItems: "center",
           transform: `${rotationValue} ${translationValue}`,
+          transition: "transform 1500ms",
         }}
       >
         <img src={indicator} style={{ width: "15%", margin: "auto" }} />
