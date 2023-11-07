@@ -393,6 +393,14 @@ const Home = () => {
         setIsComputed(false);
         Swal.fire("Saved and Reset", "", "success");
         window.location.reload();
+      } else if (result.isDismissed) {
+        setSelectedCrop("");
+        setFormValues(initialFormValues);
+        // setRiskData(Risk);
+        setClimateScores(initialClimateScores);
+        setIsComputed(false);
+        // Swal.fire("Reset", "", "success");
+        window.location.reload();
       } else if (result.isDenied) {
         setSelectedCrop("");
         // setFormValues(initialFormValues);
