@@ -186,6 +186,18 @@ const Home = () => {
       startDate: fromDate,
       endDate: toDate,
     });
+    const latitude = selectedLocation?.lat;
+    const longitude = selectedLocation?.lng;
+
+    // Update the form with the selected crop name
+    setFormValues({
+      ...formValues,
+      crop: selectedCrop,
+      startDate: fromDate,
+      endDate: toDate,
+      latitude: latitude,
+      longitude: longitude,
+    });
   };
 
   const handleBlur = () => {
@@ -232,6 +244,9 @@ const Home = () => {
     setSelectedLocation(location);
     setFormValues({
       ...formValues,
+      crop: selectedCrop,
+      startDate: fromDate,
+      endDate: toDate,
       longitude: location.lng,
       latitude: location.lat,
     });
@@ -271,34 +286,36 @@ const Home = () => {
   };
 
   const isFormValid = (): boolean => {
-    // eslint-disable-next-line no-unsafe-optional-chaining
-    if (
-      formValues.latitude == null ||
-      formValues.longitude == null ||
-      formValues.crop == null ||
-      formValues.crop == "" ||
-      formValues.startDate == null ||
-      formValues.startDate == "" ||
-      formValues.endDate == null ||
-      formValues.endDate == "" ||
-      isLocationProtected == true
-    ) {
-      if (isLocationProtected == true) {
-        Swal.fire({
-          icon: "error",
-          title: "STOP.",
-          text: "You have selected a Protected Area",
-        });
-      } else {
-        Swal.fire({
-          icon: "error",
-          title: "Fields Required",
-          text: "Please Provide all the fields required",
-        });
-      }
-
+    if (formValues.latitude == null || formValues.longitude == null) {
+      Swal.fire({
+        icon: "error",
+        title: "Location Required",
+        text: "Please provide latitude and longitude",
+      });
+      return false;
+    } else if (formValues.crop == null || formValues.crop == "") {
+      Swal.fire({
+        icon: "error",
+        title: "Crop Required",
+        text: "Please select a crop",
+      });
+      return false;
+    } else if (formValues.startDate == null || formValues.endDate == "") {
+      Swal.fire({
+        icon: "error",
+        title: "Loan Perid Required",
+        text: "Please provide number of months for the Loan",
+      });
+      return false;
+    } else if (isLocationProtected) {
+      Swal.fire({
+        icon: "error",
+        title: "STOP.",
+        text: "You have selected a Protected Area",
+      });
       return false;
     }
+
     return true;
   };
 
@@ -306,8 +323,11 @@ const Home = () => {
     setSelectedLocation({ lat, lng });
     setFormValues({
       ...formValues,
-      longitude: lng,
+      crop: selectedCrop,
+      startDate: fromDate,
+      endDate: toDate,
       latitude: lat,
+      longitude: lng,
     });
     setMapCrop((prevState) => ({
       ...prevState,
@@ -357,8 +377,12 @@ const Home = () => {
       title: "Do you want to save the changes?",
       showDenyButton: true,
       showCancelButton: true,
-      confirmButtonText: "Save",
-      denyButtonText: `Don't save`,
+      confirmButtonColor: "#22c55e",
+      denyButtonColor: "#3b82f6",
+      cancelButtonColor: "red",
+      confirmButtonText: "Save & Clear",
+      denyButtonText: `Save`,
+      cancelButtonText: "Clear",
     }).then((result) => {
       /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
@@ -367,16 +391,24 @@ const Home = () => {
         // setRiskData(Risk);
         setClimateScores(initialClimateScores);
         setIsComputed(false);
-        Swal.fire("Saved!", "", "success");
+        Swal.fire("Saved and Reset", "", "success");
         window.location.reload();
-      } else if (result.isDenied) {
+      } else if (result.isDismissed) {
         setSelectedCrop("");
         setFormValues(initialFormValues);
         // setRiskData(Risk);
         setClimateScores(initialClimateScores);
         setIsComputed(false);
-        Swal.fire("Changes are not saved", "", "info");
+        // Swal.fire("Reset", "", "success");
         window.location.reload();
+      } else if (result.isDenied) {
+        setSelectedCrop("");
+        // setFormValues(initialFormValues);
+        // setRiskData(Risk);
+        setClimateScores(initialClimateScores);
+        setIsComputed(false);
+        Swal.fire("Changes saved", "", "info");
+        // window.location.reload();
       }
     });
   };
