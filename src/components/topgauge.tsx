@@ -77,20 +77,37 @@ const TopGauge: React.FC<GaugeChartProps> = ({
             </Link>
           </span>
         </div>
-        <div className="bg-white relative flex flex-wrap">
-          <div className="flex justify-center items-center lg:w-1/3 px-6">
-            <MiniChart
-              // @ts-ignore
-              indexScore={composite_climate_risk?.toFixed(2)}
-              width={120}
-            />
-          </div>
-          <div className="pr-3 pt-3 lg:w-2/3">
-            <div className="horizontal-bar-chart" id="chart">
-              <GradientBarChart categories={categories} scores={series} />
+        {tooltip ? (
+          <div className="bg-white relative flex flex-wrap">
+            <div className="flex justify-center items-center lg:w-1/3 px-6">
+              <MiniChart
+                // @ts-ignore
+                indexScore={composite_climate_risk?.toFixed(2)}
+                width={120}
+              />
+            </div>
+            <div className="pr-3 pt-3 lg:w-2/3">
+              <div className="horizontal-bar-chart" id="chart">
+                <GradientBarChart categories={categories} scores={series} />
+              </div>
             </div>
           </div>
-        </div>
+        ) : (
+          <div>
+            <div className="flex justify-center items-center">
+              <MiniChart
+                // @ts-ignore
+                indexScore={composite_climate_risk?.toFixed(2)}
+                width={120}
+              />
+            </div>
+            <div className="pr-3 pt-3">
+              <div className="horizontal-bar-chart" id="chart">
+                <GradientBarChart categories={categories} scores={series} />
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </>
   );
