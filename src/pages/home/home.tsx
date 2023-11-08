@@ -134,11 +134,7 @@ const Home = () => {
 
   const climate_indices = ["Drought", "Rainfall", "Aridity"];
 
-  const water_indices = [
-    "Groundwater Availability",
-    "Water Erosion",
-    "Water Stress",
-  ];
+  const water_indices = ["Groundwater", "Water Erosion", "Water Stress"];
 
   const soil_indices = ["Top Soil Fertility", "Soil pH", "Nutrient capacity"];
 
@@ -721,7 +717,17 @@ const Home = () => {
                   </button>
                 </div>
               ) : (
-                ""
+                <div>
+                  <h3
+                    className="h-4 bg-gray-200 rounded-full dark:bg-gray-700 mt-8 "
+                    style={{ width: "40%" }}
+                  />
+                  <ul class="mt-5 space-y-3">
+                    <li class="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700"></li>
+                    <li class="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700"></li>
+                    <li class="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700"></li>
+                  </ul>
+                </div>
               )}
             </div>
           </div>

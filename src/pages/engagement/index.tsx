@@ -48,7 +48,7 @@ export default function Engagement() {
                 <div className="py-3">
                   <div className="flex items-center gap-x-3">
                     <span className="text-base text-gray-500">Tea</span>
-                    <div className="flex w-full h-1.5 bg-gray-200 rounded-full overflow-hidden dark:bg-gray-700">
+                    <div className="flex w-full h-3 bg-gray-200 rounded-full overflow-hidden dark:bg-gray-700">
                       <div
                         className={getColor(48)}
                         role="progressbar"
@@ -66,7 +66,7 @@ export default function Engagement() {
                 <div className="py-3">
                   <div className="flex items-center gap-x-3">
                     <span className="text-base text-gray-500">Maize</span>
-                    <div className="flex w-full h-1.5 bg-gray-200 rounded-full overflow-hidden dark:bg-gray-700">
+                    <div className="flex w-full h-3 bg-gray-200 rounded-full overflow-hidden dark:bg-gray-700">
                       <div
                         className={getColor(20)}
                         role="progressbar"
@@ -84,7 +84,7 @@ export default function Engagement() {
                 <div className="py-3">
                   <div className="flex items-center gap-x-3">
                     <span className="text-base text-gray-500">Grass</span>
-                    <div className="flex w-full h-1.5 bg-gray-200 rounded-full overflow-hidden dark:bg-gray-700">
+                    <div className="flex w-full h-3 bg-gray-200 rounded-full overflow-hidden dark:bg-gray-700">
                       <div
                         className={getColor(20)}
                         role="progressbar"
