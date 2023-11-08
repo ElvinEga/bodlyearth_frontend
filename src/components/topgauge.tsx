@@ -71,7 +71,10 @@ const TopGauge: React.FC<GaugeChartProps> = ({
             className="w-80 hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block absolute invisible z-50 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded-md shadow-sm dark:bg-slate-700"
             role="tooltip"
           >
-            {tooltip} <Link to="/scores">More</Link>
+            {tooltip}{" "}
+            <Link className="text-blue-500" to="/scores">
+              More
+            </Link>
           </span>
         </div>
         <div className="flex justify-center items-center">
