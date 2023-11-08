@@ -18,6 +18,7 @@ import { isInProtectedArea } from "../../components/utils";
 import Swal from "sweetalert2";
 import ButtonLoading from "../../components/ButtonLoading";
 import html2pdf from "html2pdf.js";
+import { scoreTooltipData } from "../../data/requestData";
 
 export interface MapCrop {
   isMarkerPlaced: boolean;
@@ -736,6 +737,7 @@ const Home = () => {
               riskData?.climate_scores.composite_climate_risk
             }
             categories={climate_indices}
+            tooltip={scoreTooltipData[0].tip}
           />
           <TopGauge
             pillar="WATER"
@@ -744,6 +746,7 @@ const Home = () => {
             drought_risk={riskData?.water_scores.location_aquaduct_risk}
             composite_climate_risk={riskData?.water_scores.composite_water_risk}
             categories={water_indices}
+            tooltip={scoreTooltipData[1].tip}
           />
           <TopGauge
             pillar="SOIL"
@@ -752,6 +755,7 @@ const Home = () => {
             drought_risk={riskData?.soil_scores.cation_exchange_capacity_risk}
             composite_climate_risk={riskData?.soil_scores.composite_soil_risk}
             categories={soil_indices}
+            tooltip={scoreTooltipData[2].tip}
           />
         </div>
         {/* End Grid */}

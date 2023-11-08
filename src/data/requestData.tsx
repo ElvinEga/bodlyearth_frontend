@@ -364,3 +364,15 @@ export const requestUsersData = [
     login: "10 Sept 2023, 11:24 PM",
   },
 ];
+
+export const scoreTooltipData = [
+  {
+    tip: "It is a prolonged and recurring period of abnormally low precipitation (rainfall), which leads to water shortages in a specific region or area. It is a natural climatic phenomenon that occurs when there is insufficient rainfall or snowfall to meet the water needs of people, agriculture, and ecosystems.",
+  },
+  {
+    tip: "Rainfall is critically important for crop production, and it plays a central role in the growth and development of plants. It replenishes soil moisture and provides the necessary hydration for plant growth. Without adequate rainfall, crops can suffer from drought stress and water deficiency, which can lead to reduced yields or crop failure.",
+  },
+  {
+    tip: "Soil Organic Carbon (SOC) is one of the measures of Topsoil fertility. It is the amount of carbon stored in the soil in the form of organic matter. It is primarily derived from the decomposition of plants, animals, microbes, leaves, and wood on the ground. In a garden, when leaves fall off the trees and plants die, they fall onto the ground. With time, tiny creatures, often fungi, break down these bits and mix them into the soil. This mixture of broken-down plants, animals, and any other material is organic matter.",
+  },
+];

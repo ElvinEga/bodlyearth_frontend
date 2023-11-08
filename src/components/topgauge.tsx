@@ -5,6 +5,7 @@
 import { useEffect, useState } from "react";
 import MiniChart from "./MiniChart";
 import GradientBarChart from "./GradientBarchart";
+import { Link } from "react-router-dom";
 
 interface GaugeChartProps {
   pillar: string;
@@ -13,6 +14,7 @@ interface GaugeChartProps {
   drought_risk: number | undefined;
   composite_climate_risk: number | undefined;
   categories: string[];
+  tooltip?: string;
 }
 
 const TopGauge: React.FC<GaugeChartProps> = ({
@@ -22,6 +24,7 @@ const TopGauge: React.FC<GaugeChartProps> = ({
   drought_risk,
   composite_climate_risk,
   categories,
+  tooltip,
 }) => {
   // const temperatureScore = composite_climate_risk;
 
@@ -65,14 +68,13 @@ const TopGauge: React.FC<GaugeChartProps> = ({
             {pillar} RISK
           </h3>
           <span
-            className="w-80 hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block absolute invisible z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded-md shadow-sm dark:bg-slate-700"
+            className="w-80 hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block absolute invisible z-50 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded-md shadow-sm dark:bg-slate-700"
             role="tooltip"
           >
-            Climate Risk regions are geographically defined protected areas that
-            are effectively maintained through legal or other ways to preserve
-            biological diversity as well as natural resources and related
-            cultural resources, such as forests and wildlife sanctuaries.(JUCN
-            1994)
+            {tooltip}{" "}
+            <Link className="text-blue-500" to="/scores">
+              More
+            </Link>
           </span>
         </div>
         <div className="flex justify-center items-center">
