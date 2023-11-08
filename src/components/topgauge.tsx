@@ -45,9 +45,9 @@ const TopGauge: React.FC<GaugeChartProps> = ({
   const initialSeries = [
     {
       data: [
-        modifiedRainfallRisk,
-        modifiedTemperatureRisk,
-        modifiedDroughtRisk,
+        modifiedRainfallRisk || 1000,
+        modifiedTemperatureRisk || 1000,
+        modifiedDroughtRisk || 1000,
       ], // Replace with your data values
     },
   ];
@@ -64,7 +64,7 @@ const TopGauge: React.FC<GaugeChartProps> = ({
       {/* Card */}
       <div className="group flex flex-col  bg-white border border-gray-200 shadow-sm rounded-xl dark:bg-slate-900 dark:border-gray-700 dark:shadow-slate-700/[.7]">
         <div className="hs-tooltip inline-block [--placement:bottom]">
-          <h3 className="font-semibold text-sm leading-none tracking-tight p-5">
+          <h3 className="font-semibold text-sm leading-none tracking-tight p-4">
             {pillar} RISK
           </h3>
           <span
@@ -77,16 +77,18 @@ const TopGauge: React.FC<GaugeChartProps> = ({
             </Link>
           </span>
         </div>
-        <div className="flex justify-center items-center">
-          <MiniChart
-            // @ts-ignore
-            indexScore={composite_climate_risk?.toFixed(2)}
-            width={120}
-          />
-        </div>
-        <div className="pr-3 pt-3">
-          <div className="horizontal-bar-chart" id="chart">
-            <GradientBarChart categories={categories} scores={series} />
+        <div className="bg-white relative flex flex-wrap">
+          <div className="flex justify-center items-center lg:w-1/3 px-6">
+            <MiniChart
+              // @ts-ignore
+              indexScore={composite_climate_risk?.toFixed(2)}
+              width={120}
+            />
+          </div>
+          <div className="pr-3 pt-3 lg:w-2/3">
+            <div className="horizontal-bar-chart" id="chart">
+              <GradientBarChart categories={categories} scores={series} />
+            </div>
           </div>
         </div>
       </div>

@@ -134,11 +134,7 @@ const Home = () => {
 
   const climate_indices = ["Drought", "Rainfall", "Aridity"];
 
-  const water_indices = [
-    "Groundwater Availability",
-    "Water Erosion",
-    "Water Stress",
-  ];
+  const water_indices = ["Groundwater", "Water Erosion", "Water Stress"];
 
   const soil_indices = ["Top Soil Fertility", "Soil pH", "Nutrient capacity"];
 

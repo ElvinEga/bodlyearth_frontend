@@ -13,7 +13,7 @@ const GradientBarChart = ({ categories, scores }) => {
     } else if (score > 60 && score <= 100) {
       return "#ff4040";
     } else {
-      return "#000000";
+      return "#e5e7eb";
     }
   };
 
@@ -54,10 +54,10 @@ const GradientBarChart = ({ categories, scores }) => {
       labels: {
         show: true,
         formatter: (val) => {
-          if (val == 0) {
-            return "L";
+          if (val == 10) {
+            return "Low";
           } else if (val == 100) {
-            return "H";
+            return "High";
           } else {
             return;
           }
