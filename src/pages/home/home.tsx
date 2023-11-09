@@ -19,6 +19,7 @@ import Swal from "sweetalert2";
 import ButtonLoading from "../../components/ButtonLoading";
 import html2pdf from "html2pdf.js";
 import { scoreTooltipData } from "../../data/requestData";
+import NewsFeed from "../../components/NewsFeed";
 
 export interface MapCrop {
   isMarkerPlaced: boolean;
@@ -765,6 +766,7 @@ const Home = () => {
           />
         </div>
         {/* End Grid */}
+        <NewsFeed />
       </div>
     </MainDashboard>
   );
