@@ -315,7 +315,7 @@ export default function EngagementTable() {
                         <div className="px-6 py-3">
                           <div className="flex items-center gap-x-3">
                             <span className="text-xs text-gray-500">
-                              {data.composite_total_risk}/100
+                              {data.composite_total_risk.toFixed(0)}
                             </span>
                             <div className="flex w-full h-1.5 bg-gray-200 rounded-full overflow-hidden dark:bg-gray-700">
                               <div

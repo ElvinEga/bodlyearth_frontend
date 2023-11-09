@@ -21,7 +21,7 @@ const SplineChart = () => {
       id: "credit-usage-chart",
       height: "100%",
       maxWidth: "100%",
-      type: "area",
+      type: "line", // Change the type to "line" for a line graph
       fontFamily: "Inter, sans-serif",
       dropShadow: {
         enabled: false,
@@ -46,9 +46,6 @@ const SplineChart = () => {
         top: 0,
       },
     },
-    stroke: {
-      curve: "smooth",
-    },
     dataLabels: {
       enabled: false,
     },
@@ -65,7 +62,7 @@ const SplineChart = () => {
     <ReactApexChart
       options={chartOptions}
       series={chartSeries}
-      type="area"
+      type="line"
       height={350}
     />
   );

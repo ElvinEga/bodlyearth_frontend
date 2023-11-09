@@ -60,7 +60,7 @@ export default function Engagement() {
                         aria-valuemax={100}
                       />
                     </div>
-                    <span className="text-xs text-gray-500">48.0/100</span>
+                    <span className="text-xs text-gray-500">48</span>
                   </div>
                 </div>
                 <div className="py-3">
@@ -78,7 +78,7 @@ export default function Engagement() {
                         aria-valuemax={100}
                       />
                     </div>
-                    <span className="text-xs text-gray-500">35.5/100</span>
+                    <span className="text-xs text-gray-500">35</span>
                   </div>
                 </div>
                 <div className="py-3">
@@ -96,7 +96,7 @@ export default function Engagement() {
                         aria-valuemax={100}
                       />
                     </div>
-                    <span className="text-xs text-gray-500">58/100</span>
+                    <span className="text-xs text-gray-500">58</span>
                   </div>
                 </div>
               </div>

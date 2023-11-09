@@ -82,7 +82,7 @@ const TopGauge: React.FC<GaugeChartProps> = ({
             <div className="flex justify-center items-center lg:w-1/3 px-6">
               <MiniChart
                 // @ts-ignore
-                indexScore={composite_climate_risk?.toFixed(2)}
+                indexScore={composite_climate_risk?.toFixed(0)}
                 width={120}
               />
             </div>
@@ -97,7 +97,7 @@ const TopGauge: React.FC<GaugeChartProps> = ({
             <div className="flex justify-center items-center">
               <MiniChart
                 // @ts-ignore
-                indexScore={composite_climate_risk?.toFixed(2)}
+                indexScore={composite_climate_risk?.toFixed(0)}
                 width={120}
               />
             </div>

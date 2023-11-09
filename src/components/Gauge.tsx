@@ -19,7 +19,7 @@ function Gauge(props: Content) {
             <div className="flex justify-center items-center">
               <MiniChart
                 // @ts-ignore
-                indexScore={props.level?.toFixed(2)}
+                indexScore={props.level?.toFixed(0)}
                 width={150}
               />
             </div>

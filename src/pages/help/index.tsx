@@ -274,7 +274,7 @@ export default function HelpPage() {
                         Our Email Address
                       </h3>
                       <p className="mt-1 text-2xl text-gray-500">
-                        info@adaptacs.com
+                        info@adapta.earth
                       </p>
                     </div>
                   </div>
