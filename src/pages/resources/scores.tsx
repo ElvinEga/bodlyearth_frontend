@@ -126,7 +126,7 @@ export default function Scores() {
                   className="hs-accordion-toggle group pb-3 inline-flex items-center justify-between gap-x-3 w-full md:text-lg font-semibold text-left text-gray-800 transition hover:text-gray-500 dark:text-gray-200 dark:hover:text-gray-400"
                   aria-controls="hs-basic-with-title-and-arrow-stretched-collapse-three"
                 >
-                  SOil
+                  Soil
                   <svg
                     className="hs-accordion-active:hidden block w-3 h-3 text-gray-600 group-hover:text-gray-500 dark:text-gray-400"
                     width={16}
