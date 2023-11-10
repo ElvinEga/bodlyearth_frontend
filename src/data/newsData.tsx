@@ -1,4 +1,4 @@
-export interface NewsFeed {
+export interface NewsFeedData {
   status: string;
   feed: Feed;
   items: Item[];
@@ -27,7 +27,7 @@ export interface Item {
 }
 
 export interface Enclosure {
-  link?: string;
-  type?: string;
+  link: string;
+  type: string;
   length?: number;
 }
