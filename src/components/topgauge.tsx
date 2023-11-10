@@ -5,7 +5,6 @@
 import { useEffect, useState } from "react";
 import MiniChart from "./MiniChart";
 import GradientBarChart from "./GradientBarchart";
-import { Link } from "react-router-dom";
 
 interface GaugeChartProps {
   pillar: string;
