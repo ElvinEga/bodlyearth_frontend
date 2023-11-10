@@ -63,27 +63,16 @@ const TopGauge: React.FC<GaugeChartProps> = ({
     <>
       {/* Card */}
       <div className="group flex flex-col  bg-white border border-gray-200 shadow-sm rounded-xl dark:bg-slate-900 dark:border-gray-700 dark:shadow-slate-700/[.7]">
-        <div className="hs-tooltip inline-block [--placement:bottom]">
-          <h3 className="font-semibold text-sm leading-none tracking-tight p-4">
-            {pillar} RISK
-          </h3>
-          <span
-            className="w-80 hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block absolute invisible z-50 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded-md shadow-sm dark:bg-slate-700"
-            role="tooltip"
-          >
-            {tooltip}{" "}
-            <Link className="text-blue-500" to="/scores">
-              More
-            </Link>
-          </span>
-        </div>
+        <h3 className="font-semibold text-sm leading-none tracking-tight px-4 pt-4">
+          {pillar} RISK
+        </h3>
         {tooltip ? (
           <div className="bg-white relative flex flex-wrap">
-            <div className="flex justify-center items-center lg:w-1/3 px-6">
+            <div className="flex justify-center items-center lg:w-1/3">
               <MiniChart
                 // @ts-ignore
                 indexScore={composite_climate_risk?.toFixed(0)}
-                width={120}
+                width={100}
               />
             </div>
             <div className="pr-3 pt-3 lg:w-2/3">
