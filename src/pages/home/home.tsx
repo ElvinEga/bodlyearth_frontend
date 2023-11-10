@@ -20,6 +20,8 @@ import ButtonLoading from "../../components/ButtonLoading";
 import html2pdf from "html2pdf.js";
 import { scoreTooltipData } from "../../data/requestData";
 import NewsFeed from "../../components/NewsFeed";
+import cropData from "../../data/cropData";
+
 
 export interface MapCrop {
   isMarkerPlaced: boolean;
@@ -51,68 +53,7 @@ const getFormattedTodayDate = (selectedDate: Date): string => {
 };
 
 const Home = () => {
-  const options = [
-    {
-      id: "1",
-      name: "Maize",
-      value: "maize",
-    },
-    {
-      id: "2",
-      name: "Potato",
-      value: "potato",
-    },
-    {
-      id: "3",
-      name: "Grass",
-      value: "grass",
-    },
-    {
-      id: "4",
-      name: "Tomato",
-      value: "tomato",
-    },
-    {
-      id: "5",
-      name: "Onion",
-      value: "onion",
-    },
-    {
-      id: "6",
-      name: "Tea",
-      value: "tea",
-    },
-    {
-      id: "7",
-      name: "Green gram",
-      value: "green gram",
-    },
-    {
-      id: "8",
-      name: "Avocado",
-      value: "avocado",
-    },
-    {
-      id: "9",
-      name: "Macadamia",
-      value: "macadamia",
-    },
-    {
-      id: "10",
-      name: "Cow peas",
-      value: "cow peas",
-    },
-    {
-      id: "11",
-      name: "Sesame",
-      value: "sesame",
-    },
-    {
-      id: "12",
-      name: "Papaya",
-      value: "papaya",
-    },
-  ];
+  const options = cropData;
 
   const initialFormValues = {
     crop: "",
