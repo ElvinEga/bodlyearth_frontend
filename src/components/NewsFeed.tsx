@@ -4,26 +4,40 @@ import { NewsFeedData } from "../data/newsData";
 import { format, isToday, isYesterday } from "date-fns";
 import "bootstrap-icons/font/bootstrap-icons.css";
 
+const API_KEY = "UTY461EDC532SO4B";
 function formatDate(inputDate: string) {
   const parsedDate = new Date(inputDate);
 
   if (isToday(parsedDate)) {
-    return "today";
+    return "Today";
   } else if (isYesterday(parsedDate)) {
-    return "yesterday";
+    return "Yesterday";
   } else {
     return format(parsedDate, "MMMM dd, yyyy");
   }
 }
 
+const listStockPrices = async (stockSymbols: string[]) => {
+  const response = await axios.get(
+    `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${stockSymbols.join(
+      ","
+    )}&apikey=${API_KEY}`
+  );
+
+  const stockPrices = response.data["Global Quote"];
+
+  return stockPrices;
+};
+
 const NewsFeed: React.FC = () => {
   const [news, setNews] = useState<NewsFeedData>();
+  const [stockPrices, setStockPrices] = useState([]);
 
   useEffect(() => {
     const fetchNews = async () => {
       try {
         const response = await axios.get(
-          "https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Frss.app%2Ffeeds%2F_UqbmJTOCJk32lRYP.xml&api_key=urdevkavbzb9bliwal7qfvbckbmurfethtlkvrm4"
+          "https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Frss.app%2Ffeeds%2F_Q8UuKarjC5hmwzTp.xml&api_key=urdevkavbzb9bliwal7qfvbckbmurfethtlkvrm4"
         );
 
         if (response.data) {
@@ -33,7 +47,13 @@ const NewsFeed: React.FC = () => {
         console.error("Error fetching news:", error);
       }
     };
+    const listStockPricesAsync = async () => {
+      const stockPrices = await listStockPrices(["AAPL", "GOOGL", "MSFT"]);
+
+      setStockPrices(stockPrices);
+    };
     fetchNews();
+    // listStockPricesAsync();
   }, []);
 
   return (
@@ -44,15 +64,15 @@ const NewsFeed: React.FC = () => {
           {/* Title */}
           <div className=" mb-10">
             <h2 className="text-2xl font-bold md:text-4xl md:leading-tight dark:text-white">
-              News
+              Agriculteral & Climate News
             </h2>
-            <p className="mt-1 mb-3 text-gray-600 dark:text-gray-400">
+            {/* <p className="mt-1 mb-3 text-gray-600 dark:text-gray-400">
               Navigate the financial landscape with insights, trends, and expert
               analyses tailored for both seasoned investors and financial
               novices alike
-            </p>
+            </p> */}
 
-            <div className="flex gap-4 p-3 border-b border-t border-gray-200  dark:bg-gray-800 dark:border-gray-700">
+            {/* <div className="flex gap-4 p-3 border-b border-t border-gray-200  dark:bg-gray-800 dark:border-gray-700">
               <div className="flex">
                 <span className="text-base font-bold">Crude Oil</span>
                 <span className="text-green-500 font-bold px-2">
@@ -87,14 +107,19 @@ const NewsFeed: React.FC = () => {
                 <span className="text-base font-bold">Gold</span>
                 <span className="text-gray-500 font-bold px-2">N/A</span>
               </div>
-            </div>
+              {stockPrices?.map((stockPrice, index) => (
+                <li key={stockPrice["Symbol"]}>
+                  {stockPrice["Symbol"]} - {stockPrice["Price"]}
+                </li>
+              ))}
+            </div> */}
           </div>
           {/* End Title */}
 
           {/* Grid */}
           <div className="grid sm:grid-cols-2 lg:grid-cols-7 gap-2">
             {/* Card */}
-            {news?.items?.map((item, index) => (
+            {news?.items?.slice(0, 7).map((item, index) => (
               <a
                 className="group block rounded-xl dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
                 href={item.link}

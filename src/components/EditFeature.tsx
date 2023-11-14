@@ -97,7 +97,7 @@ const EditFeature = ({ onMarkerPlaced, onMarkerClear }) => {
           rectangle: false,
           circlemarker: false,
           circle: false,
-          polygon: true,
+          polygon: false,
         }}
         view={{
           zoom: initialZoom, // Set the initial zoom level

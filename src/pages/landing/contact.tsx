@@ -39,7 +39,7 @@ export default function ContactSection() {
                     EMAIL
                   </h2>
                   <a className="text-indigo-500 leading-relaxed">
-                    info@adaptacs.com
+                    info@adaptacs.earth
                   </a>
                   <h2 className="title-font font-semibold text-gray-900 tracking-widest text-xs mt-4">
                     PHONE

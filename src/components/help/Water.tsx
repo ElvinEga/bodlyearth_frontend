@@ -68,11 +68,13 @@ export default function WaterHelp() {
           Water Erosion
         </h1>
         <p className="leading-relaxed text-base pb-3">
-          Rainfall is critically important for crop production, and it plays a
-          central role in the growth and development of plants. It replenishes
-          soil moisture and provides the necessary hydration for plant growth.
-          Without adequate rainfall, crops can suffer from drought stress and
-          water deficiency, which can lead to reduced yields or crop failure.
+          Water erosion is primarily caused by rainwater often described as
+          rainfall erosivity. It is the erosive power of water in the event of
+          rainfall and is determined by rainfall intensity and duration both of
+          which cause rainwater to transport soil particles. Water erosion can
+          be caused by various factors, including the slope of the terrain, the
+          intensity and duration of rainfall, and the characteristics of the
+          soil and vegetation cover.
         </p>
         <p className="leading-relaxed text-base pb-2">
           Water erosion has a range of environmental and agricultural impacts,

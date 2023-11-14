@@ -246,7 +246,7 @@ const PdfComponent = ({
             </p>
             <div className="mt-2">
               <p className="block text-sm font-medium text-gray-800 dark:text-gray-200">
-                info@adapta.com
+                info@adapta.earth
               </p>
             </div>
           </div>
