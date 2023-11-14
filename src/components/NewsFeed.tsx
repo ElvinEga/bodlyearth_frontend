@@ -4,7 +4,7 @@ import { NewsFeedData } from "../data/newsData";
 import { format, isToday, isYesterday } from "date-fns";
 import "bootstrap-icons/font/bootstrap-icons.css";
 
-const API_KEY = "UTY461EDC532SO4B";
+// const API_KEY = "UTY461EDC532SO4B";
 function formatDate(inputDate: string) {
   const parsedDate = new Date(inputDate);
 
@@ -17,21 +17,21 @@ function formatDate(inputDate: string) {
   }
 }
 
-const listStockPrices = async (stockSymbols: string[]) => {
-  const response = await axios.get(
-    `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${stockSymbols.join(
-      ","
-    )}&apikey=${API_KEY}`
-  );
+// const listStockPrices = async (stockSymbols: string[]) => {
+//   const response = await axios.get(
+//     `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${stockSymbols.join(
+//       ","
+//     )}&apikey=${API_KEY}`
+//   );
 
-  const stockPrices = response.data["Global Quote"];
+//   const stockPrices = response.data["Global Quote"];
 
-  return stockPrices;
-};
+//   return stockPrices;
+// };
 
 const NewsFeed: React.FC = () => {
   const [news, setNews] = useState<NewsFeedData>();
-  const [stockPrices, setStockPrices] = useState([]);
+  // const [stockPrices, setStockPrices] = useState([]);
 
   useEffect(() => {
     const fetchNews = async () => {
@@ -47,11 +47,11 @@ const NewsFeed: React.FC = () => {
         console.error("Error fetching news:", error);
       }
     };
-    const listStockPricesAsync = async () => {
-      const stockPrices = await listStockPrices(["AAPL", "GOOGL", "MSFT"]);
+    // const listStockPricesAsync = async () => {
+    //   const stockPrices = await listStockPrices(["AAPL", "GOOGL", "MSFT"]);
 
-      setStockPrices(stockPrices);
-    };
+    //   setStockPrices(stockPrices);
+    // };
     fetchNews();
     // listStockPricesAsync();
   }, []);
