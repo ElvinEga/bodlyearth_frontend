@@ -6,11 +6,11 @@ import ReactApexChart from "react-apexcharts";
 const GradientBarChart = ({ categories, scores }) => {
   // console.log("GradientBarChart:indexScores: ", scores);
   const pickColor = (score) => {
-    if (score >= 0 && score <= 20) {
+    if (score >= 0 && score <= 30) {
       return "#00ac3e";
-    } else if (score > 20 && score <= 60) {
+    } else if (score > 30 && score <= 70) {
       return "#ffc125";
-    } else if (score > 60 && score <= 100) {
+    } else if (score > 70 && score <= 100) {
       return "#ff4040";
     } else {
       return "#e5e7eb";
@@ -133,8 +133,8 @@ const GradientBarChart = ({ categories, scores }) => {
                 // Specify an array of colors here
                 ranges: [
                   { from: 0, to: 30, color: "#00ac3e" }, // Color for shorter bars
-                  { from: 30, to: 60, color: "#ffc125" }, // Color for medium-length bars
-                  { from: 60, to: 100, color: "#ff4040" }, // Color for longer bars
+                  { from: 30, to: 70, color: "#ffc125" }, // Color for medium-length bars
+                  { from: 70, to: 100, color: "#ff4040" }, // Color for longer bars
                   // Add more color ranges as needed
                 ],
               },
