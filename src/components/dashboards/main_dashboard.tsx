@@ -1,3 +1,4 @@
+import ChatBot from "../Chatbot";
 import Navbar from "../navbar";
 type contentProps = {
   children: JSX.Element;
@@ -13,6 +14,7 @@ const MainDashboard = ({ children }: contentProps) => {
 
       <div className="w-full p-16 pt-4 px-8 sm:px-8 md:px-16 lg:px-20">
         {children}
+        <ChatBot />
       </div>
 
       {/* End Content */}
