@@ -1,3 +1,4 @@
+import { Toaster } from "react-hot-toast";
 import ChatBot from "../Chatbot";
 import Navbar from "../navbar";
 type contentProps = {
@@ -15,6 +16,7 @@ const MainDashboard = ({ children }: contentProps) => {
       <div className="w-full p-16 pt-4 px-8 sm:px-8 md:px-16 lg:px-20">
         {children}
         <ChatBot />
+        <Toaster />
       </div>
 
       {/* End Content */}

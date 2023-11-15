@@ -90,63 +90,82 @@ const ChatBot = () => {
         {isChatOpen && (
           <div
             id="hs-chatbot-container"
-            className={`fixed bottom-[calc(4rem+1.5rem)] right-0 mr-4 bg-white p-6 rounded-lg border border-[#e5e7eb] w-[440px] h-[560px] z-50 ${
+            className={`fixed bottom-[calc(4rem+1.5rem)] right-0 mr-4 bg-white  rounded-lg border border-[#e5e7eb] w-[440px] h-[560px] z-50 ${
               isChatOpen ? "chat-open" : "chat-closed"
             }`}
           >
             {/* Heading */}
-            <div className="flex flex-col space-y-1.5 pb-6 mb-3  border-b">
-              <h2 className="font-semibold text-lg tracking-tight">
+            <div className="flex flex-col space-y-1.5 p-6 bg-slate-700  border-b">
+              <h2 className="font-semibold text-white text-lg tracking-tight">
                 AgriFinancial Guide
               </h2>
-              <p className="text-sm text-[#6b7280] leading-3">
+              <p className="text-sm text-gray-300 leading-3">
                 Your climate smart agriculture guide
               </p>
             </div>
-            {/* Chat Container */}
-            <div
-              id="chat-container"
-              className="pr-4 h-[390px]"
-              style={{
-                minWidth: "100%",
-                display: "table",
-                overflowY: "scroll",
-              }}
-            >
-              {chatLog.map((message, index) => (
-                <ChatLogItem
-                  key={index}
-                  type={message.type}
-                  message={message.message}
-                />
-              ))}
-              {isLoading && (
-                <div key={chatLog.length} className="flex justify-start">
-                  <div className="bg-gray-200 rounded-lg p-4 text-white max-w-sm">
-                    <TypingAnimation />
-                  </div>
-                </div>
-              )}
-            </div>
-            {/* Input box  */}
-            <div className="flex items-center pt-0">
-              <form
-                className="flex items-center justify-center w-full space-x-2"
-                onSubmit={handleSubmit}
+            <div id="hs-message-container" className="px-6">
+              {/* Chat Container */}
+              <div
+                id="chat-container"
+                className="pr-4 h-[400px]"
+                style={{
+                  minWidth: "100%",
+                  display: "table",
+                  overflowY: "scroll",
+                }}
               >
-                <input
-                  className="flex h-10 w-full rounded-md border border-[#e5e7eb] px-3 py-2 text-sm placeholder-[#6b7280] focus:outline-none focus:ring-2 focus:ring-[#9ca3af] disabled:cursor-not-allowed disabled:opacity-50 text-[#030712] focus-visible:ring-offset-2"
-                  placeholder="Type your message"
-                  value={inputValue}
-                  onChange={(e) => setInputValue(e.target.value)}
-                />
-                <button
-                  className="inline-flex items-center justify-center rounded-md text-sm font-medium text-[#f9fafb] disabled:pointer-events-none disabled:opacity-50 bg-black hover:bg-[#111827E6] h-10 px-4 py-2"
-                  type="submit"
+                <div className="flex gap-3 my-4 text-gray-600 text-sm flex-1">
+                  <span className="flex-shrink-0 inline-flex items-center justify-center h-[2.375rem] w-[2.375rem] rounded-full bg-blue-600">
+                    <span className="text-sm font-medium text-white leading-none">
+                      <i className="bi bi-robot text-white  text-lg"></i>
+                    </span>
+                  </span>
+
+                  <p className="leading-relaxed">
+                    <span className="block font-bold text-gray-700">
+                      Adapta CS{" "}
+                    </span>
+                    <p className="text-sm">
+                      Welcome to Adpata Cs.How can we help you?
+                    </p>
+                  </p>
+                </div>
+                {chatLog.map((message, index) => (
+                  <ChatLogItem
+                    key={index}
+                    type={message.type}
+                    message={message.message}
+                  />
+                ))}
+                {isLoading && (
+                  <div key={chatLog.length} className="flex justify-start">
+                    <div className="bg-gray-200 rounded-lg p-4 text-white max-w-sm">
+                      <TypingAnimation />
+                    </div>
+                  </div>
+                )}
+              </div>
+              {/* Input box  */}
+              <div className="flex items-center pt-0">
+                <form
+                  className="flex items-center justify-center w-full space-x-2"
+                  onSubmit={handleSubmit}
                 >
-                  Send
-                </button>
-              </form>
+                  <input
+                    className="flex h-10 w-full rounded-md border border-[#e5e7eb] px-3 py-2 text-sm placeholder-[#6b7280] focus:outline-none focus:ring-2 focus:ring-[#9ca3af] disabled:cursor-not-allowed disabled:opacity-50 text-[#030712] focus-visible:ring-offset-2"
+                    placeholder="Type your message"
+                    value={inputValue}
+                    onChange={(e) => setInputValue(e.target.value)}
+                  />
+                  <button
+                    className="inline-flex items-center justify-center rounded-md text-sm font-medium text-[#f9fafb] disabled:pointer-events-none disabled:opacity-50 bg-slate-700 hover:bg-[#111827E6] h-10 px-4 py-2"
+                    type="submit"
+                  >
+                    <i className="bi bi-send"></i>
+                    Send
+                  </button>
+                </form>
+              </div>
             </div>
           </div>
         )}
