@@ -22,7 +22,6 @@ import { scoreTooltipData } from "../../data/requestData";
 import NewsFeed from "../../components/NewsFeed";
 import cropData from "../../data/cropData";
 
-
 export interface MapCrop {
   isMarkerPlaced: boolean;
   isLocationProtected: boolean;
@@ -419,7 +418,7 @@ const Home = () => {
         } else {
           setRiskData(data.total_scores);
           setClimateScores(data.climate_scores);
-          if (data.total_scores.composite_total_risk > 79) {
+          if (data.total_scores.composite_total_risk > 69) {
             Swal.fire({
               icon: "warning",
               title: "The risk in the selected area is too high.",

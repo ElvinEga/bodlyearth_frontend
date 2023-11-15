@@ -3,6 +3,7 @@ import axios from "../api/axios";
 import { NewsFeedData } from "../data/newsData";
 import { format, isToday, isYesterday } from "date-fns";
 import "bootstrap-icons/font/bootstrap-icons.css";
+import { Link } from "react-router-dom";
 
 // const API_KEY = "UTY461EDC532SO4B";
 function formatDate(inputDate: string) {
@@ -120,10 +121,11 @@ const NewsFeed: React.FC = () => {
           <div className="grid sm:grid-cols-2 lg:grid-cols-7 gap-2">
             {/* Card */}
             {news?.items?.slice(0, 7).map((item, index) => (
-              <a
+              <Link
                 className="group block rounded-xl dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
-                href={item.link}
+                to={item.link}
                 key={index}
+                target="_blank"
               >
                 <div className="w-full ">
                   <img
@@ -138,7 +140,7 @@ const NewsFeed: React.FC = () => {
                 <p className="text-sm text-gray-600 dark:text-gray-400">
                   {formatDate(item.pubDate)}
                 </p>
-              </a>
+              </Link>
             ))}
           </div>
           {/* End Grid */}
