@@ -65,7 +65,7 @@ const NewsFeed: React.FC = () => {
           {/* Title */}
           <div className=" mb-10">
             <h2 className="text-2xl font-bold md:text-4xl md:leading-tight dark:text-white">
-              Agricultural & Climate News
+              Agriculture & Climate News
             </h2>
             {/* <p className="mt-1 mb-3 text-gray-600 dark:text-gray-400">
               Navigate the financial landscape with insights, trends, and expert
