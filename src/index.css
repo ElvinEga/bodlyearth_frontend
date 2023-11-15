@@ -58,4 +58,5 @@ select {
 #hs-chatbot-container {
   /* Your chat container styles */
   transition: transform 0.3s ease, opacity 0.3s ease;
+  overflow-y: auto;
 }
