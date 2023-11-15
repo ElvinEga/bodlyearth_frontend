@@ -61,7 +61,7 @@ const ChatBot = () => {
       <div>
         <button
           id="chatbot"
-          className={`fixed bottom-4 right-4 inline-flex items-center justify-center text-sm font-medium border rounded-full w-16 h-16 bg-green-600 hover:bg-gray-700 m-0 cursor-pointer border-gray-200 bg-none p-0 normal-case leading-5 hover:text-gray-900 ${
+          className={`fixed bottom-4 right-4 inline-flex items-center justify-center text-sm font-medium border rounded-full w-14 h-14 bg-green-600 hover:bg-gray-700 m-0 cursor-pointer border-gray-200 bg-none p-0 normal-case leading-5 hover:text-gray-900 ${
             isChatOpen ? "chat-open" : "chat-closed"
           }`}
           type="button"
@@ -90,7 +90,7 @@ const ChatBot = () => {
         {isChatOpen && (
           <div
             id="hs-chatbot-container"
-            className={`fixed bottom-[calc(4rem+1.5rem)] right-0 mr-4 bg-white p-6 rounded-lg border border-[#e5e7eb] w-[440px] h-[634px] z-50 ${
+            className={`fixed bottom-[calc(4rem+1.5rem)] right-0 mr-4 bg-white p-6 rounded-lg border border-[#e5e7eb] w-[440px] h-[560px] z-50 ${
               isChatOpen ? "chat-open" : "chat-closed"
             }`}
           >
@@ -106,7 +106,7 @@ const ChatBot = () => {
             {/* Chat Container */}
             <div
               id="chat-container"
-              className="pr-4 h-[474px]"
+              className="pr-4 h-[390px]"
               style={{
                 minWidth: "100%",
                 display: "table",
