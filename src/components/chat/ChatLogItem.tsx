@@ -53,7 +53,7 @@ const ChatLogItem: React.FC<ChatMessage> = ({ type, message }) => {
         <p className="leading-relaxed">
           <span className="block font-bold text-gray-700">Adapta CS </span>
           <p className="text-sm">{message}</p>
-          <div className="sm:flex sm:justify-between">
+          <div className="sm:flex sm:justify-between pt-2">
             <div>
               <div className="inline-flex border border-gray-200 rounded-full p-0.5 dark:border-gray-700">
                 <button

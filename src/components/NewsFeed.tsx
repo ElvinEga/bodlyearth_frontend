@@ -1,22 +1,22 @@
 import React, { useEffect, useState } from "react";
 import axios from "../api/axios";
 import { NewsFeedData } from "../data/newsData";
-import { format, isToday, isYesterday } from "date-fns";
+// import { format, isToday, isYesterday } from "date-fns";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { Link } from "react-router-dom";
 
 // const API_KEY = "UTY461EDC532SO4B";
-function formatDate(inputDate: string) {
-  const parsedDate = new Date(inputDate);
+// function formatDate(inputDate: string) {
+//   const parsedDate = new Date(inputDate);
 
-  if (isToday(parsedDate)) {
-    return "Today";
-  } else if (isYesterday(parsedDate)) {
-    return "Yesterday";
-  } else {
-    return format(parsedDate, "MMMM dd, yyyy");
-  }
-}
+//   if (isToday(parsedDate)) {
+//     return "Today";
+//   } else if (isYesterday(parsedDate)) {
+//     return "Yesterday";
+//   } else {
+//     return format(parsedDate, "MMMM dd, yyyy");
+//   }
+// }
 
 // const listStockPrices = async (stockSymbols: string[]) => {
 //   const response = await axios.get(

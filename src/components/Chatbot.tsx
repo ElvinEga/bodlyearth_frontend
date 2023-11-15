@@ -103,7 +103,7 @@ const ChatBot = () => {
                 Your climate smart agriculture guide
               </p>
             </div>
-            <div id="hs-message-container" className="px-6">
+            <div id="hs-message-container" className="px-6 pb-6">
               {/* Chat Container */}
               <div
                 id="chat-container"
@@ -126,7 +126,7 @@ const ChatBot = () => {
                       Adapta CS{" "}
                     </span>
                     <p className="text-sm">
-                      Welcome to Adpata Cs.How can we help you?
+                      Welcome to Adapta CS.How can we help you?
                     </p>
                   </p>
                 </div>
