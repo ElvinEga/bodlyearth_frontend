@@ -242,6 +242,13 @@ export default function EngagementTable() {
                     <th scope="col" className="px-6 py-3 text-left">
                       <div className="flex items-center gap-x-2">
                         <span className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
+                          Crop
+                        </span>
+                      </div>
+                    </th>
+                    <th scope="col" className="px-6 py-3 text-left">
+                      <div className="flex items-center gap-x-2">
+                        <span className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
                           Risk Score
                         </span>
                       </div>
@@ -306,7 +313,14 @@ export default function EngagementTable() {
                             LatLng
                           </span>
                           <span className="block text-sm text-gray-500">
-                            address
+                            {data.latitude}, {data.longitude}
+                          </span>
+                        </div>
+                      </td>
+                      <td className="h-px w-px whitespace-nowrap">
+                        <div className="px-6 py-3">
+                          <span className="block text-sm text-gray-500">
+                            {data.crop}
                           </span>
                         </div>
                       </td>
@@ -342,7 +356,9 @@ export default function EngagementTable() {
                       </td>
                       <td className="h-px w-px whitespace-nowrap">
                         <div className="px-6 py-3">
-                          <span className="text-sm text-gray-500">2023</span>
+                          <span className="text-sm text-gray-500">
+                            {data.search_date}
+                          </span>
                         </div>
                       </td>
                       <td className="h-px w-px whitespace-nowrap">

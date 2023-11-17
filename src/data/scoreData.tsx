@@ -7,6 +7,10 @@ export interface ScoreData {
 
 export interface Score {
   score_id: string;
+  search_date: string;
+  crop: string;
+  latitude: number;
+  longitude: number;
   composite_total_score: number;
   composite_total_risk: number;
 }

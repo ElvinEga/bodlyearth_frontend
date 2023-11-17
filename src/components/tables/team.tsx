@@ -6,6 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import { UserListData } from "../../data/userData";
 import Swal from "sweetalert2";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 const schema = yup.object().shape({
   first_name: yup.string().required("Name is required"),
@@ -46,14 +47,16 @@ function getStatusClassName(status: string) {
 
 export default function TeamTable() {
   const teamId = "O37Pf2Be";
-  const URL = `/team_back_office/v1/${teamId}/create_team_member`;
+  const URL_CREATE_MEMBER = `/team_back_office/v1/${teamId}/create_team_member`;
+  const URL_MEMBERS = `/team_back_office/v1/${teamId}/users`;
 
   const { register: registerForm, handleSubmit } = useForm<FormData>({
     resolver: yupResolver(schema),
   });
   const [userList, setUser] = useState<UserListData>();
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const loadMembers = () => {
-    axiosPrivate<UserListData>({ method: "GET", url: URL })
+    axiosPrivate<UserListData>({ method: "GET", url: URL_MEMBERS })
       .then((data) => {
         setUser(data);
       })
@@ -70,18 +73,13 @@ export default function TeamTable() {
   const onSubmit = async (data: FormData) => {
     return axiosPrivate<TeamData>({
       method: "POST",
-      url: URL,
+      url: URL_CREATE_MEMBER,
       data: data,
     })
       .then((data) => {
-        Swal.fire({
-          position: "top-end",
-          icon: "success",
-          title: data.message,
-          showConfirmButton: false,
-          timer: 1500,
-        });
-        loadMembers;
+        toast.success(data.message);
+        loadMembers();
+        toggleModal();
       })
       .catch((error) => {
         console.error("API Error:", error);
@@ -94,8 +92,7 @@ export default function TeamTable() {
   };
 
   useQuery(["userDetails"], () => {
-    const URL = `/team_back_office/v1/${teamId}/users`;
-    return axiosPrivate<UserListData>({ method: "GET", url: URL })
+    return axiosPrivate<UserListData>({ method: "GET", url: URL_MEMBERS })
       .then((data) => {
         setUser(data);
       })
@@ -108,6 +105,10 @@ export default function TeamTable() {
         console.error("API Error:", error);
       });
   });
+  const toggleModal = () => {
+    setIsModalOpen((prev) => !prev);
+  };
+
   return (
     <>
       {/* Card */}
@@ -236,7 +237,7 @@ export default function TeamTable() {
 
                     <button
                       className="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
-                      data-hs-overlay="#hs-focus-management-modal"
+                      onClick={toggleModal}
                     >
                       <svg
                         className="w-3 h-3"
@@ -256,8 +257,10 @@ export default function TeamTable() {
                       Add Member
                     </button>
                     <div
-                      id="hs-focus-management-modal"
-                      className="hs-overlay hidden w-full h-full fixed top-0 left-0 z-[60] overflow-x-hidden overflow-y-auto"
+                      id="register-modal"
+                      className={`hs-overlay w-full h-full fixed top-0 left-0 z-[60] overflow-x-hidden overflow-y-auto ${
+                        isModalOpen ? "open" : "hidden"
+                      }`}
                     >
                       <div className="hs-overlay-open:mt-7 hs-overlay-open:opacity-100 hs-overlay-open:duration-500 mt-0 opacity-0 ease-out transition-all sm:max-w-lg sm:w-full m-3 sm:mx-auto">
                         <div className="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]">
@@ -268,7 +271,7 @@ export default function TeamTable() {
                             <button
                               type="button"
                               className="hs-dropdown-toggle inline-flex flex-shrink-0 justify-center items-center h-8 w-8 rounded-md text-gray-500 hover:text-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2 focus:ring-offset-white transition-all text-sm dark:focus:ring-gray-700 dark:focus:ring-offset-gray-800"
-                              data-hs-overlay="#hs-focus-management-modal"
+                              onClick={toggleModal}
                             >
                               <span className="sr-only">Close</span>
                               <svg
@@ -366,7 +369,7 @@ export default function TeamTable() {
                               <button
                                 type="button"
                                 className="hs-dropdown-toggle py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800"
-                                data-hs-overlay="#hs-focus-management-modal"
+                                onClick={toggleModal}
                               >
                                 Close
                               </button>
