@@ -1,10 +1,11 @@
-import { requestCompaniesData } from "../../data/requestData";
-import Flag from "react-flagkit";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import axiosPrivate from "../../api/axiosPrivate";
 import Swal from "sweetalert2";
+import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
+import { Company } from "../../data/teamData";
 
 const schema = yup.object().shape({
   name: yup.string().required("Name is required"),
@@ -42,6 +43,22 @@ export default function CompaniesTable() {
   const { register: registerForm, handleSubmit } = useForm<FormData>({
     resolver: yupResolver(schema),
   });
+  const [companyList, setCompantList] = useState<Company[]>([]);
+
+  const getTeams = () => {
+    axiosPrivate<Company[]>({ method: "GET", url: URL })
+      .then((data) => {
+        setCompantList(data);
+      })
+      .catch((error) => {
+        Swal.fire({
+          icon: "error",
+          title: "Not Authorized.",
+          text: "You are not Authorized to access this Section",
+        });
+        console.error("API Error:", error);
+      });
+  };
 
   const onSubmit = async (data: FormData) => {
     return axiosPrivate<TeamData>({
@@ -57,6 +74,7 @@ export default function CompaniesTable() {
           showConfirmButton: false,
           timer: 1500,
         });
+        getTeams();
       })
       .catch((error) => {
         console.error("API Error:", error);
@@ -67,6 +85,23 @@ export default function CompaniesTable() {
         });
       });
   };
+
+  useQuery(["companies"], () => {
+    const URL = `/team_back_office/v1/teams`;
+    return axiosPrivate<Company[]>({ method: "GET", url: URL })
+      .then((data) => {
+        setCompantList(data);
+      })
+      .catch((error) => {
+        Swal.fire({
+          icon: "error",
+          title: "Not Authorized.",
+          text: "You are not Authorized to access this Section",
+        });
+        console.error("API Error:", error);
+      });
+  });
+
   return (
     <>
       {/* Card */}
@@ -342,7 +377,7 @@ export default function CompaniesTable() {
                     <th scope="col" className="px-6 py-3 text-left">
                       <div className="flex items-center gap-x-2">
                         <span className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
-                          Counrty
+                          Description
                         </span>
                       </div>
                     </th>
@@ -364,7 +399,7 @@ export default function CompaniesTable() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                  {requestCompaniesData.map((data) => (
+                  {companyList?.map((data: Company) => (
                     <tr>
                       <td className="h-px w-px whitespace-nowrap">
                         <div className="pl-6 py-3">
@@ -397,7 +432,7 @@ export default function CompaniesTable() {
                           </div>
                         </div>
                       </td>
-                      <td className="h-px w-px whitespace-nowrap">
+                      {/* <td className="h-px w-px whitespace-nowrap">
                         <div className="px-6 py-3">
                           <span className="inline-flex items-centertext-sm font-semibold text-gray-800 dark:text-gray-200">
                             <Flag
@@ -410,19 +445,23 @@ export default function CompaniesTable() {
                             {data.country}
                           </span>
                         </div>
+                      </td> */}
+
+                      <td className="h-px w-px whitespace-nowrap">
+                        <div className="px-6 py-3">{data.description}</div>
                       </td>
 
                       <td className="h-px w-px whitespace-nowrap">
                         <div className="px-6 py-3">
-                          <span className={getStatusClassName(data.status)}>
-                            {data.status}
+                          <span className={getStatusClassName("Registred")}>
+                            Registred
                           </span>
                         </div>
                       </td>
                       <td className="h-px w-px whitespace-nowrap">
                         <div className="px-6 py-3">
                           <span className="text-sm text-gray-500">
-                            {data.created}
+                            {data.created_at}
                           </span>
                         </div>
                       </td>
