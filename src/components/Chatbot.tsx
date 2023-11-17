@@ -100,7 +100,7 @@ const ChatBot = () => {
                 <h2 className="font-semibold text-white text-lg tracking-tight">
                   AgriFinancial Guide
                 </h2>
-                <p className="text-sm text-gray-300 leading-3">
+                <p className="text-sm text-gray-300 leading-3 mt-2">
                   Your climate smart agriculture guide
                 </p>
               </div>
