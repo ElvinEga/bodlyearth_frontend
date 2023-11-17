@@ -3,6 +3,7 @@ import ChatLogItem from "./chat/ChatLogItem";
 import TypingAnimation from "./chat/TypingAnimation";
 import axiosChat from "../api/axiosChat";
 import { ChatCompletion } from "../data/chatData";
+import toast from "react-hot-toast";
 interface ChatMessage {
   type: "user" | "bot";
   message: string;
@@ -20,6 +21,11 @@ const ChatBot = () => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    if (inputValue.trim() === "") {
+      toast.error("Please enter a message");
+      return;
+    }
 
     setChatLog((prevChatLog) => [
       ...prevChatLog,
