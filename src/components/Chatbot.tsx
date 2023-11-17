@@ -95,13 +95,24 @@ const ChatBot = () => {
             }`}
           >
             {/* Heading */}
-            <div className="flex flex-col space-y-1.5 p-6 bg-slate-700  border-b">
-              <h2 className="font-semibold text-white text-lg tracking-tight">
-                AgriFinancial Guide
-              </h2>
-              <p className="text-sm text-gray-300 leading-3">
-                Your climate smart agriculture guide
-              </p>
+            <div className="flex justify-between items-center space-y-1.5 p-6 bg-slate-700  border-b">
+              <div>
+                <h2 className="font-semibold text-white text-lg tracking-tight">
+                  AgriFinancial Guide
+                </h2>
+                <p className="text-sm text-gray-300 leading-3">
+                  Your climate smart agriculture guide
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={toggleChat}
+                className="hs-dropdown-toggle inline-flex flex-shrink-0 justify-center items-center h-8 w-8 rounded-md text-white hover:text-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2 focus:ring-offset-white transition-all  dark:focus:ring-gray-700 dark:focus:ring-offset-gray-800"
+                data-hs-overlay="#hs-focus-management-modal"
+              >
+                <span className="sr-only">Close</span>
+                <i className="bi bi-x-lg text-xl"></i>
+              </button>
             </div>
             <div id="hs-message-container" className="px-6 pb-6">
               {/* Chat Container */}
