@@ -1,9 +1,11 @@
-import { requestTeamData } from "../../data/requestData";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import axiosPrivate from "../../api/axiosPrivate";
+import { useQuery } from "@tanstack/react-query";
+import { UserListData } from "../../data/userData";
 import Swal from "sweetalert2";
+import { useState } from "react";
 
 const schema = yup.object().shape({
   first_name: yup.string().required("Name is required"),
@@ -43,11 +45,27 @@ function getStatusClassName(status: string) {
 }
 
 export default function TeamTable() {
-  const URL = `/team_back_office/v1/O37Pf2Be/create_team_user`;
+  const teamId = "O37Pf2Be";
+  const URL = `/team_back_office/v1/${teamId}/create_team_member`;
 
   const { register: registerForm, handleSubmit } = useForm<FormData>({
     resolver: yupResolver(schema),
   });
+  const [userList, setUser] = useState<UserListData>();
+  const loadMembers = () => {
+    axiosPrivate<UserListData>({ method: "GET", url: URL })
+      .then((data) => {
+        setUser(data);
+      })
+      .catch((error) => {
+        Swal.fire({
+          icon: "error",
+          title: "Not Authorized.",
+          text: "You are not Authorized to access this Section",
+        });
+        console.error("API Error:", error);
+      });
+  };
 
   const onSubmit = async (data: FormData) => {
     return axiosPrivate<TeamData>({
@@ -63,6 +81,7 @@ export default function TeamTable() {
           showConfirmButton: false,
           timer: 1500,
         });
+        loadMembers;
       })
       .catch((error) => {
         console.error("API Error:", error);
@@ -73,6 +92,22 @@ export default function TeamTable() {
         });
       });
   };
+
+  useQuery(["userDetails"], () => {
+    const URL = `/team_back_office/v1/${teamId}/users`;
+    return axiosPrivate<UserListData>({ method: "GET", url: URL })
+      .then((data) => {
+        setUser(data);
+      })
+      .catch((error) => {
+        Swal.fire({
+          icon: "error",
+          title: "Not Authorized.",
+          text: "You are not Authorized to access this Section",
+        });
+        console.error("API Error:", error);
+      });
+  });
   return (
     <>
       {/* Card */}
@@ -321,7 +356,7 @@ export default function TeamTable() {
                               </label>
                               <input
                                 id="password"
-                                type="passowrd"
+                                type="password"
                                 className="py-3 px-4 border block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
                                 placeholder="*******"
                                 {...registerForm("password")}
@@ -380,14 +415,14 @@ export default function TeamTable() {
                     <th scope="col" className="px-6 py-3 text-left">
                       <div className="flex items-center gap-x-2">
                         <span className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
-                          Role
+                          Username
                         </span>
                       </div>
                     </th>
                     <th scope="col" className="px-6 py-3 text-left">
                       <div className="flex items-center gap-x-2">
                         <span className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
-                          Type
+                          Role
                         </span>
                       </div>
                     </th>
@@ -401,7 +436,14 @@ export default function TeamTable() {
                     <th scope="col" className="px-6 py-3 text-left">
                       <div className="flex items-center gap-x-2">
                         <span className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
-                          Start Date
+                          Last Login
+                        </span>
+                      </div>
+                    </th>
+                    <th scope="col" className="px-6 py-3 text-left">
+                      <div className="flex items-center gap-x-2">
+                        <span className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
+                          Date Created
                         </span>
                       </div>
                     </th>
@@ -409,7 +451,7 @@ export default function TeamTable() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                  {requestTeamData.map((data) => (
+                  {userList?.users.map((data) => (
                     <tr>
                       <td className="h-px w-px whitespace-nowrap">
                         <div className="pl-6 py-3">
@@ -431,12 +473,12 @@ export default function TeamTable() {
                           <div className="flex items-center gap-x-3">
                             <span className="inline-flex items-center justify-center h-[2.375rem] w-[2.375rem] rounded-full bg-blue-300 dark:bg-blue-700">
                               <span className="font-medium text-blue-800 leading-none dark:text-blue-200">
-                                {data.name.charAt(0)}
+                                {data.username.charAt(0).toUpperCase()}
                               </span>
                             </span>
                             <div className="grow">
                               <span className="block text-sm font-semibold text-gray-800 dark:text-gray-200">
-                                {data.name}
+                                {data.first_name}
                               </span>
                               <span className="block text-sm text-gray-500">
                                 {data.email}
@@ -448,64 +490,86 @@ export default function TeamTable() {
                       <td className="h-px w-px whitespace-nowrap">
                         <div className="px-6 py-3">
                           <span className="block text-sm font-semibold text-gray-800 dark:text-gray-200">
-                            {data.role}
+                            {data.username}
                           </span>
-                          <span className="inline-flex items-center gap-1.5 py-1 px-2 rounded-md text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200">
+                          {/* <span className="inline-flex items-center gap-1.5 py-1 px-2 rounded-md text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200">
                             {data.department}
-                          </span>
+                          </span> */}
                         </div>
                       </td>
 
                       <td className="h-px w-px whitespace-nowrap">
                         <div className="px-6 py-2">
                           <span className="text-sm text-gray-600 dark:text-gray-400">
-                            {data.type}
+                            {data.role}
                           </span>
                         </div>
                       </td>
 
                       <td className="h-px w-px whitespace-nowrap">
                         <div className="px-6 py-3">
-                          <span className={getStatusClassName(data.status)}>
-                            {data.status}
+                          <span className={getStatusClassName("Active")}>
+                            Active
                           </span>
                         </div>
                       </td>
                       <td className="h-px w-px whitespace-nowrap">
                         <div className="px-6 py-3">
-                          <span className="text-sm text-gray-500">
-                            {data.created}
-                          </span>
+                          <span className="text-sm text-gray-500">login</span>
+                        </div>
+                      </td>
+                      <td className="h-px w-px whitespace-nowrap">
+                        <div className="px-6 py-3">
+                          <span className="text-sm text-gray-500">2023</span>
                         </div>
                       </td>
                       <td className="h-px w-px whitespace-nowrap">
                         <div className="px-6 py-1.5">
-                          <a data-hs-overlay="#hs-ai-invoice-modal">
-                            <div className="py-1 px-2 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-green-700 text-white shadow-sm align-middle hover:bg-green-200 text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white">
-                              <i className="bi bi-envelope"></i>
-                              Invite
+                          <div className="hs-dropdown relative inline-block [--placement:bottom-right]">
+                            <button
+                              id="hs-table-dropdown-6"
+                              type="button"
+                              className="hs-dropdown-toggle py-1.5 px-2 inline-flex justify-center items-center gap-2 rounded-md text-gray-700 align-middle focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800"
+                            >
+                              <svg
+                                className="w-4 h-4"
+                                xmlns="http://www.w3.org/2000/svg"
+                                width={16}
+                                height={16}
+                                fill="currentColor"
+                                viewBox="0 0 16 16"
+                              >
+                                <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z" />
+                              </svg>
+                            </button>
+                            <div
+                              className="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden mt-2 divide-y divide-gray-200 min-w-[10rem] z-10 bg-white shadow-2xl rounded-lg p-2 mt-2 dark:divide-gray-700 dark:bg-gray-800 dark:border dark:border-gray-700"
+                              aria-labelledby="hs-table-dropdown-6"
+                            >
+                              <div className="py-2 first:pt-0 last:pb-0">
+                                <a
+                                  className="flex items-center gap-x-3 py-2 px-3 rounded-md text-sm text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
+                                  href="#"
+                                >
+                                  Invite
+                                </a>
+                                <a
+                                  className="flex items-center gap-x-3 py-2 px-3 rounded-md text-sm text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
+                                  href="#"
+                                >
+                                  Suspend
+                                </a>
+                              </div>
+                              <div className="py-2 first:pt-0 last:pb-0">
+                                <a
+                                  className="flex items-center gap-x-3 py-2 px-3 rounded-md text-sm text-red-600 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-red-500 dark:hover:bg-gray-700"
+                                  href="#"
+                                >
+                                  Delete
+                                </a>
+                              </div>
                             </div>
-                          </a>
-                          <a
-                            className="ml-3"
-                            href="javascript:;"
-                            data-hs-overlay="#hs-ai-invoice-modal"
-                          >
-                            <div className="py-1 px-2 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-orange-500 text-white shadow-sm align-middle hover:bg-orange-200 text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white">
-                              <i className="bi bi-slash-circle"></i>
-                              Suspend
-                            </div>
-                          </a>
-                          <a
-                            className="ml-3"
-                            href="javascript:;"
-                            data-hs-overlay="#hs-ai-invoice-modal"
-                          >
-                            <div className="py-1 px-2 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-red-500 text-white shadow-sm align-middle hover:bg-red-200 text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white">
-                              <i className="bi bi-trash"></i>
-                              Remove
-                            </div>
-                          </a>
+                          </div>
                         </div>
                       </td>
                     </tr>
