@@ -24,7 +24,7 @@ export default function EngagementTable() {
   const [scoreList, setScore] = useState<ScoreData>();
 
   useQuery(["userDetails"], () => {
-    const URL = `/risk/v1/risk_score/location_scores/${storedUserId}/scores`;
+    const URL = `/risk/v1/location_scores/${storedUserId}/scores`;
     return axiosPrivate<ScoreData>({ method: "GET", url: URL })
       .then((data) => {
         setScore(data);
