@@ -173,7 +173,6 @@ const ChatBot = () => {
                     type="submit"
                   >
                     <i className="bi bi-send"></i>
-                    Send
                   </button>
                 </form>
               </div>
