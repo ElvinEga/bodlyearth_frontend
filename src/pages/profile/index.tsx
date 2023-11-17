@@ -23,7 +23,7 @@ export default function Profile() {
   const email = localStorage.getItem("email");
 
   useQuery(["userDetails"], () => {
-    const PROFILE_URL = `/app_auth/v1/auth/${storedUserId}`;
+    const PROFILE_URL = `/app_auth/v1/${storedUserId}`;
     return axiosPrivate<UserDetails>({ method: "GET", url: PROFILE_URL })
       .then((data) => {
         setUser(data);

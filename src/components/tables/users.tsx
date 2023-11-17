@@ -24,7 +24,7 @@ export default function UsersTable() {
   const [userList, setUser] = useState<UserListData>();
 
   useQuery(["userDetails"], () => {
-    const URL = `/back_office/v1/back_office_router/get_all_users`;
+    const URL = `/back_office/v1/get_all_users`;
     return axiosPrivate<UserListData>({ method: "GET", url: URL })
       .then((data) => {
         setUser(data);

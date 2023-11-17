@@ -395,7 +395,7 @@ const Home = () => {
 
     // alert(formValues.latitude);
 
-    const RISK_URL = `/risk/v1/risk_score/location_scores/get_score`;
+    const RISK_URL = `/risk/v1/location_scores/get_score`;
     setIsLoading(true);
     await axiosPrivate<RiskData>({
       method: "POST",

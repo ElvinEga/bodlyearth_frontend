@@ -6,8 +6,8 @@ import { useEffect, useState } from "react";
 import axiosPrivate from "../../api/axiosPrivate";
 // import useAuth from "../../hooks/useAuth";
 
-// const PASSWORD_URL = "/auth/create-password";
-const RESEND_URL = "/auth/request-new-otp";
+// const PASSWORD_URL = "/create-password";
+const RESEND_URL = "/request-new-otp";
 
 interface FormData {
   user_id: string;

@@ -37,7 +37,7 @@ function getStatusClassName(status: string) {
 
   return className;
 }
-const URL = `/team_back_office/v1/team_back_office/create_team`;
+const URL = `/team_back_office/v1/create_team`;
 export default function CompaniesTable() {
   const { register: registerForm, handleSubmit } = useForm<FormData>({
     resolver: yupResolver(schema),
