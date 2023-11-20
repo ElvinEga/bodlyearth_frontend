@@ -663,11 +663,98 @@ const Home = () => {
                     className="h-4 bg-gray-200 rounded-full dark:bg-gray-700 mt-8 "
                     style={{ width: "40%" }}
                   />
-                  <ul class="mt-5 space-y-3">
-                    <li className="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700"></li>
-                    <li className="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700"></li>
-                    <li className="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700"></li>
-                  </ul>
+                  <div className="lg:block hidden mt-10">
+                    <div className="flex justify-between items-center gap-x-4 px-8">
+                      <div aria-label="one">
+                        <div className="flex gap-2 items-center">
+                          <svg
+                            width={20}
+                            height={8}
+                            viewBox="0 0 20 8"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <rect width={20} height={8} rx={4} fill="#24E500" />
+                          </svg>
+                          <p className="text-xs font-medium leading-3 text-gray-800">
+                            Exceptional
+                          </p>
+                        </div>
+                        <div className="flex items-center gap-2 mt-3">
+                          <svg
+                            width={20}
+                            height={8}
+                            viewBox="0 0 20 8"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <rect width={20} height={8} rx={4} fill="#7fff00" />
+                          </svg>
+                          <p className="text-xs font-medium leading-3 text-gray-800">
+                            Better
+                          </p>
+                        </div>
+                        <div className="flex items-center gap-2 mt-3">
+                          <svg
+                            width={20}
+                            height={8}
+                            viewBox="0 0 20 8"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <rect width={20} height={8} rx={4} fill="#FFFF00" />
+                          </svg>
+                          <p className="text-xs font-medium leading-3 text-gray-800">
+                            Good
+                          </p>
+                        </div>
+                      </div>
+                      <div aria-label="two">
+                        <div className="flex items-center gap-2">
+                          <svg
+                            width={20}
+                            height={8}
+                            viewBox="0 0 20 8"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <rect width={20} height={8} rx={4} fill="#f7884a" />
+                          </svg>
+                          <p className="text-xs font-medium leading-3 text-gray-800">
+                            Satisfactory
+                          </p>
+                        </div>
+                        <div className="flex items-center gap-2 mt-3">
+                          <svg
+                            width={20}
+                            height={8}
+                            viewBox="0 0 20 8"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <rect width={20} height={8} rx={4} fill="#f6435c" />
+                          </svg>
+                          <p className="text-xs font-medium leading-3 text-gray-800">
+                            Fair
+                          </p>
+                        </div>
+                        <div className="flex items-center gap-2 mt-3">
+                          <svg
+                            width={20}
+                            height={8}
+                            viewBox="0 0 20 8"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <rect width={20} height={8} rx={4} fill="#BF181D" />
+                          </svg>
+                          <p className="text-xs font-medium leading-3 text-gray-800">
+                            Bad
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               )}
             </div>
