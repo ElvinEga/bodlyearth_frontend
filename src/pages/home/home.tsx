@@ -674,12 +674,13 @@ const Home = () => {
                             fill="none"
                             xmlns="http://www.w3.org/2000/svg"
                           >
-                            <rect width={20} height={8} rx={4} fill="#24E500" />
+                            <rect width={20} height={8} rx={4} fill="#2ca049" />
                           </svg>
                           <p className="text-xs font-medium leading-3 text-gray-800">
-                            Exceptional
+                            Low
                           </p>
                         </div>
+
                         <div className="flex items-center gap-2 mt-3">
                           <svg
                             width={20}
@@ -688,24 +689,10 @@ const Home = () => {
                             fill="none"
                             xmlns="http://www.w3.org/2000/svg"
                           >
-                            <rect width={20} height={8} rx={4} fill="#7fff00" />
+                            <rect width={20} height={8} rx={4} fill="#f8c33a" />
                           </svg>
                           <p className="text-xs font-medium leading-3 text-gray-800">
-                            Better
-                          </p>
-                        </div>
-                        <div className="flex items-center gap-2 mt-3">
-                          <svg
-                            width={20}
-                            height={8}
-                            viewBox="0 0 20 8"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <rect width={20} height={8} rx={4} fill="#FFFF00" />
-                          </svg>
-                          <p className="text-xs font-medium leading-3 text-gray-800">
-                            Good
+                            Medium
                           </p>
                         </div>
                       </div>
@@ -718,26 +705,13 @@ const Home = () => {
                             fill="none"
                             xmlns="http://www.w3.org/2000/svg"
                           >
-                            <rect width={20} height={8} rx={4} fill="#f7884a" />
+                            <rect width={20} height={8} rx={4} fill="#f6784e" />
                           </svg>
                           <p className="text-xs font-medium leading-3 text-gray-800">
-                            Satisfactory
+                            High
                           </p>
                         </div>
-                        <div className="flex items-center gap-2 mt-3">
-                          <svg
-                            width={20}
-                            height={8}
-                            viewBox="0 0 20 8"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <rect width={20} height={8} rx={4} fill="#f6435c" />
-                          </svg>
-                          <p className="text-xs font-medium leading-3 text-gray-800">
-                            Fair
-                          </p>
-                        </div>
+
                         <div className="flex items-center gap-2 mt-3">
                           <svg
                             width={20}
@@ -749,7 +723,7 @@ const Home = () => {
                             <rect width={20} height={8} rx={4} fill="#BF181D" />
                           </svg>
                           <p className="text-xs font-medium leading-3 text-gray-800">
-                            Bad
+                            Very High
                           </p>
                         </div>
                       </div>
