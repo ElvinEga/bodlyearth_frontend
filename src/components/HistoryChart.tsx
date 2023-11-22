@@ -2,40 +2,46 @@
 // @ts-nocheck
 import ReactApexChart from "react-apexcharts";
 
-const SplineChart = () => {
-  // Sample data for credit usage
-  const creditUsageData = [
-    { x: "Jan", y: 0 },
-    { x: "Feb", y: 5 },
-    { x: "Mar", y: 10 },
-    { x: "Apr", y: 3 },
-    { x: "May", y: 20 },
-    { x: "Jun", y: 15 },
-    { x: "Jul", y: 29 },
-    { x: "Aug", y: 29 },
-  ];
+interface Props {
+  data: Score[];
+}
 
+const SplineChart = ({ data }: Props) => {
+  // Aggregate data to calculate daily averages
+  const dailyAverages: { [key: string]: number } = {};
+  data.forEach((score) => {
+    const date = score.search_date.split(" ")[0]; // Extracting only the date part
+    if (!dailyAverages[date]) {
+      dailyAverages[date] = { totalRisk: 0, count: 0 };
+    }
+    dailyAverages[date].totalRisk += score.composite_total_risk;
+    dailyAverages[date].count += 1;
+  });
   // ApexCharts configuration
-  const chartOptions = {
-    chart: {
-      id: "credit-usage-chart",
-      height: "100%",
-      maxWidth: "100%",
-      type: "line", // Change the type to "line" for a line graph
-      fontFamily: "Inter, sans-serif",
-      dropShadow: {
-        enabled: false,
+  const chartData = {
+    options: {
+      chart: {
+        id: "credit-usage-chart",
+        height: "100%",
+        maxWidth: "100%",
+        type: "line",
+        dropShadow: {
+          enabled: false,
+        },
+        toolbar: {
+          show: false,
+        },
       },
-      toolbar: {
-        show: false,
+      xaxis: {
+        type: "datetime",
       },
-    },
-    xaxis: {
-      categories: creditUsageData.map((data) => data.x),
-    },
-    yaxis: {
-      min: 0,
-      max: 30,
+      yaxis: {
+        min: 0,
+        max: 100,
+        title: {
+          text: "Composite Total Risk",
+        },
+      },
     },
     grid: {
       show: false,
@@ -46,22 +52,29 @@ const SplineChart = () => {
         top: 0,
       },
     },
+    stroke: {
+      curve: "smooth",
+    },
     dataLabels: {
       enabled: false,
     },
+    series: [
+      {
+        name: "Risk",
+        data: Object.keys(dailyAverages).map((date) => ({
+          x: new Date(date).getTime(),
+          y: Number(
+            dailyAverages[date].totalRisk / dailyAverages[date].count
+          ).toFixed(0),
+        })),
+      },
+    ],
   };
-
-  const chartSeries = [
-    {
-      name: "Risk Percentage History",
-      data: creditUsageData.map((data) => data.y),
-    },
-  ];
 
   return (
     <ReactApexChart
-      options={chartOptions}
-      series={chartSeries}
+      options={chartData.options}
+      series={chartData.series}
       type="line"
       height={350}
     />

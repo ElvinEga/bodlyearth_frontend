@@ -71,7 +71,7 @@ export default function Engagement() {
               <h3 className="font-semibold text-sm leading-none tracking-tight p-5">
                 Top Searches Over Time
               </h3>
-              <SplineChart />
+              <SplineChart data={scoreList?.scores || []} />
             </div>
           </div>
           <div className="bg-card text-card-foreground bg-white border border-gray-200 shadow-sm rounded-xl dark:bg-slate-900 dark:border-gray-700 dark:shadow-slate-700/[.7] col-span-2">
