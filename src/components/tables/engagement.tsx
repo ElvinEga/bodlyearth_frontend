@@ -205,7 +205,7 @@ export default function EngagementTable({ scoreList }: Props) {
                     >
                       <div className="flex items-center gap-x-2">
                         <span className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
-                          Name
+                          Search Id
                         </span>
                       </div>
                     </th>

@@ -64,6 +64,74 @@ export default function Engagement() {
                 Average Composite Risk
               </h3>
               <Gauge level={getAverageRisk()} />
+              <div>
+                <div className="lg:block hidden mt-16">
+                  <div className="flex justify-between items-center gap-x-4 px-8">
+                    <div aria-label="one">
+                      <div className="flex gap-2 items-center">
+                        <svg
+                          width={20}
+                          height={8}
+                          viewBox="0 0 20 8"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <rect width={20} height={8} rx={4} fill="#2ca049" />
+                        </svg>
+                        <p className="text-xs font-medium leading-3 text-gray-800">
+                          Low
+                        </p>
+                      </div>
+
+                      <div className="flex items-center gap-2 mt-8">
+                        <svg
+                          width={20}
+                          height={8}
+                          viewBox="0 0 20 8"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <rect width={20} height={8} rx={4} fill="#f8c33a" />
+                        </svg>
+                        <p className="text-xs font-medium leading-3 text-gray-800">
+                          Medium
+                        </p>
+                      </div>
+                    </div>
+                    <div aria-label="two">
+                      <div className="flex items-center gap-2">
+                        <svg
+                          width={20}
+                          height={8}
+                          viewBox="0 0 20 8"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <rect width={20} height={8} rx={4} fill="#f6784e" />
+                        </svg>
+                        <p className="text-xs font-medium leading-3 text-gray-800">
+                          High
+                        </p>
+                      </div>
+
+                      <div className="flex items-center gap-2 mt-8">
+                        <svg
+                          width={20}
+                          height={8}
+                          viewBox="0 0 20 8"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <rect width={20} height={8} rx={4} fill="#BF181D" />
+                        </svg>
+                        <p className="text-xs font-medium leading-3 text-gray-800">
+                          Very High
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
           <div className="bg-white border border-gray-200 shadow-sm rounded-xl dark:bg-slate-900 dark:border-gray-700 dark:shadow-slate-700/[.7] bg-card col-span-3">
