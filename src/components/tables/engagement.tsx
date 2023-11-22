@@ -1,7 +1,8 @@
-import { useState } from "react";
 import { ScoreData } from "../../data/scoreData";
-import axiosPrivate from "../../api/axiosPrivate";
-import { useQuery } from "@tanstack/react-query";
+
+interface Props {
+  scoreList: ScoreData | undefined;
+}
 
 function getStatusClassName(status: string) {
   let className = "";
@@ -19,31 +20,7 @@ function getStatusClassName(status: string) {
 
   return className;
 }
-export default function EngagementTable() {
-  const storedUserId = localStorage.getItem("userId");
-  const [scoreList, setScore] = useState<ScoreData>();
-
-  useQuery(["userDetails"], () => {
-    const URL = `/risk/v1/location_scores/${storedUserId}/scores`;
-    return axiosPrivate<ScoreData>({ method: "GET", url: URL })
-      .then((data) => {
-        setScore(data);
-      })
-      .catch((error) => {
-        console.error("API Error:", error);
-      });
-  });
-
-  const handlePrint = () => {
-    const printContents = document.getElementById("printablediv")?.innerHTML;
-    const originalContents = document.body.innerHTML;
-
-    if (printContents) {
-      document.body.innerHTML = printContents;
-      window.print();
-      document.body.innerHTML = originalContents;
-    }
-  };
+export default function EngagementTable({ scoreList }: Props) {
   const getColor = (percentage: number) => {
     if (percentage <= 30) {
       return "bg-green-600"; // Green

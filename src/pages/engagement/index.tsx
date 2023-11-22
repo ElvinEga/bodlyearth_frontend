@@ -3,8 +3,14 @@ import SplineChart from "../../components/HistoryChart";
 import BreadHeader from "../../components/breadheader";
 import MainDashboard from "../../components/dashboards/main_dashboard";
 import EngagementTable from "../../components/tables/engagement";
+import axiosPrivate from "../../api/axiosPrivate";
+import { useQuery } from "@tanstack/react-query";
+import { ScoreData } from "../../data/scoreData";
+import { useState } from "react";
 
 export default function Engagement() {
+  const storedUserId = localStorage.getItem("userId");
+  const [scoreList, setScore] = useState<ScoreData>();
   const getColor = (percentage: number) => {
     if (percentage <= 30) {
       return "bg-green-600"; // Green
@@ -14,6 +20,35 @@ export default function Engagement() {
       return "bg-red-600"; // Red
     }
   };
+
+  useQuery(["userDetails"], () => {
+    const URL = `/risk/v1/location_scores/${storedUserId}/scores`;
+    return axiosPrivate<ScoreData>({ method: "GET", url: URL })
+      .then((data) => {
+        setScore(data);
+      })
+      .catch((error) => {
+        console.error("API Error:", error);
+      });
+  });
+
+  const getAverageRisk = () => {
+    // Calculate the average composite_total_score
+    const totalScores = scoreList?.scores.reduce(
+      (acc, score) => acc + score.composite_total_score,
+      0
+    );
+
+    const averageScore = totalScores
+      ? totalScores / (scoreList?.scores.length ?? 1)
+      : 0;
+
+    return averageScore;
+  };
+
+  const uniqueCrops = [
+    ...new Set(scoreList?.scores.map((score) => score.crop)),
+  ];
 
   return (
     <MainDashboard>
@@ -28,7 +63,7 @@ export default function Engagement() {
               <h3 className="font-semibold text-sm leading-none tracking-tight">
                 Average Composite Risk
               </h3>
-              <Gauge level={41.8} />
+              <Gauge level={getAverageRisk()} />
             </div>
           </div>
           <div className="bg-white border border-gray-200 shadow-sm rounded-xl dark:bg-slate-900 dark:border-gray-700 dark:shadow-slate-700/[.7] bg-card col-span-3">
@@ -45,66 +80,54 @@ export default function Engagement() {
                 Average Crop Coposite Risk
               </h3>
               <div>
-                <div className="py-3">
-                  <div className="flex items-center gap-x-3">
-                    <span className="text-base text-gray-500">Tea</span>
-                    <div className="flex w-full h-3 bg-gray-200 rounded-full overflow-hidden dark:bg-gray-700">
-                      <div
-                        className={getColor(48)}
-                        role="progressbar"
-                        style={{
-                          width: `48%`,
-                        }}
-                        aria-valuenow={48}
-                        aria-valuemin={0}
-                        aria-valuemax={100}
-                      />
+                {uniqueCrops.map((crop) => {
+                  // Filter scores for the current crop
+                  const cropScores =
+                    scoreList?.scores.filter((score) => score.crop === crop) ??
+                    [];
+
+                  // Calculate average score for the current crop
+                  const averageScore =
+                    cropScores.reduce(
+                      (acc, score) => acc + score.composite_total_score,
+                      0
+                    ) / cropScores.length;
+
+                  return (
+                    <div key={crop}>
+                      <div className="py-3">
+                        <div className="flex items-center gap-x-3">
+                          <span className="text-base text-gray-500">
+                            {crop}
+                          </span>
+                          <div className="flex w-full h-3 bg-gray-200 rounded-full overflow-hidden dark:bg-gray-700">
+                            <div
+                              className={getColor(
+                                Number(averageScore.toFixed(2))
+                              )}
+                              role="progressbar"
+                              style={{
+                                width: `${Number(averageScore.toFixed(0))}%`,
+                              }}
+                              aria-valuenow={Number(averageScore.toFixed(0))}
+                              aria-valuemin={0}
+                              aria-valuemax={100}
+                            />
+                          </div>
+                          <span className="text-xs text-gray-500">
+                            {Number(averageScore.toFixed(0))}
+                          </span>
+                        </div>
+                      </div>
                     </div>
-                    <span className="text-xs text-gray-500">48</span>
-                  </div>
-                </div>
-                <div className="py-3">
-                  <div className="flex items-center gap-x-3">
-                    <span className="text-base text-gray-500">Maize</span>
-                    <div className="flex w-full h-3 bg-gray-200 rounded-full overflow-hidden dark:bg-gray-700">
-                      <div
-                        className={getColor(20)}
-                        role="progressbar"
-                        style={{
-                          width: `35%`,
-                        }}
-                        aria-valuenow={60}
-                        aria-valuemin={0}
-                        aria-valuemax={100}
-                      />
-                    </div>
-                    <span className="text-xs text-gray-500">35</span>
-                  </div>
-                </div>
-                <div className="py-3">
-                  <div className="flex items-center gap-x-3">
-                    <span className="text-base text-gray-500">Grass</span>
-                    <div className="flex w-full h-3 bg-gray-200 rounded-full overflow-hidden dark:bg-gray-700">
-                      <div
-                        className={getColor(20)}
-                        role="progressbar"
-                        style={{
-                          width: `58%`,
-                        }}
-                        aria-valuenow={58}
-                        aria-valuemin={0}
-                        aria-valuemax={100}
-                      />
-                    </div>
-                    <span className="text-xs text-gray-500">58</span>
-                  </div>
-                </div>
+                  );
+                })}
               </div>
             </div>
           </div>
         </div>
 
-        <EngagementTable />
+        <EngagementTable scoreList={scoreList} />
       </div>
     </MainDashboard>
   );
