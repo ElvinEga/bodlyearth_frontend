@@ -453,7 +453,7 @@ export default function EngagementTable() {
                 <div>
                   <p className="text-sm text-gray-600 dark:text-gray-400">
                     <span className="font-semibold text-gray-800 dark:text-gray-200">
-                      6
+                      {scoreList?.total_count}
                     </span>{" "}
                     results
                   </p>
