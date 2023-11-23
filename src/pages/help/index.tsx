@@ -1,6 +1,81 @@
 import MainDashboard from "../../components/dashboards/main_dashboard";
+import { useState } from "react";
+import axios from "axios";
+import { PhoneInput } from "react-international-phone";
+import "react-international-phone/style.css";
+import styles from "../../css/phoneInput.module.css";
+import { useForm } from "react-hook-form";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+import toast from "react-hot-toast";
+
+const schema = yup.object().shape({
+  name: yup.string().required("Name is required"),
+  email: yup.string().email("Invalid email").required("Email is required"),
+  phone: yup
+    .string()
+    .required("required")
+    .min(10, "too short")
+    .max(14, "too long"),
+  companyName: yup.string().required("Company name is required"),
+  companyWebsite: yup
+    .string()
+    .url("Invalid URL")
+    .required("Company website is required"),
+  message: yup.string().required("Message is required"),
+});
 
 export default function HelpPage() {
+  const [formData, setFormData] = useState({
+    secret: "A;eJsfEgF+A'*e{D&Lx_l+L5ME#/uYWe",
+    to_email: "info@adapta.earth",
+    email: "",
+    subject: "",
+    message: "",
+    html_message: "",
+    name: "",
+    phone: "",
+    companyName: "",
+    companyWebsite: "",
+  });
+  const [inputPhone, setPhone] = useState<string>("");
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const onSubmit = async (data: any) => {
+    const subject = `Contact us from ${data.name} from ${data.companyName}`;
+    setFormData((prevData) => ({
+      ...prevData,
+      subject: subject,
+      email: data.email,
+      message: data.message,
+      name: data.name,
+      phone: inputPhone,
+      companyName: data.companyName,
+      companyWebsite: data.companyWebsite,
+    }));
+
+    try {
+      const response = await axios.post(
+        "https://api-dev.adaptacs.com/send_email/v1/send_email/frontend_send_email",
+        formData
+      );
+      const responseData = response.data;
+
+      toast.success(responseData.message);
+    } catch (error) {
+      toast.error("An error occurred while submitting the form.");
+      console.error("Error submitting form:", error);
+    }
+  };
+
   return (
     <MainDashboard>
       <div>
@@ -22,122 +97,112 @@ export default function HelpPage() {
                   <h2 className="mb-8 text-xl font-semibold text-gray-800 dark:text-gray-200">
                     Fill in the form
                   </h2>
-                  <form>
+                  <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="grid gap-4">
                       {/* Grid */}
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div>
                         <div>
-                          <label
-                            htmlFor="hs-firstname-contacts-1"
-                            className="sr-only"
-                          >
-                            First Name
+                          <label htmlFor="name" className="sr-only">
+                            Name
                           </label>
                           <input
                             type="text"
-                            name="hs-firstname-contacts-1"
-                            id="hs-firstname-contacts-1"
                             className="border py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
-                            placeholder="First Name"
-                          />
-                        </div>
-                        <div>
-                          <label
-                            htmlFor="hs-lastname-contacts-1"
-                            className="sr-only"
-                          >
-                            Last Name
-                          </label>
-                          <input
-                            type="text"
-                            name="hs-lastname-contacts-1"
-                            id="hs-lastname-contacts-1"
-                            className="border py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
-                            placeholder="Last Name"
-                          />
+                            placeholder="Name"
+                            id="name"
+                            {...register("name")}
+                          />{" "}
+                          <p className="text-red-500 text-sm">
+                            {errors.name?.message}
+                          </p>
                         </div>
                       </div>
                       {/* End Grid */}
                       <div>
-                        <label
-                          htmlFor="hs-email-contacts-1"
-                          className="sr-only"
-                        >
+                        <label htmlFor="email" className="sr-only">
                           Email
                         </label>
                         <input
                           type="email"
-                          name="hs-email-contacts-1"
-                          id="hs-email-contacts-1"
                           autoComplete="email"
                           className="border py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
                           placeholder="Email"
-                        />
+                          id="email"
+                          {...register("email")}
+                        />{" "}
+                        <p className="text-red-500 text-sm">
+                          {errors.email?.message}
+                        </p>
                       </div>
-                      <div>
-                        <label htmlFor="hs-phone-number-1" className="sr-only">
+                      <div className={styles["my-phone-input"]}>
+                        <label htmlFor="phone" className="sr-only">
                           Phone Number
                         </label>
-                        <input
-                          type="text"
-                          name="hs-phone-number-1"
-                          id="hs-phone-number-1"
-                          className="border py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
-                          placeholder="Phone Number"
+                        <PhoneInput
+                          {...register("phone")}
+                          className="w-full"
+                          defaultCountry="ke"
+                          inputClassName="w-full"
+                          name="phone"
+                          onChange={(inputPhone) => setPhone(inputPhone)}
+                          value="{inputPhone}"
                         />
+                        <p className="text-red-500 text-sm">
+                          {errors.phone?.message}
+                        </p>
                       </div>
                       {/* Grid */}
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                          <label
-                            htmlFor="hs-firstname-contacts-1"
-                            className="sr-only"
-                          >
+                          <label htmlFor="companyName" className="sr-only">
                             Company Name
                           </label>
                           <input
                             type="text"
-                            name="hs-firstname-contacts-1"
-                            id="hs-firstname-contacts-1"
+                            {...register("companyName")}
                             className="border py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
-                            placeholder="First Name"
+                            placeholder="Company Name"
+                            id="companyName"
                           />
+                          <p className="text-red-500 text-sm">
+                            {errors.companyName?.message}
+                          </p>
                         </div>
                         <div>
-                          <label
-                            htmlFor="hs-lastname-contacts-1"
-                            className="sr-only"
-                          >
+                          <label htmlFor="companyWebsite" className="sr-only">
                             Company Website
                           </label>
                           <input
-                            type="text"
-                            name="hs-lastname-contacts-1"
-                            id="hs-lastname-contacts-1"
+                            type="url"
+                            {...register("companyWebsite")}
                             className="border py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
-                            placeholder="Last Name"
+                            placeholder="Company Website"
+                            id="website"
                           />
+                          <p className="text-red-500 text-sm">
+                            {errors.companyWebsite?.message}
+                          </p>
                         </div>
                       </div>
                       {/* End Grid */}
                       <div>
-                        <label
-                          htmlFor="hs-about-contacts-1"
-                          className="sr-only"
-                        >
+                        <label htmlFor="message" className="sr-only">
                           Message
                         </label>
                         <textarea
-                          id="hs-about-contacts-1"
-                          name="hs-about-contacts-1"
+                          {...register("message")}
                           rows={4}
                           className="border py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
                           placeholder="Details"
-                          defaultValue={""}
+                          id="message"
                         />
+                        <p className="text-red-500 text-sm">
+                          {errors.message?.message}
+                        </p>
                       </div>
                     </div>
                     {/* End Grid */}
+
                     <div className="mt-4 grid">
                       <button
                         type="submit"
@@ -158,7 +223,7 @@ export default function HelpPage() {
                         Our Email Address
                       </h3>
                       <p className="mt-1 text-2xl text-gray-500">
-                        info@adaptacs.com
+                        info@adapta.earth
                       </p>
                     </div>
                   </div>
@@ -181,7 +246,7 @@ export default function HelpPage() {
                         Call For Agricultural Requests
                       </h3>
                       <p className="mt-1 text-2xl text-gray-500">
-                        +254723083567
+                        +254 723083567
                       </p>
                     </div>
                   </div>
@@ -194,7 +259,7 @@ export default function HelpPage() {
                         Call For General Requests
                       </h3>
                       <p className="mt-1 text-2xl text-gray-500">
-                        +254716262648
+                        +254 725398993
                       </p>
                     </div>
                   </div>

@@ -49,3 +49,14 @@ select {
     -moz-appearance: textfield !important;
   }
 }
+
+#chatbot {
+  /* Your button styles */
+  transition: background-color 0.3s ease;
+}
+
+#hs-chatbot-container {
+  /* Your chat container styles */
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  overflow-y: auto;
+}

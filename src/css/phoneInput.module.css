@@ -1,0 +1,8 @@
+.my-phone-input {
+  --react-international-phone-height: 40px;
+}
+
+.leaflet-container {
+  height: 400px;
+  width: 100%;
+}

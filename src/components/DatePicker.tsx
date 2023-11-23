@@ -2,35 +2,17 @@ import React, { useState } from "react"; // Replace 'your-datepicker-library' wi
 import DatePicker from "tailwind-datepicker-react";
 import { format } from "date-fns";
 
-// interface DatePickerOptions {
-//   title?: string;
-//   autoHide?: boolean;
-//   todayBtn?: boolean;
-//   clearBtn?: boolean;
-//   maxDate?: Date;
-//   minDate?: Date;
-//   theme?: {
-//     disabledText?: string;
-//   };
-//   icons?: {
-//     prev: () => JSX.Element;
-//     next: () => JSX.Element;
-//   };
-//   datepickerClassNames?: string;
-//   defaultDate?: Date;
-//   language?: string;
-// }
+interface DatePickerProps {
+  onChange: (selectedDate: Date) => void;
+}
+
 const getFormattedTodayDate = (): string => {
   const today = new Date();
   return format(today, "yyyy-MM-dd"); // Format the date as "yyyy-MM-dd"
 };
 
-const DatepickerComponent: React.FC = () => {
+const DatepickerComponent: React.FC<DatePickerProps> = ({ onChange }) => {
   const [show, setShow] = useState<boolean>(false);
-
-  const handleChange = (selectedDate: Date) => {
-    console.log(selectedDate);
-  };
 
   const handleClose = (state: boolean) => {
     setShow(state);
@@ -55,7 +37,7 @@ const DatepickerComponent: React.FC = () => {
           //   defaultDate: new Date("2022-01-01"),
           language: "en",
         }}
-        onChange={handleChange}
+        onChange={onChange}
         show={show}
         setShow={handleClose}
       />

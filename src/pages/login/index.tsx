@@ -6,8 +6,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "../../api/axios";
-const LOGIN_URL = "/auth/sign-in";
-// const RESETPWD_URL = "/auth/reset-password";
+const LOGIN_URL = "/app_auth/v1/sign-in";
+// const RESETPWD_URL = "/reset-password";
 
 interface FormData {
   username_or_email: string;
@@ -20,7 +20,7 @@ interface RecoverFormData {
 
 const LogIn = () => {
   const navigate = useNavigate();
-  const from = "/verify";
+  const from = "/dashboard";
   const changePasswordRoute = "/create_password";
 
   const [errMsg, setErrMsg] = useState("");
@@ -72,16 +72,16 @@ const LogIn = () => {
       .then((response) => {
         console.log(JSON.stringify(response.data));
         //console.log(JSON.stringify(response));
-        const accessToken = response?.data?.access_token;
-        const roles = response?.data?.role;
-        const userId = response?.data?.id;
-        const userEmail = response?.data?.email;
+        const userData = response?.data;
+        const accessToken = userData?.access_token;
+        const userId = userData?.id;
+        const email = userData?.email;
 
         // Save user data to local storage
-        localStorage.setItem("useremail", userEmail);
-        localStorage.setItem("userid", userId);
+        localStorage.setItem("user_data", JSON.stringify(userData));
+        localStorage.setItem("userId", userId);
         localStorage.setItem("accesstoken", accessToken);
-        localStorage.setItem("roles", roles);
+        localStorage.setItem("email", email);
 
         navigate(from, { replace: true });
         const welcomeMessage = "Login successful.";
@@ -94,7 +94,7 @@ const LogIn = () => {
         } else if (err.response?.status === 400) {
           setErrMsg("Missing Username or Password");
         } else if (err.response?.status === 401) {
-          setErrMsg("You have netered an Invalid Email or Password");
+          setErrMsg("You have Entered an Invalid Email or Password");
         } else {
           setErrMsg("Login Failed");
         }

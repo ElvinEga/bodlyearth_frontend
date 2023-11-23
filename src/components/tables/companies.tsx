@@ -1,5 +1,27 @@
-import { requestCompaniesData } from "../../data/requestData";
-import Flag from "react-flagkit";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import axiosPrivate from "../../api/axiosPrivate";
+import Swal from "sweetalert2";
+import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
+import { Company } from "../../data/teamData";
+import toast from "react-hot-toast";
+
+const schema = yup.object().shape({
+  name: yup.string().required("Name is required"),
+  description: yup.string().required("Description is required"),
+});
+
+interface FormData {
+  name: string;
+  description: string;
+}
+
+interface TeamData {
+  message: string;
+  team_id: string;
+}
 
 function getStatusClassName(status: string) {
   let className = "";
@@ -17,7 +39,65 @@ function getStatusClassName(status: string) {
 
   return className;
 }
+const URL_CREATE_TEAM = `/team_back_office/v1/create_team`;
+const URL_TEAM_LIST = `/team_back_office/v1/teams`;
 export default function CompaniesTable() {
+  const { register: registerForm, handleSubmit } = useForm<FormData>({
+    resolver: yupResolver(schema),
+  });
+  const [companyList, setCompantList] = useState<Company[]>([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const loadTeams = () => {
+    axiosPrivate<Company[]>({ method: "GET", url: URL_TEAM_LIST })
+      .then((data) => {
+        setCompantList(data);
+      })
+      .catch((error) => {
+        Swal.fire({
+          icon: "error",
+          title: "Not Authorized.",
+          text: "You are not Authorized to access this Section",
+        });
+        console.error("API Error:", error);
+      });
+  };
+
+  const onSubmit = async (data: FormData) => {
+    return axiosPrivate<TeamData>({
+      method: "POST",
+      url: URL_CREATE_TEAM,
+      data: data,
+    })
+      .then((data) => {
+        toast.success(data.message);
+        loadTeams();
+        toggleModal();
+      })
+      .catch((error) => {
+        console.error("API Error:", error);
+        toast.error("Something went wrong!");
+      });
+  };
+
+  useQuery(["companies"], () => {
+    return axiosPrivate<Company[]>({ method: "GET", url: URL_TEAM_LIST })
+      .then((data) => {
+        setCompantList(data);
+      })
+      .catch((error) => {
+        Swal.fire({
+          icon: "error",
+          title: "Not Authorized.",
+          text: "You are not Authorized to access this Section",
+        });
+        console.error("API Error:", error);
+      });
+  });
+  const toggleModal = () => {
+    setIsModalOpen((prev) => !prev);
+  };
+
   return (
     <>
       {/* Card */}
@@ -146,7 +226,7 @@ export default function CompaniesTable() {
 
                     <button
                       className="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
-                      data-hs-overlay="#hs-focus-management-modal"
+                      onClick={toggleModal}
                     >
                       <svg
                         className="w-3 h-3"
@@ -166,19 +246,22 @@ export default function CompaniesTable() {
                       Register Company
                     </button>
                     <div
-                      id="hs-focus-management-modal"
-                      className="hs-overlay hidden w-full h-full fixed top-0 left-0 z-[60] overflow-x-hidden overflow-y-auto"
+                      id="register-modal"
+                      className={`hs-overlay w-full h-full fixed top-0 left-0 z-[60] overflow-x-hidden overflow-y-auto ${
+                        isModalOpen ? "open" : "hidden"
+                      }`}
                     >
                       <div className="hs-overlay-open:mt-7 hs-overlay-open:opacity-100 hs-overlay-open:duration-500 mt-0 opacity-0 ease-out transition-all sm:max-w-lg sm:w-full m-3 sm:mx-auto">
                         <div className="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]">
                           <div className="flex justify-between items-center py-3 px-4 border-b dark:border-gray-700">
                             <h3 className="font-bold text-gray-800 dark:text-white">
-                              Register Company
+                              Register
                             </h3>
                             <button
                               type="button"
                               className="hs-dropdown-toggle inline-flex flex-shrink-0 justify-center items-center h-8 w-8 rounded-md text-gray-500 hover:text-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2 focus:ring-offset-white transition-all text-sm dark:focus:ring-gray-700 dark:focus:ring-offset-gray-800"
                               data-hs-overlay="#hs-focus-management-modal"
+                              onClick={toggleModal}
                             >
                               <span className="sr-only">Close</span>
                               <svg
@@ -196,63 +279,66 @@ export default function CompaniesTable() {
                               </svg>
                             </button>
                           </div>
-                          <div className="p-4 overflow-y-auto">
-                            <label
-                              htmlFor="input-label"
-                              className="block text-sm font-medium mb-2 dark:text-white"
-                            >
-                              Company Name
-                            </label>
-                            <input
-                              type="text"
-                              id="input-label"
-                              className="py-3 px-4 border block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
-                              placeholder="Name"
-                            />
-                          </div>
-                          <div className="p-4 overflow-y-auto">
-                            <label
-                              htmlFor="input-label"
-                              className="block text-sm font-medium mb-2 dark:text-white"
-                            >
-                              Country
-                            </label>
-                            <input
-                              type="text"
-                              id="input-label"
-                              className="py-3 px-4 border block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
-                              placeholder="Account Number"
-                            />
-                          </div>
-                          <div className="p-4 overflow-y-auto">
-                            <label
-                              htmlFor="input-label"
-                              className="block text-sm font-medium mb-2 dark:text-white"
-                            >
-                              Email
-                            </label>
-                            <input
-                              type="email"
-                              id="input-label"
-                              className="py-3 px-4 border block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
-                              placeholder="email@company.com"
-                            />
-                          </div>
-                          <div className="flex justify-end items-center gap-x-2 py-3 px-4 border-t dark:border-gray-700">
-                            <button
-                              type="button"
-                              className="hs-dropdown-toggle py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800"
-                              data-hs-overlay="#hs-focus-management-modal"
-                            >
-                              Close
-                            </button>
-                            <a
-                              className="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
-                              href="/companies"
-                            >
-                              Register
-                            </a>
-                          </div>
+                          <form onSubmit={handleSubmit(onSubmit)}>
+                            <div className="p-4 overflow-y-auto">
+                              <label
+                                htmlFor="input-label"
+                                className="block text-sm font-medium mb-2 dark:text-white"
+                              >
+                                Name
+                              </label>
+                              <input
+                                type="text"
+                                id="input-label"
+                                className="py-3 px-4 border block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
+                                placeholder="Name"
+                                {...registerForm("name")}
+                              />
+                            </div>
+                            <div className="p-4 overflow-y-auto">
+                              <label
+                                htmlFor="input-label"
+                                className="block text-sm font-medium mb-2 dark:text-white"
+                              >
+                                Website
+                              </label>
+                              <input
+                                type="text"
+                                id="input-label"
+                                className="py-3 px-4 border block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
+                                placeholder="https://adaptacs.com"
+                              />
+                            </div>
+                            <div className="p-4 overflow-y-auto">
+                              <label
+                                htmlFor="input-label"
+                                className="block text-sm font-medium mb-2 dark:text-white"
+                              >
+                                Description
+                              </label>
+                              <textarea
+                                className="py-3 px-4 block w-full border border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
+                                placeholder="Description"
+                                {...registerForm("description")}
+                              ></textarea>
+                            </div>
+
+                            <div className="flex justify-end items-center gap-x-2 py-3 px-4 border-t dark:border-gray-700">
+                              <button
+                                type="button"
+                                className="hs-dropdown-toggle py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800"
+                                onClick={toggleModal}
+                              >
+                                Close
+                              </button>
+                              <button
+                                type="submit"
+                                className="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
+                              >
+                                Register
+                              </button>
+                            </div>
+                          </form>
                         </div>
                       </div>
                     </div>
@@ -290,7 +376,7 @@ export default function CompaniesTable() {
                     <th scope="col" className="px-6 py-3 text-left">
                       <div className="flex items-center gap-x-2">
                         <span className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
-                          Counrty
+                          Description
                         </span>
                       </div>
                     </th>
@@ -312,7 +398,7 @@ export default function CompaniesTable() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                  {requestCompaniesData.map((data) => (
+                  {companyList?.map((data: Company) => (
                     <tr>
                       <td className="h-px w-px whitespace-nowrap">
                         <div className="pl-6 py-3">
@@ -345,7 +431,7 @@ export default function CompaniesTable() {
                           </div>
                         </div>
                       </td>
-                      <td className="h-px w-px whitespace-nowrap">
+                      {/* <td className="h-px w-px whitespace-nowrap">
                         <div className="px-6 py-3">
                           <span className="inline-flex items-centertext-sm font-semibold text-gray-800 dark:text-gray-200">
                             <Flag
@@ -358,19 +444,23 @@ export default function CompaniesTable() {
                             {data.country}
                           </span>
                         </div>
+                      </td> */}
+
+                      <td className="h-px w-px whitespace-nowrap">
+                        <div className="px-6 py-3">{data.description}</div>
                       </td>
 
                       <td className="h-px w-px whitespace-nowrap">
                         <div className="px-6 py-3">
-                          <span className={getStatusClassName(data.status)}>
-                            {data.status}
+                          <span className={getStatusClassName("Registred")}>
+                            Registred
                           </span>
                         </div>
                       </td>
                       <td className="h-px w-px whitespace-nowrap">
                         <div className="px-6 py-3">
                           <span className="text-sm text-gray-500">
-                            {data.created}
+                            {data.created_at}
                           </span>
                         </div>
                       </td>
