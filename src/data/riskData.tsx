@@ -1,3 +1,23 @@
+export interface RiskDataById {
+  id: string;
+  user_id: string;
+  search_date: string;
+  debtor_name: string;
+  debtor_contacts: string;
+  crop: string;
+  startDate: string;
+  endDate: string;
+  latitude: number;
+  longitude: number;
+  reviewer_comments: string;
+  composite_total_score: number;
+  composite_total_risk: number;
+  climate_scores: ClimateScores;
+  soil_scores: SoilScores;
+  water_scores: WaterScores;
+  adaptations: Adaptations;
+}
+
 export interface RiskData {
   total_scores: TotalScores;
   location_score_id: string;
