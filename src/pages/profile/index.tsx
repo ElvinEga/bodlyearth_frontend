@@ -19,7 +19,7 @@ interface FormData {
 export default function Profile() {
   const [user, setUser] = useState<UserDetails>();
   const storedUserId = localStorage.getItem("userId");
-  const accessToken = localStorage.getItem("accesstoken");
+  // const accessToken = localStorage.getItem("accesstoken");
   const email = localStorage.getItem("email");
 
   useQuery(["userDetails"], () => {
@@ -55,7 +55,7 @@ export default function Profile() {
   const onSubmit = (data: any) => {
     data.email = email;
     console.log(data);
-    const PROFILE_URL = `/app_auth/v1/reset_password/${accessToken}`;
+    const PROFILE_URL = `/app_auth/v1/reset_password/`;
     axiosPrivate({
       method: "POST",
       url: PROFILE_URL,
