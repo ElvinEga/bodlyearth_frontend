@@ -117,7 +117,153 @@ export default function TeamTable() {
       <div className="flex flex-col">
         <div className="-m-1.5 overflow-x-auto">
           <div className="p-1.5 min-w-full inline-block align-middle">
-            <div className="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden dark:bg-slate-900 dark:border-gray-700">
+            <div className="grid md:grid-cols-2 gap-12">
+              <div>
+                {/* Card */}
+                <div className="flex flex-col border rounded-xl p-4 sm:p-6 lg:p-10 dark:border-gray-700">
+                  <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200">
+                    General information
+                  </h2>
+                  <form>
+                    <div className="mt-6 grid gap-4 lg:gap-6">
+                      {/* Grid */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
+                        <div>
+                          <label
+                            htmlFor="hs-firstname-hire-us-1"
+                            className="block text-sm text-gray-700 font-medium dark:text-white"
+                          >
+                            Company Name
+                          </label>
+                          <input
+                            type="text"
+                            name="hs-firstname-hire-us-1"
+                            id="hs-firstname-hire-us-1"
+                            className="border py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
+                          />
+                        </div>
+                        <div>
+                          <label
+                            htmlFor="hs-lastname-hire-us-1"
+                            className="block text-sm text-gray-700 font-medium dark:text-white"
+                          >
+                            Website
+                          </label>
+                          <input
+                            type="text"
+                            name="hs-lastname-hire-us-1"
+                            id="hs-lastname-hire-us-1"
+                            className="border py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
+                          />
+                        </div>
+                      </div>
+                      {/* End Grid */}
+                      <div>
+                        <label
+                          htmlFor="hs-work-email-hire-us-1"
+                          className="block text-sm text-gray-700 font-medium dark:text-white"
+                        >
+                          Logo
+                        </label>
+                        <input
+                          type="email"
+                          name="hs-work-email-hire-us-1"
+                          id="hs-work-email-hire-us-1"
+                          autoComplete="email"
+                          className="border py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
+                        />
+                      </div>
+                    </div>
+                    {/* End Grid */}
+                    <div className="mt-6 grid">
+                      <button
+                        type="submit"
+                        className="inline-flex justify-center items-center gap-x-3 text-center bg-blue-600 hover:bg-blue-700 border border-transparent text-sm lg:text-base text-white font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:ring-offset-white transition py-3 px-4 dark:focus:ring-offset-gray-800"
+                      >
+                        Save All
+                      </button>
+                    </div>
+                  </form>
+                </div>
+                {/* End Card */}
+              </div>
+              <div>
+                {/* Card */}
+                <div className="flex flex-col border rounded-xl p-4 sm:p-6 lg:p-10 dark:border-gray-700">
+                  <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200">
+                    Profile information
+                  </h2>
+                  <form onSubmit={handleSubmit(onSubmit)}>
+                    <div className="mt-6 grid gap-4 lg:gap-6">
+                      {/* Grid */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
+                        <div>
+                          <label
+                            htmlFor="hs-firstname-hire-us-1"
+                            className="block text-sm text-gray-700 font-medium dark:text-white"
+                          >
+                            Misssion
+                          </label>
+                          <input
+                            type="text"
+                            className="border py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
+                          />
+                          <p
+                            className="text-sm text-red-600 mt-2"
+                            id="hs-validation-name-error-helper"
+                          ></p>
+                        </div>
+                        <div>
+                          <label
+                            htmlFor="hs-lastname-hire-us-1"
+                            className="block text-sm text-gray-700 font-medium dark:text-white"
+                          >
+                            Vision
+                          </label>
+                          <input
+                            type="text"
+                            className="border py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
+                          />
+                          <p
+                            className="text-sm text-red-600 mt-2"
+                            id="hs-validation-name-error-helper"
+                          ></p>
+                        </div>
+                      </div>
+                      {/* End Grid */}
+                      <div>
+                        <label
+                          htmlFor="hs-work-email-hire-us-1"
+                          className="block text-sm text-gray-700 font-medium dark:text-white"
+                        >
+                          Description
+                        </label>
+                        <input
+                          type="text"
+                          className="border py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
+                        />
+                        <p
+                          className="text-sm text-red-600 mt-2"
+                          id="hs-validation-name-error-helper"
+                        ></p>
+                      </div>
+                    </div>
+                    {/* End Grid */}
+                    <div className="mt-6 grid">
+                      <button
+                        type="submit"
+                        className="inline-flex justify-center items-center gap-x-3 text-center bg-blue-600 hover:bg-blue-700 border border-transparent text-sm lg:text-base text-white font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:ring-offset-white transition py-3 px-4 dark:focus:ring-offset-gray-800"
+                      >
+                        Update Password
+                      </button>
+                    </div>
+                  </form>
+                </div>
+                {/* End Card */}
+              </div>
+            </div>
+
+            <div className="mt-10 bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden dark:bg-slate-900 dark:border-gray-700">
               {/* Header */}
               <div className="px-6 py-4 grid gap-3 md:flex md:justify-between md:items-center border-b border-gray-200 dark:border-gray-700">
                 <div>
