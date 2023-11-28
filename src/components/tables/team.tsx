@@ -96,7 +96,7 @@ export default function TeamTable() {
       });
   };
 
-  const onSubmitInvite = async (data: FormData) => {
+  const onSubmitInvite = async () => {
     if (inviteId === "") {
       toast.error("set a valid User Id");
       return;
@@ -104,7 +104,6 @@ export default function TeamTable() {
     return axiosPrivate<TeamData>({
       method: "POST",
       url: URL_INVITE_MEMBERS + inviteId,
-      data: data,
     })
       .then((data) => {
         toast.success(data.message);
@@ -116,7 +115,7 @@ export default function TeamTable() {
         Swal.fire({
           icon: "error",
           title: "Oops...",
-          text: "Something went wrong!",
+          text: "User is already a Team Member",
         });
       });
   };
@@ -586,7 +585,7 @@ export default function TeamTable() {
                       </div>
                     </div>
                     <div
-                      id="register-modal"
+                      id="invite-modal"
                       className={`hs-overlay w-full h-full fixed top-0 left-0 z-[60] overflow-x-hidden overflow-y-auto ${
                         isInviteModalOpen ? "open" : "hidden"
                       }`}
@@ -618,7 +617,7 @@ export default function TeamTable() {
                               </svg>
                             </button>
                           </div>
-                          <form onSubmit={handleSubmit(onSubmitInvite)}>
+                          <form>
                             <div className="p-4 overflow-y-auto">
                               <label
                                 htmlFor="input-label"
@@ -645,7 +644,8 @@ export default function TeamTable() {
                                 Close
                               </button>
                               <button
-                                type="submit"
+                                type="button"
+                                onClick={onSubmitInvite}
                                 className="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
                               >
                                 Invite
