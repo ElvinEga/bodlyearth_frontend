@@ -461,7 +461,7 @@ export default function CompaniesTable() {
                       <td className="h-px w-px whitespace-nowrap">
                         <div className="px-6 py-3">
                           <span className="text-sm text-gray-500">
-                            {data.created_at}
+                            {new Date(data.created_at).toLocaleString()}
                           </span>
                         </div>
                       </td>
