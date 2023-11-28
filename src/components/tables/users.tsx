@@ -365,6 +365,13 @@ export default function UsersTable() {
                     <th scope="col" className="px-6 py-3 text-left">
                       <div className="flex items-center gap-x-2">
                         <span className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
+                          User Id
+                        </span>
+                      </div>
+                    </th>
+                    <th scope="col" className="px-6 py-3 text-left">
+                      <div className="flex items-center gap-x-2">
+                        <span className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
                           Username
                         </span>
                       </div>
@@ -435,6 +442,13 @@ export default function UsersTable() {
                               </span>
                             </div>
                           </div>
+                        </div>
+                      </td>
+                      <td className="h-px w-px whitespace-nowrap">
+                        <div className="px-6 py-3">
+                          <span className="block text-sm font-semibold text-gray-800 dark:text-gray-200">
+                            {data.id}
+                          </span>
                         </div>
                       </td>
                       <td className="h-px w-px whitespace-nowrap">
