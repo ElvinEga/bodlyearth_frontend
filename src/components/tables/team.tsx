@@ -7,6 +7,7 @@ import { UserListData } from "../../data/userData";
 import Swal from "sweetalert2";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { useParams } from "react-router-dom";
 
 const schema = yup.object().shape({
   first_name: yup.string().required("Name is required"),
@@ -46,9 +47,10 @@ function getStatusClassName(status: string) {
 }
 
 export default function TeamTable() {
-  const teamId = "O37Pf2Be";
-  const URL_CREATE_MEMBER = `/team_back_office/v1/${teamId}/create_team_member`;
-  const URL_MEMBERS = `/team_back_office/v1/${teamId}/users`;
+  const { companyId } = useParams<{ companyId: string }>();
+  // const teamId = "O37Pf2Be";
+  const URL_CREATE_MEMBER = `/team_back_office/v1/${companyId}/create_team_member`;
+  const URL_MEMBERS = `/team_back_office/v1/${companyId}/users`;
 
   const { register: registerForm, handleSubmit } = useForm<FormData>({
     resolver: yupResolver(schema),

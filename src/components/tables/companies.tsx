@@ -7,6 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { Company } from "../../data/teamData";
 import toast from "react-hot-toast";
+import { Link } from "react-router-dom";
 
 const schema = yup.object().shape({
   name: yup.string().required("Name is required"),
@@ -466,16 +467,12 @@ export default function CompaniesTable() {
                       </td>
                       <td className="h-px w-px whitespace-nowrap">
                         <div className="px-6 py-1.5">
-                          <a
-                            className="ml-3"
-                            href="javascript:;"
-                            data-hs-overlay="#hs-ai-invoice-modal"
-                          >
+                          <Link to={`/teams/${data.id}`} className="ml-3">
                             <div className="py-1 px-2 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white">
                               <i className="bi bi-eye"></i>
                               View
                             </div>
-                          </a>
+                          </Link>
                         </div>
                       </td>
                     </tr>

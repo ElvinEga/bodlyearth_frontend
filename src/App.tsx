@@ -43,7 +43,8 @@ function App() {
             {/* <UserProvider> */}
             <Route path="/dashboard" element={<Home />} />
             <Route path="/help" element={<HelpPage />} />
-            <Route path="/team" element={<TeamMembers />} />
+            {/* <Route path="/team" element={<TeamMembers />} /> */}
+            <Route path="/teams/:companyId" element={<TeamMembers />} />
             <Route path="/users" element={<UsersList />} />
             <Route path="/resources" element={<Resources />} />
             <Route path="/scores" element={<Scores />} />
