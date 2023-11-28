@@ -15,6 +15,11 @@ const cropData = [
     value: "grass",
   },
   {
+    id: "7",
+    name: "Green gram",
+    value: "green gram",
+  },
+  {
     id: "9",
     name: "Macadamia",
     value: "macadamia",
@@ -24,16 +29,7 @@ const cropData = [
     name: "Maize",
     value: "maize",
   },
-  {
-    id: "11",
-    name: "Sesame",
-    value: "sesame",
-  },
-  {
-    id: "12",
-    name: "Papaya",
-    value: "papaya",
-  },
+
   {
     id: "5",
     name: "Onion",
@@ -45,9 +41,14 @@ const cropData = [
     value: "potato",
   },
   {
-    id: "7",
-    name: "Green gram",
-    value: "green gram",
+    id: "12",
+    name: "Papaya",
+    value: "papaya",
+  },
+  {
+    id: "11",
+    name: "Sesame",
+    value: "sesame",
   },
   {
     id: "4",
