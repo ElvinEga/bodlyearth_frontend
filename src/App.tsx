@@ -21,6 +21,7 @@ import { UserProvider } from "./context/UserProvider";
 import UnauthorizedPage from "./pages/unauthorized";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Scores from "./pages/resources/scores";
+import EcoCrop from "./pages/Eco";
 
 const queryClient = new QueryClient();
 
@@ -43,7 +44,9 @@ function App() {
             {/* <UserProvider> */}
             <Route path="/dashboard" element={<Home />} />
             <Route path="/help" element={<HelpPage />} />
-            <Route path="/team" element={<TeamMembers />} />
+            {/* <Route path="/team" element={<TeamMembers />} /> */}
+            <Route path="/teams/:companyId" element={<TeamMembers />} />
+            <Route path="/ecocrop" element={<EcoCrop />} />
             <Route path="/users" element={<UsersList />} />
             <Route path="/resources" element={<Resources />} />
             <Route path="/scores" element={<Scores />} />
