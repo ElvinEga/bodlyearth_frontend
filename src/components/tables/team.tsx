@@ -14,7 +14,10 @@ const schema = yup.object().shape({
   last_name: yup.string().required("Name is required"),
   username: yup.string().required("Name is required"),
   email: yup.string().required("Description is required"),
-  password: yup.string().required("A Valid Password is Required!"),
+  password: yup
+    .string()
+    .min(8, "Password too short")
+    .required("A Valid Password is Required!"),
 });
 
 interface FormData {
@@ -141,6 +144,24 @@ export default function TeamTable() {
   const toggleInviteModal = () => {
     setIsInviteModalOpen((prev) => !prev);
   };
+
+  function generateStrongPassword(length = 12) {
+    const uppercaseLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const lowercaseLetters = "abcdefghijklmnopqrstuvwxyz";
+    const numbers = "0123456789";
+    const symbols = "!@#$%^&*()-_=+[]{}|;:,.<>?";
+
+    const allCharacters =
+      uppercaseLetters + lowercaseLetters + numbers + symbols;
+
+    let password = "";
+    for (let i = 0; i < length; i++) {
+      const randomIndex = Math.floor(Math.random() * allCharacters.length);
+      password += allCharacters.charAt(randomIndex);
+    }
+
+    return password;
+  }
 
   return (
     <>
@@ -562,6 +583,7 @@ export default function TeamTable() {
                                 type="password"
                                 className="py-3 px-4 border block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
                                 placeholder="*******"
+                                defaultValue={generateStrongPassword()}
                                 {...registerForm("password")}
                               />
                             </div>
