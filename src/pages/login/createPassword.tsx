@@ -16,13 +16,26 @@ interface FormData {
 
 const CreatePassword = () => {
   const email = localStorage.getItem("email");
+  const regex =
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
   const schema = yup.object().shape({
-    new_password: yup.string().min(8).max(20).required("Password is Required!"),
-    old_password: yup.string().min(8).max(20).required("Password is Required!"),
+    new_password: yup
+      .string()
+      .min(8)
+      .max(20)
+      .matches(regex)
+      .required("Password is Required!"),
+    old_password: yup
+      .string()
+      .min(8)
+      .max(20)
+      .matches(regex)
+      .required("Password is Required!"),
     confirm_password: yup
       .string()
       .min(8)
       .max(20)
+      .matches(regex)
       .oneOf([yup.ref("confirm_password")], "Passwords must match"),
   });
   const {
@@ -154,6 +167,11 @@ const CreatePassword = () => {
                             id="hs-validation-name-error-helper"
                           >
                             {errors.confirm_password?.message}
+                          </p>
+                          <p className="text-xs text-gray-500 mt-5">
+                            Password should at Least 8 characters long with an
+                            uppercase, lowercase with at least 1 number and 1
+                            special characters
                           </p>
                         </div>
                         <div className="flex flex-col space-y-5">
