@@ -84,7 +84,7 @@ const LogIn = () => {
         localStorage.setItem("accesstoken", accessToken);
         localStorage.setItem("email", email);
 
-        if (!forcePaswordChange) {
+        if (forcePaswordChange) {
           navigate("/create_password", { replace: true });
         } else {
           navigate(from, { replace: true });

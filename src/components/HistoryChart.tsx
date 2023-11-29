@@ -6,7 +6,7 @@ interface Props {
   data: Score[];
 }
 
-const SplineChart = ({ data }: Props) => {
+const StackedBarChart = ({ data }: Props) => {
   // Aggregate data to calculate daily averages
   const dailyAverages: { [key: string]: number } = {};
   data.forEach((score) => {
@@ -17,6 +17,7 @@ const SplineChart = ({ data }: Props) => {
     dailyAverages[date].totalRisk += score.composite_total_risk;
     dailyAverages[date].count += 1;
   });
+
   // ApexCharts configuration
   const chartData = {
     options: {
@@ -24,7 +25,8 @@ const SplineChart = ({ data }: Props) => {
         id: "credit-usage-chart",
         height: "100%",
         maxWidth: "100%",
-        type: "line",
+        type: "bar", // Change chart type to "bar"
+        stacked: true, // Enable stacking
         dropShadow: {
           enabled: false,
         },
@@ -52,9 +54,6 @@ const SplineChart = ({ data }: Props) => {
         top: 0,
       },
     },
-    stroke: {
-      curve: "smooth",
-    },
     dataLabels: {
       enabled: false,
     },
@@ -75,10 +74,10 @@ const SplineChart = ({ data }: Props) => {
     <ReactApexChart
       options={chartData.options}
       series={chartData.series}
-      type="line"
+      type="bar" // Change chart type to "bar"
       height={350}
     />
   );
 };
 
-export default SplineChart;
+export default StackedBarChart;
