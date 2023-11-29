@@ -4,29 +4,67 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
 import { Link, redirect } from "react-router-dom";
+import axiosPrivate from "../../api/axiosPrivate";
+import Swal from "sweetalert2";
+
+interface FormData {
+  old_password: string;
+  new_password: string;
+  confirm_password: string;
+  email: string;
+}
 
 const CreatePassword = () => {
+  const email = localStorage.getItem("email");
   const schema = yup.object().shape({
-    password: yup.string().min(4).max(20).required("Password is Required!"),
+    new_password: yup.string().min(8).max(20).required("Password is Required!"),
+    old_password: yup.string().min(8).max(20).required("Password is Required!"),
     confirm_password: yup
       .string()
-      .min(4)
+      .min(8)
       .max(20)
-      .oneOf([yup.ref("password")], "Passwords must match"),
+      .oneOf([yup.ref("confirm_password")], "Passwords must match"),
   });
   const {
-    register,
-    handleSubmit,
+    register: changePassword,
+    handleSubmit: handleSubmit,
     formState: { errors },
-  } = useForm({
-    resolver: yupResolver(schema),
+  } = useForm<FormData>({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    resolver: yupResolver(schema) as any,
   });
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = (data: any) => {
+    data.email = email;
     console.log(data);
-    redirect("/verify");
+    const PROFILE_URL = `/app_auth/v1/reset_password/`;
+    axiosPrivate({
+      method: "POST",
+      url: PROFILE_URL,
+      data: JSON.stringify(data),
+    })
+      .then((data) => {
+        console.log(JSON.stringify(data));
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Password Chnaged",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        redirect("/dashboard");
+      })
+      .catch((error) => {
+        console.error("API Error:", error);
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Something went wrong!",
+        });
+      });
   };
+
   return (
     <>
       <div className="flex justify-center h-screen">
@@ -60,20 +98,41 @@ const CreatePassword = () => {
                             htmlFor="password"
                             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                           >
-                            New Password
+                            Old Password
                           </label>
                           <input
                             type="password"
-                            id="password"
+                            id="old_password"
                             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             placeholder="••••••••"
-                            {...register("password")}
+                            {...changePassword("old_password")}
                           />
                           <p
                             className="text-sm text-red-600 mt-2"
                             id="hs-validation-name-error-helper"
                           >
-                            {errors.password?.message}
+                            {errors.old_password?.message}
+                          </p>
+                        </div>
+                        <div>
+                          <label
+                            htmlFor="new_password"
+                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                          >
+                            New Password
+                          </label>
+                          <input
+                            type="password"
+                            id="new_password"
+                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            placeholder="••••••••"
+                            {...changePassword("new_password")}
+                          />
+                          <p
+                            className="text-sm text-red-600 mt-2"
+                            id="hs-validation-name-error-helper"
+                          >
+                            {errors.new_password?.message}
                           </p>
                         </div>
                         <div>
@@ -88,7 +147,7 @@ const CreatePassword = () => {
                             id="confrim_password"
                             placeholder="••••••••"
                             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            {...register("confirm_password")}
+                            {...changePassword("confirm_password")}
                           />
                           <p
                             className="text-sm text-red-600 mt-2"
