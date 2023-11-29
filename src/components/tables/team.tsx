@@ -14,10 +14,6 @@ const schema = yup.object().shape({
   last_name: yup.string().required("Name is required"),
   username: yup.string().required("Name is required"),
   email: yup.string().required("Description is required"),
-  password: yup
-    .string()
-    .min(8, "Password too short")
-    .required("A Valid Password is Required!"),
 });
 
 interface FormData {
@@ -25,7 +21,6 @@ interface FormData {
   last_name: string;
   username: string;
   email: string;
-  password: string;
 }
 
 interface TeamData {
@@ -76,6 +71,64 @@ export default function TeamTable() {
         });
         console.error("API Error:", error);
       });
+  };
+
+  const deleteTeamMember = (userId: string) => {
+    const URL_DELETE_MEMBER = `/team_back_office/v1/${companyId}/users/${userId}`;
+    Swal.fire({
+      title: "Do you want to delete the team Member?",
+      showDenyButton: true,
+      showCancelButton: false,
+      confirmButtonText: "Delete",
+      denyButtonText: `No`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosPrivate({ method: "DELETE", url: URL_DELETE_MEMBER })
+          .then(() => {
+            toast.success("Team Member Deleted Successfully");
+            loadMembers();
+          })
+          .catch((error) => {
+            Swal.fire({
+              icon: "error",
+              title: "Not Authorized.",
+              text: "You are not Authorized to access this Section",
+            });
+            console.error("API Error:", error);
+          });
+      } else if (result.isDenied) {
+        return;
+      }
+    });
+  };
+
+  const suspendTeamMember = (userId: string) => {
+    const URL_SUSPEND_MEMBER = `/team_back_office/v1/${companyId}/suspend/${userId}`;
+    Swal.fire({
+      title: "Do you want to Suspend the team Member?",
+      showDenyButton: true,
+      showCancelButton: false,
+      confirmButtonText: "Suspend",
+      denyButtonText: `No`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosPrivate({ method: "PUT", url: URL_SUSPEND_MEMBER })
+          .then(() => {
+            toast.success("Team Member Suspended Successfully");
+            loadMembers();
+          })
+          .catch((error) => {
+            Swal.fire({
+              icon: "error",
+              title: "Not Authorized.",
+              text: "You are not Authorized to access this Section",
+            });
+            console.error("API Error:", error);
+          });
+      } else if (result.isDenied) {
+        return;
+      }
+    });
   };
 
   const onSubmit = async (data: FormData) => {
@@ -144,24 +197,6 @@ export default function TeamTable() {
   const toggleInviteModal = () => {
     setIsInviteModalOpen((prev) => !prev);
   };
-
-  function generateStrongPassword(length = 12) {
-    const uppercaseLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    const lowercaseLetters = "abcdefghijklmnopqrstuvwxyz";
-    const numbers = "0123456789";
-    const symbols = "!@#$%^&*()-_=+[]{}|;:,.<>?";
-
-    const allCharacters =
-      uppercaseLetters + lowercaseLetters + numbers + symbols;
-
-    let password = "";
-    for (let i = 0; i < length; i++) {
-      const randomIndex = Math.floor(Math.random() * allCharacters.length);
-      password += allCharacters.charAt(randomIndex);
-    }
-
-    return password;
-  }
 
   return (
     <>
@@ -571,22 +606,6 @@ export default function TeamTable() {
                                 {...registerForm("email")}
                               />
                             </div>
-                            <div className="p-4 overflow-y-auto">
-                              <label
-                                htmlFor="password"
-                                className="block text-sm font-medium mb-2 dark:text-white"
-                              >
-                                Password
-                              </label>
-                              <input
-                                id="password"
-                                type="password"
-                                className="py-3 px-4 border block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
-                                placeholder="*******"
-                                defaultValue={generateStrongPassword()}
-                                {...registerForm("password")}
-                              />
-                            </div>
                             <div className="flex justify-end items-center gap-x-2 py-3 px-4 border-t dark:border-gray-700">
                               <button
                                 type="button"
@@ -743,7 +762,13 @@ export default function TeamTable() {
                         </span>
                       </div>
                     </th>
-                    <th scope="col" className="px-6 py-3 text-right" />
+                    <th scope="col" className="px-6 py-3 text-left">
+                      <div className="flex items-center gap-x-2">
+                        <span className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
+                          Action
+                        </span>
+                      </div>
+                    </th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
@@ -788,9 +813,9 @@ export default function TeamTable() {
                           <span className="block text-sm font-semibold text-gray-800 dark:text-gray-200">
                             {data.username}
                           </span>
-                          {/* <span className="inline-flex items-center gap-1.5 py-1 px-2 rounded-md text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200">
-                            {data.department}
-                          </span> */}
+                          <span className="inline-flex items-center gap-1.5 py-1 px-2 rounded-md text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200">
+                            {data.id}
+                          </span>
                         </div>
                       </td>
 
@@ -827,42 +852,27 @@ export default function TeamTable() {
                               type="button"
                               className="hs-dropdown-toggle py-1.5 px-2 inline-flex justify-center items-center gap-2 rounded-md text-gray-700 align-middle focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800"
                             >
-                              <svg
-                                className="w-4 h-4"
-                                xmlns="http://www.w3.org/2000/svg"
-                                width={16}
-                                height={16}
-                                fill="currentColor"
-                                viewBox="0 0 16 16"
-                              >
-                                <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z" />
-                              </svg>
+                              <i className="bi bi-three-dots"></i>
                             </button>
                             <div
                               className="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden mt-2 divide-y divide-gray-200 min-w-[10rem] z-10 bg-white shadow-2xl rounded-lg p-2 mt-2 dark:divide-gray-700 dark:bg-gray-800 dark:border dark:border-gray-700"
                               aria-labelledby="hs-table-dropdown-6"
                             >
                               <div className="py-2 first:pt-0 last:pb-0">
-                                <a
+                                <button
                                   className="flex items-center gap-x-3 py-2 px-3 rounded-md text-sm text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
-                                  href="#"
-                                >
-                                  Invite
-                                </a>
-                                <a
-                                  className="flex items-center gap-x-3 py-2 px-3 rounded-md text-sm text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
-                                  href="#"
+                                  onClick={() => suspendTeamMember(data.id)}
                                 >
                                   Suspend
-                                </a>
+                                </button>
                               </div>
                               <div className="py-2 first:pt-0 last:pb-0">
-                                <a
+                                <button
                                   className="flex items-center gap-x-3 py-2 px-3 rounded-md text-sm text-red-600 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-red-500 dark:hover:bg-gray-700"
-                                  href="#"
+                                  onClick={() => deleteTeamMember(data.id)}
                                 >
                                   Delete
-                                </a>
+                                </button>
                               </div>
                             </div>
                           </div>
