@@ -20,6 +20,11 @@ export interface RiskDataById {
 
 export interface RiskData {
   total_scores: TotalScores;
+  location_score_id: LocationScoreId;
+}
+
+export interface LocationScoreId {
+  message: string;
   location_score_id: string;
 }
 

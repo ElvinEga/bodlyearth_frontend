@@ -84,6 +84,7 @@ const Home = () => {
     useState<ClimateScores>(initialClimateScores);
 
   const [riskData, setRiskData] = useState<RiskData>();
+  const [locationScoreId, setLocationScoreId] = useState<"">();
   const [isLoading, setIsLoading] = useState(false);
   const [isComputed, setIsComputed] = useState(false);
   const [isLocationProtected, setIsLocationProtected] = useState(false);
@@ -417,6 +418,7 @@ const Home = () => {
           });
         } else {
           setRiskData(data.total_scores);
+          setLocationScoreId(data.location_score_id.location_score_id);
           setClimateScores(data.climate_scores);
           if (data.total_scores.composite_total_risk > 69) {
             Swal.fire({
@@ -619,6 +621,7 @@ const Home = () => {
                       loanPeriod={toMonths}
                       crop={formValues.crop}
                       myLocation={selectedLocation}
+                      locationScoreId={locationScoreId}
                     />
                   </div>
                 </div>

@@ -81,7 +81,7 @@ export default function Profile() {
         Swal.fire({
           position: "top-end",
           icon: "success",
-          title: "Password Chnaged",
+          title: "Password Changed",
           showConfirmButton: false,
           timer: 1500,
         });
