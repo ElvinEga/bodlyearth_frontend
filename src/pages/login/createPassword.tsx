@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
-import { Link, redirect } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axiosPrivate from "../../api/axiosPrivate";
 import Swal from "sweetalert2";
 
@@ -15,6 +15,7 @@ interface FormData {
 }
 
 const CreatePassword = () => {
+  const navigate = useNavigate();
   const email = localStorage.getItem("email");
   const regex =
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
@@ -60,13 +61,18 @@ const CreatePassword = () => {
       .then((data) => {
         console.log(JSON.stringify(data));
         Swal.fire({
-          position: "top-end",
+          title: "Password Succesfully Changed",
+          text: "We are redirecting you to Login",
           icon: "success",
-          title: "Password Chnaged",
-          showConfirmButton: false,
-          timer: 1500,
+          showDenyButton: false,
+          showCancelButton: false,
+          confirmButtonText: "Login",
+        }).then((result) => {
+          /* Read more about isConfirmed, isDenied below */
+          if (result.isConfirmed) {
+            navigate("/login", { replace: true });
+          }
         });
-        redirect("/login");
       })
       .catch((error) => {
         console.error("API Error:", error);
