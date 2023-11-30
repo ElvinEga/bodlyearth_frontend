@@ -1,84 +1,72 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
+import React from "react";
 import ReactApexChart from "react-apexcharts";
+import { Score } from "../data/scoreData";
 
 interface Props {
   data: Score[];
 }
 
-const SplineChart = ({ data }: Props) => {
-  // Aggregate data to calculate daily averages
-  const dailyAverages: { [key: string]: number } = {};
+const StackedBarChart: React.FC<Props> = ({ data }) => {
+  // Group data by date and crop
+  const groupedData: { [date: string]: { [crop: string]: number } } = {};
+  const cropCounts: { [date: string]: { [crop: string]: number } } = {};
+
   data.forEach((score) => {
-    const date = score.search_date.split(" ")[0]; // Extracting only the date part
-    if (!dailyAverages[date]) {
-      dailyAverages[date] = { totalRisk: 0, count: 0 };
+    const date = score.search_date.split(" ")[0];
+    if (!groupedData[date]) {
+      groupedData[date] = {};
+      cropCounts[date] = {};
     }
-    dailyAverages[date].totalRisk += score.composite_total_risk;
-    dailyAverages[date].count += 1;
+    if (!groupedData[date][score.crop]) {
+      groupedData[date][score.crop] = 0;
+      cropCounts[date][score.crop] = 0;
+    }
+    groupedData[date][score.crop] += score.composite_total_risk;
+    cropCounts[date][score.crop] += 1;
   });
+
+  // Extract unique crops
+  const crops = Array.from(new Set(data.map((score) => score.crop)));
+
+  // Prepare series data
+  const seriesData = crops.map((crop) => ({
+    name: crop,
+    data: Object.keys(groupedData).map((date) => {
+      const totalRisk = groupedData[date][crop] || 0;
+      const count = cropCounts[date][crop] || 1; // Avoid division by zero
+      return (totalRisk / count).toFixed(0);
+    }),
+  }));
+
+  // Prepare x-axis categories
+  const categories = Object.keys(groupedData);
+
   // ApexCharts configuration
-  const chartData = {
-    options: {
-      chart: {
-        id: "credit-usage-chart",
-        height: "100%",
-        maxWidth: "100%",
-        type: "line",
-        dropShadow: {
-          enabled: false,
-        },
-        toolbar: {
-          show: false,
-        },
-      },
-      xaxis: {
-        type: "datetime",
-      },
-      yaxis: {
-        min: 0,
-        max: 100,
-        title: {
-          text: "Composite Total Risk",
-        },
+  const chartOptions = {
+    chart: {
+      type: "bar",
+      stacked: true,
+    },
+    xaxis: {
+      categories,
+    },
+    yaxis: {
+      title: {
+        text: "Average Composite Total Risk",
       },
     },
-    grid: {
-      show: false,
-      strokeDashArray: 4,
-      padding: {
-        left: 2,
-        right: 2,
-        top: 0,
-      },
-    },
-    stroke: {
-      curve: "smooth",
-    },
-    dataLabels: {
-      enabled: false,
-    },
-    series: [
-      {
-        name: "Risk",
-        data: Object.keys(dailyAverages).map((date) => ({
-          x: new Date(date).getTime(),
-          y: Number(
-            dailyAverages[date].totalRisk / dailyAverages[date].count
-          ).toFixed(0),
-        })),
-      },
-    ],
   };
 
   return (
     <ReactApexChart
-      options={chartData.options}
-      series={chartData.series}
-      type="line"
+      options={chartOptions}
+      series={seriesData}
+      type="bar"
       height={350}
     />
   );
 };
 
-export default SplineChart;
+export default StackedBarChart;

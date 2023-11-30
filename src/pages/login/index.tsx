@@ -76,6 +76,7 @@ const LogIn = () => {
         const accessToken = userData?.access_token;
         const userId = userData?.id;
         const email = userData?.email;
+        const forcePaswordChange = userData?.force_password_change;
 
         // Save user data to local storage
         localStorage.setItem("user_data", JSON.stringify(userData));
@@ -83,7 +84,12 @@ const LogIn = () => {
         localStorage.setItem("accesstoken", accessToken);
         localStorage.setItem("email", email);
 
-        navigate(from, { replace: true });
+        if (forcePaswordChange) {
+          navigate("/create_password", { replace: true });
+        } else {
+          navigate(from, { replace: true });
+        }
+
         const welcomeMessage = "Login successful.";
         setSuccessMsg(welcomeMessage);
         setErrMsg("");

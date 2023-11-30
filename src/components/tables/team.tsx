@@ -14,10 +14,6 @@ const schema = yup.object().shape({
   last_name: yup.string().required("Name is required"),
   username: yup.string().required("Name is required"),
   email: yup.string().required("Description is required"),
-  password: yup
-    .string()
-    .min(8, "Password too short")
-    .required("A Valid Password is Required!"),
 });
 
 interface FormData {
@@ -25,7 +21,6 @@ interface FormData {
   last_name: string;
   username: string;
   email: string;
-  password: string;
 }
 
 interface TeamData {
@@ -76,6 +71,64 @@ export default function TeamTable() {
         });
         console.error("API Error:", error);
       });
+  };
+
+  const deleteTeamMember = (userId: string) => {
+    const URL_DELETE_MEMBER = `/team_back_office/v1/${companyId}/users/${userId}`;
+    Swal.fire({
+      title: "Do you want to delete the team Member?",
+      showDenyButton: true,
+      showCancelButton: false,
+      confirmButtonText: "Delete",
+      denyButtonText: `No`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosPrivate({ method: "DELETE", url: URL_DELETE_MEMBER })
+          .then(() => {
+            toast.success("Team Member Deleted Successfully");
+            loadMembers();
+          })
+          .catch((error) => {
+            Swal.fire({
+              icon: "error",
+              title: "Not Authorized.",
+              text: "You are not Authorized to access this Section",
+            });
+            console.error("API Error:", error);
+          });
+      } else if (result.isDenied) {
+        return;
+      }
+    });
+  };
+
+  const suspendTeamMember = (userId: string) => {
+    const URL_SUSPEND_MEMBER = `/team_back_office/v1/${companyId}/suspend/${userId}`;
+    Swal.fire({
+      title: "Do you want to Suspend the team Member?",
+      showDenyButton: true,
+      showCancelButton: false,
+      confirmButtonText: "Suspend",
+      denyButtonText: `No`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosPrivate({ method: "PUT", url: URL_SUSPEND_MEMBER })
+          .then(() => {
+            toast.success("Team Member Suspended Successfully");
+            loadMembers();
+          })
+          .catch((error) => {
+            Swal.fire({
+              icon: "error",
+              title: "Not Authorized.",
+              text: "You are not Authorized to access this Section",
+            });
+            console.error("API Error:", error);
+          });
+      } else if (result.isDenied) {
+        return;
+      }
+    });
   };
 
   const onSubmit = async (data: FormData) => {
@@ -145,176 +198,12 @@ export default function TeamTable() {
     setIsInviteModalOpen((prev) => !prev);
   };
 
-  function generateStrongPassword(length = 12) {
-    const uppercaseLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    const lowercaseLetters = "abcdefghijklmnopqrstuvwxyz";
-    const numbers = "0123456789";
-    const symbols = "!@#$%^&*()-_=+[]{}|;:,.<>?";
-
-    const allCharacters =
-      uppercaseLetters + lowercaseLetters + numbers + symbols;
-
-    let password = "";
-    for (let i = 0; i < length; i++) {
-      const randomIndex = Math.floor(Math.random() * allCharacters.length);
-      password += allCharacters.charAt(randomIndex);
-    }
-
-    return password;
-  }
-
   return (
     <>
       {/* Card */}
       <div className="flex flex-col">
         <div className="-m-1.5 overflow-x-auto">
           <div className="p-1.5 min-w-full inline-block align-middle">
-            <div className="grid md:grid-cols-2 gap-12">
-              <div>
-                {/* Card */}
-                <div className="flex flex-col border rounded-xl p-4 sm:p-6 lg:p-10 dark:border-gray-700">
-                  <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200">
-                    General information
-                  </h2>
-                  <form>
-                    <div className="mt-6 grid gap-4 lg:gap-6">
-                      {/* Grid */}
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
-                        <div>
-                          <label
-                            htmlFor="hs-firstname-hire-us-1"
-                            className="block text-sm text-gray-700 font-medium dark:text-white"
-                          >
-                            Company Name
-                          </label>
-                          <input
-                            type="text"
-                            name="hs-firstname-hire-us-1"
-                            id="hs-firstname-hire-us-1"
-                            className="border py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
-                          />
-                        </div>
-                        <div>
-                          <label
-                            htmlFor="hs-lastname-hire-us-1"
-                            className="block text-sm text-gray-700 font-medium dark:text-white"
-                          >
-                            Website
-                          </label>
-                          <input
-                            type="text"
-                            name="hs-lastname-hire-us-1"
-                            id="hs-lastname-hire-us-1"
-                            className="border py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
-                          />
-                        </div>
-                      </div>
-                      {/* End Grid */}
-                      <div>
-                        <label
-                          htmlFor="hs-work-email-hire-us-1"
-                          className="block text-sm text-gray-700 font-medium dark:text-white"
-                        >
-                          Logo
-                        </label>
-                        <input
-                          type="email"
-                          name="hs-work-email-hire-us-1"
-                          id="hs-work-email-hire-us-1"
-                          autoComplete="email"
-                          className="border py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
-                        />
-                      </div>
-                    </div>
-                    {/* End Grid */}
-                    <div className="mt-6 grid">
-                      <button
-                        type="submit"
-                        className="inline-flex justify-center items-center gap-x-3 text-center bg-blue-600 hover:bg-blue-700 border border-transparent text-sm lg:text-base text-white font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:ring-offset-white transition py-3 px-4 dark:focus:ring-offset-gray-800"
-                      >
-                        Save All
-                      </button>
-                    </div>
-                  </form>
-                </div>
-                {/* End Card */}
-              </div>
-              <div>
-                {/* Card */}
-                <div className="flex flex-col border rounded-xl p-4 sm:p-6 lg:p-10 dark:border-gray-700">
-                  <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200">
-                    Profile information
-                  </h2>
-                  <form onSubmit={handleSubmit(onSubmit)}>
-                    <div className="mt-6 grid gap-4 lg:gap-6">
-                      {/* Grid */}
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
-                        <div>
-                          <label
-                            htmlFor="hs-firstname-hire-us-1"
-                            className="block text-sm text-gray-700 font-medium dark:text-white"
-                          >
-                            Misssion
-                          </label>
-                          <input
-                            type="text"
-                            className="border py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
-                          />
-                          <p
-                            className="text-sm text-red-600 mt-2"
-                            id="hs-validation-name-error-helper"
-                          ></p>
-                        </div>
-                        <div>
-                          <label
-                            htmlFor="hs-lastname-hire-us-1"
-                            className="block text-sm text-gray-700 font-medium dark:text-white"
-                          >
-                            Vision
-                          </label>
-                          <input
-                            type="text"
-                            className="border py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
-                          />
-                          <p
-                            className="text-sm text-red-600 mt-2"
-                            id="hs-validation-name-error-helper"
-                          ></p>
-                        </div>
-                      </div>
-                      {/* End Grid */}
-                      <div>
-                        <label
-                          htmlFor="hs-work-email-hire-us-1"
-                          className="block text-sm text-gray-700 font-medium dark:text-white"
-                        >
-                          Description
-                        </label>
-                        <input
-                          type="text"
-                          className="border py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
-                        />
-                        <p
-                          className="text-sm text-red-600 mt-2"
-                          id="hs-validation-name-error-helper"
-                        ></p>
-                      </div>
-                    </div>
-                    {/* End Grid */}
-                    <div className="mt-6 grid">
-                      <button
-                        type="submit"
-                        className="inline-flex justify-center items-center gap-x-3 text-center bg-blue-600 hover:bg-blue-700 border border-transparent text-sm lg:text-base text-white font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:ring-offset-white transition py-3 px-4 dark:focus:ring-offset-gray-800"
-                      >
-                        Update Password
-                      </button>
-                    </div>
-                  </form>
-                </div>
-                {/* End Card */}
-              </div>
-            </div>
-
             <div className="mt-10 bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden dark:bg-slate-900 dark:border-gray-700">
               {/* Header */}
               <div className="px-6 py-4 grid gap-3 md:flex md:justify-between md:items-center border-b border-gray-200 dark:border-gray-700">
@@ -571,22 +460,6 @@ export default function TeamTable() {
                                 {...registerForm("email")}
                               />
                             </div>
-                            <div className="p-4 overflow-y-auto">
-                              <label
-                                htmlFor="password"
-                                className="block text-sm font-medium mb-2 dark:text-white"
-                              >
-                                Password
-                              </label>
-                              <input
-                                id="password"
-                                type="password"
-                                className="py-3 px-4 border block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
-                                placeholder="*******"
-                                defaultValue={generateStrongPassword()}
-                                {...registerForm("password")}
-                              />
-                            </div>
                             <div className="flex justify-end items-center gap-x-2 py-3 px-4 border-t dark:border-gray-700">
                               <button
                                 type="button"
@@ -683,193 +556,220 @@ export default function TeamTable() {
               {/* End Header */}
               {/* Table */}
               <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                <thead className="bg-gray-50 dark:bg-slate-800">
-                  <tr>
-                    <th scope="col" className="pl-6 py-3 text-left">
-                      <label
-                        htmlFor="hs-at-with-checkboxes-main"
-                        className="flex"
-                      >
-                        <input
-                          type="checkbox"
-                          className="shrink-0 border-gray-200 rounded text-blue-600 pointer-events-none focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
-                          id="hs-at-with-checkboxes-main"
-                        />
-                        <span className="sr-only">Checkbox</span>
-                      </label>
-                    </th>
-                    <th
-                      scope="col"
-                      className="pl-6 lg:pl-3 xl:pl-0 pr-6 py-3 text-left"
-                    >
-                      <div className="flex items-center gap-x-2">
-                        <span className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
-                          Name
-                        </span>
-                      </div>
-                    </th>
-                    <th scope="col" className="px-6 py-3 text-left">
-                      <div className="flex items-center gap-x-2">
-                        <span className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
-                          Username
-                        </span>
-                      </div>
-                    </th>
-                    <th scope="col" className="px-6 py-3 text-left">
-                      <div className="flex items-center gap-x-2">
-                        <span className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
-                          Role
-                        </span>
-                      </div>
-                    </th>
-                    <th scope="col" className="px-6 py-3 text-left">
-                      <div className="flex items-center gap-x-2">
-                        <span className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
-                          Status
-                        </span>
-                      </div>
-                    </th>
-                    <th scope="col" className="px-6 py-3 text-left">
-                      <div className="flex items-center gap-x-2">
-                        <span className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
-                          Last Login
-                        </span>
-                      </div>
-                    </th>
-                    <th scope="col" className="px-6 py-3 text-left">
-                      <div className="flex items-center gap-x-2">
-                        <span className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
-                          Date Created
-                        </span>
-                      </div>
-                    </th>
-                    <th scope="col" className="px-6 py-3 text-right" />
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                  {userList?.users.map((data) => (
+                {userList?.users.length !== 0 ? (
+                  <thead className="bg-gray-50 dark:bg-slate-800">
                     <tr>
-                      <td className="h-px w-px whitespace-nowrap">
-                        <div className="pl-6 py-3">
-                          <label
-                            htmlFor="hs-at-with-checkboxes-1"
-                            className="flex"
-                          >
-                            <input
-                              type="checkbox"
-                              className="shrink-0 border-gray-200 rounded text-blue-600 pointer-events-none focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
-                              id="hs-at-with-checkboxes-1"
-                            />
-                            <span className="sr-only">Checkbox</span>
-                          </label>
-                        </div>
-                      </td>
-                      <td className="h-px w-px whitespace-nowrap">
-                        <div className="pl-6 lg:pl-3 xl:pl-0 pr-6 py-3">
-                          <div className="flex items-center gap-x-3">
-                            <span className="inline-flex items-center justify-center h-[2.375rem] w-[2.375rem] rounded-full bg-blue-300 dark:bg-blue-700">
-                              <span className="font-medium text-blue-800 leading-none dark:text-blue-200">
-                                {data.username.charAt(0).toUpperCase()}
-                              </span>
-                            </span>
-                            <div className="grow">
-                              <span className="block text-sm font-semibold text-gray-800 dark:text-gray-200">
-                                {data.first_name}
-                              </span>
-                              <span className="block text-sm text-gray-500">
-                                {data.email}
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                      </td>
-                      <td className="h-px w-px whitespace-nowrap">
-                        <div className="px-6 py-3">
-                          <span className="block text-sm font-semibold text-gray-800 dark:text-gray-200">
-                            {data.username}
-                          </span>
-                          {/* <span className="inline-flex items-center gap-1.5 py-1 px-2 rounded-md text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200">
-                            {data.department}
-                          </span> */}
-                        </div>
-                      </td>
-
-                      <td className="h-px w-px whitespace-nowrap">
-                        <div className="px-6 py-2">
-                          <span className="text-sm text-gray-600 dark:text-gray-400">
-                            {data.role}
+                      <th scope="col" className="pl-6 py-3 text-left">
+                        <label
+                          htmlFor="hs-at-with-checkboxes-main"
+                          className="flex"
+                        >
+                          <input
+                            type="checkbox"
+                            className="shrink-0 border-gray-200 rounded text-blue-600 pointer-events-none focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                            id="hs-at-with-checkboxes-main"
+                          />
+                          <span className="sr-only">Checkbox</span>
+                        </label>
+                      </th>
+                      <th
+                        scope="col"
+                        className="pl-6 lg:pl-3 xl:pl-0 pr-6 py-3 text-left"
+                      >
+                        <div className="flex items-center gap-x-2">
+                          <span className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
+                            Name
                           </span>
                         </div>
-                      </td>
-
-                      <td className="h-px w-px whitespace-nowrap">
-                        <div className="px-6 py-3">
-                          <span className={getStatusClassName("Active")}>
-                            Active
+                      </th>
+                      <th scope="col" className="px-6 py-3 text-left">
+                        <div className="flex items-center gap-x-2">
+                          <span className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
+                            Username
                           </span>
                         </div>
-                      </td>
-                      <td className="h-px w-px whitespace-nowrap">
-                        <div className="px-6 py-3">
-                          <span className="text-sm text-gray-500">login</span>
+                      </th>
+                      <th scope="col" className="px-6 py-3 text-left">
+                        <div className="flex items-center gap-x-2">
+                          <span className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
+                            Role
+                          </span>
                         </div>
-                      </td>
-                      <td className="h-px w-px whitespace-nowrap">
-                        <div className="px-6 py-3">
-                          <span className="text-sm text-gray-500">2023</span>
+                      </th>
+                      <th scope="col" className="px-6 py-3 text-left">
+                        <div className="flex items-center gap-x-2">
+                          <span className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
+                            Status
+                          </span>
                         </div>
-                      </td>
-                      <td className="h-px w-px whitespace-nowrap">
-                        <div className="px-6 py-1.5">
-                          <div className="hs-dropdown relative inline-block [--placement:bottom-right]">
-                            <button
-                              id="hs-table-dropdown-6"
-                              type="button"
-                              className="hs-dropdown-toggle py-1.5 px-2 inline-flex justify-center items-center gap-2 rounded-md text-gray-700 align-middle focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800"
-                            >
-                              <svg
-                                className="w-4 h-4"
-                                xmlns="http://www.w3.org/2000/svg"
-                                width={16}
-                                height={16}
-                                fill="currentColor"
-                                viewBox="0 0 16 16"
-                              >
-                                <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z" />
-                              </svg>
-                            </button>
-                            <div
-                              className="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden mt-2 divide-y divide-gray-200 min-w-[10rem] z-10 bg-white shadow-2xl rounded-lg p-2 mt-2 dark:divide-gray-700 dark:bg-gray-800 dark:border dark:border-gray-700"
-                              aria-labelledby="hs-table-dropdown-6"
-                            >
-                              <div className="py-2 first:pt-0 last:pb-0">
-                                <a
-                                  className="flex items-center gap-x-3 py-2 px-3 rounded-md text-sm text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
-                                  href="#"
-                                >
-                                  Invite
-                                </a>
-                                <a
-                                  className="flex items-center gap-x-3 py-2 px-3 rounded-md text-sm text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
-                                  href="#"
-                                >
-                                  Suspend
-                                </a>
-                              </div>
-                              <div className="py-2 first:pt-0 last:pb-0">
-                                <a
-                                  className="flex items-center gap-x-3 py-2 px-3 rounded-md text-sm text-red-600 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-red-500 dark:hover:bg-gray-700"
-                                  href="#"
-                                >
-                                  Delete
-                                </a>
-                              </div>
-                            </div>
-                          </div>
+                      </th>
+                      <th scope="col" className="px-6 py-3 text-left">
+                        <div className="flex items-center gap-x-2">
+                          <span className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
+                            Last Login
+                          </span>
                         </div>
-                      </td>
+                      </th>
+                      <th scope="col" className="px-6 py-3 text-left">
+                        <div className="flex items-center gap-x-2">
+                          <span className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
+                            Date Created
+                          </span>
+                        </div>
+                      </th>
+                      <th scope="col" className="px-6 py-3 text-left">
+                        <div className="flex items-center gap-x-2">
+                          <span className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
+                            Action
+                          </span>
+                        </div>
+                      </th>
                     </tr>
-                  ))}
+                  </thead>
+                ) : (
+                  ""
+                )}
+                <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+                  {userList?.users.length !== 0 ? (
+                    userList?.users.map((data) => (
+                      <tr>
+                        <td className="h-px w-px whitespace-nowrap">
+                          <div className="pl-6 py-3">
+                            <label
+                              htmlFor="hs-at-with-checkboxes-1"
+                              className="flex"
+                            >
+                              <input
+                                type="checkbox"
+                                className="shrink-0 border-gray-200 rounded text-blue-600 pointer-events-none focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                                id="hs-at-with-checkboxes-1"
+                              />
+                              <span className="sr-only">Checkbox</span>
+                            </label>
+                          </div>
+                        </td>
+                        <td className="h-px w-px whitespace-nowrap">
+                          <div className="pl-6 lg:pl-3 xl:pl-0 pr-6 py-3">
+                            <div className="flex items-center gap-x-3">
+                              <span className="inline-flex items-center justify-center h-[2.375rem] w-[2.375rem] rounded-full bg-blue-300 dark:bg-blue-700">
+                                <span className="font-medium text-blue-800 leading-none dark:text-blue-200">
+                                  {data.username.charAt(0).toUpperCase()}
+                                </span>
+                              </span>
+                              <div className="grow">
+                                <span className="block text-sm font-semibold text-gray-800 dark:text-gray-200">
+                                  {data.first_name}
+                                </span>
+                                <span className="block text-sm text-gray-500">
+                                  {data.email}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        <td className="h-px w-px whitespace-nowrap">
+                          <div className="px-6 py-3">
+                            <span className="block text-sm font-semibold text-gray-800 dark:text-gray-200">
+                              {data.username}
+                            </span>
+                            <span className="inline-flex items-center gap-1.5 py-1 px-2 rounded-md text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200">
+                              {data.id}
+                            </span>
+                          </div>
+                        </td>
+
+                        <td className="h-px w-px whitespace-nowrap">
+                          <div className="px-6 py-2">
+                            <span className="text-sm text-gray-600 dark:text-gray-400">
+                              {data.role}
+                            </span>
+                          </div>
+                        </td>
+
+                        <td className="h-px w-px whitespace-nowrap">
+                          <div className="px-6 py-3">
+                            <span className={getStatusClassName("Active")}>
+                              Active
+                            </span>
+                          </div>
+                        </td>
+                        <td className="h-px w-px whitespace-nowrap">
+                          <div className="px-6 py-3">
+                            <span className="text-sm text-gray-500">login</span>
+                          </div>
+                        </td>
+                        <td className="h-px w-px whitespace-nowrap">
+                          <div className="px-6 py-3">
+                            <span className="text-sm text-gray-500">2023</span>
+                          </div>
+                        </td>
+                        <td className="h-px w-px whitespace-nowrap">
+                          <div className="px-6 py-1.5">
+                            <div className="hs-dropdown relative inline-block [--placement:bottom-right]">
+                              <button
+                                id="hs-table-dropdown-6"
+                                type="button"
+                                className="hs-dropdown-toggle py-1.5 px-2 inline-flex justify-center items-center gap-2 rounded-md text-gray-700 align-middle focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800"
+                              >
+                                <i className="bi bi-three-dots"></i>
+                              </button>
+                              <div
+                                className="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden mt-2 divide-y divide-gray-200 min-w-[10rem] z-10 bg-white shadow-2xl rounded-lg p-2 mt-2 dark:divide-gray-700 dark:bg-gray-800 dark:border dark:border-gray-700"
+                                aria-labelledby="hs-table-dropdown-6"
+                              >
+                                <div className="py-2 first:pt-0 last:pb-0">
+                                  <button
+                                    className="flex items-center gap-x-3 py-2 px-3 rounded-md text-sm text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
+                                    onClick={() => suspendTeamMember(data.id)}
+                                  >
+                                    Suspend
+                                  </button>
+                                </div>
+                                <div className="py-2 first:pt-0 last:pb-0">
+                                  <button
+                                    className="flex items-center gap-x-3 py-2 px-3 rounded-md text-sm text-red-600 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-red-500 dark:hover:bg-gray-700"
+                                    onClick={() => deleteTeamMember(data.id)}
+                                  >
+                                    Delete
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <div className="max-w-sm w-full min-h-[400px] flex flex-col justify-center mx-auto px-6 py-4">
+                      <div className="flex justify-center items-center w-[46px] h-[46px] bg-gray-100 rounded-lg dark:bg-gray-800">
+                        <i className="bi bi-card-list"></i>
+                      </div>
+                      <h2 className="mt-5 font-semibold text-gray-800 dark:text-white">
+                        No Team Member Found
+                      </h2>
+                      <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
+                        Invite New Team Members.
+                      </p>
+                      <div></div>
+                      <div className="mt-5 grid sm:flex gap-2">
+                        <button
+                          type="button"
+                          className="py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
+                          onClick={toggleModal}
+                        >
+                          <i className="bi bi-plus"></i>
+                          Add a Member
+                        </button>
+                        <button
+                          type="button"
+                          className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
+                          onClick={toggleInviteModal}
+                        >
+                          Invite Existing User
+                        </button>
+                      </div>
+                    </div>
+                  )}
                 </tbody>
               </table>
               {/* End Table */}

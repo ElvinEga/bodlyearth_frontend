@@ -19,7 +19,7 @@ interface FormData {
 export default function Profile() {
   const [user, setUser] = useState<UserDetails>();
   const storedUserId = localStorage.getItem("userId");
-  const accessToken = localStorage.getItem("accesstoken");
+  // const accessToken = localStorage.getItem("accesstoken");
   const email = localStorage.getItem("email");
 
   useQuery(["userDetails"], () => {
@@ -33,13 +33,27 @@ export default function Profile() {
       });
   });
 
+  const regex =
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
   const schema = yup.object().shape({
-    new_password: yup.string().min(8).max(20).required("Password is Required!"),
-    old_password: yup.string().min(8).max(20).required("Password is Required!"),
+    new_password: yup
+      .string()
+      .min(8)
+      .max(20)
+      .matches(regex)
+      .required("Password is Required!"),
+    old_password: yup
+      .string()
+      .min(8)
+      .max(20)
+      .matches(regex)
+      .required("Password is Required!"),
     confirm_password: yup
       .string()
       .min(8)
       .max(20)
+      .matches(regex)
       .oneOf([yup.ref("confirm_password")], "Passwords must match"),
   });
   const {
@@ -55,7 +69,7 @@ export default function Profile() {
   const onSubmit = (data: any) => {
     data.email = email;
     console.log(data);
-    const PROFILE_URL = `/app_auth/v1/reset_password/${accessToken}`;
+    const PROFILE_URL = `/app_auth/v1/reset_password/`;
     axiosPrivate({
       method: "POST",
       url: PROFILE_URL,
@@ -67,7 +81,7 @@ export default function Profile() {
         Swal.fire({
           position: "top-end",
           icon: "success",
-          title: "Password Chnaged",
+          title: "Password Changed",
           showConfirmButton: false,
           timer: 1500,
         });
@@ -264,6 +278,11 @@ export default function Profile() {
                       id="hs-validation-name-error-helper"
                     >
                       {errors.confirm_password?.message}
+                    </p>
+                    <p className="text-xs text-gray-500 mt-3">
+                      Password should at Least 8 characters long with an
+                      uppercase, lowercase with at least 1 number and 1 special
+                      characters
                     </p>
                   </div>
                 </div>

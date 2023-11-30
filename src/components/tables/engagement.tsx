@@ -114,6 +114,33 @@ export default function EngagementTable({ scoreList }: Props) {
         Swal.close;
       });
   };
+  const deleteScore = (scoreId: string) => {
+    const URL_DELETE_SCORE = `/risk/v1/location_scores/${scoreId}/delete`;
+    Swal.fire({
+      title: "Do you want to delete the Sreach from History?",
+      showDenyButton: true,
+      showCancelButton: false,
+      confirmButtonText: "Delete",
+      denyButtonText: `No`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosPrivate<Company>({ method: "DELETE", url: URL_DELETE_SCORE })
+          .then(() => {
+            toast.success("Search Deleted Successfully");
+          })
+          .catch((error) => {
+            Swal.fire({
+              icon: "error",
+              title: "Not Authorized.",
+              text: "You are not Authorized to access this Section",
+            });
+            console.error("API Error:", error);
+          });
+      } else if (result.isDenied) {
+        return;
+      }
+    });
+  };
 
   return (
     <>
@@ -243,7 +270,7 @@ export default function EngagementTable({ scoreList }: Props) {
 
                     <a
                       className="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
-                      href="/"
+                      href="/dashboard"
                     >
                       <svg
                         className="w-3 h-3"
@@ -455,26 +482,12 @@ export default function EngagementTable({ scoreList }: Props) {
                               aria-labelledby="hs-table-dropdown-6"
                             >
                               <div className="py-2 first:pt-0 last:pb-0">
-                                <a
-                                  className="flex items-center gap-x-3 py-2 px-3 rounded-md text-sm text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
-                                  href="#"
-                                >
-                                  Invite
-                                </a>
-                                <a
-                                  className="flex items-center gap-x-3 py-2 px-3 rounded-md text-sm text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
-                                  href="#"
-                                >
-                                  Suspend
-                                </a>
-                              </div>
-                              <div className="py-2 first:pt-0 last:pb-0">
-                                <a
+                                <button
                                   className="flex items-center gap-x-3 py-2 px-3 rounded-md text-sm text-red-600 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-red-500 dark:hover:bg-gray-700"
-                                  href="#"
+                                  onClick={() => deleteScore(data.score_id)}
                                 >
                                   Delete
-                                </a>
+                                </button>
                               </div>
                             </div>
                           </div>

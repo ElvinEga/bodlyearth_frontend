@@ -46,11 +46,11 @@ export default function CompaniesTable() {
   const { register: registerForm, handleSubmit } = useForm<FormData>({
     resolver: yupResolver(schema),
   });
-  const [companyList, setCompantList] = useState<Company[]>([]);
+  const [companyList, setCompantList] = useState<Company>();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const loadTeams = () => {
-    axiosPrivate<Company[]>({ method: "GET", url: URL_TEAM_LIST })
+    axiosPrivate<Company>({ method: "GET", url: URL_TEAM_LIST })
       .then((data) => {
         setCompantList(data);
       })
@@ -62,6 +62,64 @@ export default function CompaniesTable() {
         });
         console.error("API Error:", error);
       });
+  };
+
+  const deleteTeam = (teamId: string) => {
+    const URL_DELETE_TEAM = `/team_back_office/v1/${teamId}/delete`;
+    Swal.fire({
+      title: "Do you want to delete the team?",
+      showDenyButton: true,
+      showCancelButton: false,
+      confirmButtonText: "Delete",
+      denyButtonText: `No`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosPrivate<Company>({ method: "DELETE", url: URL_DELETE_TEAM })
+          .then(() => {
+            toast.success("Team Deleted Successfully");
+            loadTeams();
+          })
+          .catch((error) => {
+            Swal.fire({
+              icon: "error",
+              title: "Not Authorized.",
+              text: "You are not Authorized to access this Section",
+            });
+            console.error("API Error:", error);
+          });
+      } else if (result.isDenied) {
+        return;
+      }
+    });
+  };
+
+  const suspendTeam = (teamId: string) => {
+    const URL_SUSPEND_TEAM = `/team_back_office/v1/${teamId}/suspend_team`;
+    Swal.fire({
+      title: "Do you want to Suspend the team?",
+      showDenyButton: true,
+      showCancelButton: false,
+      confirmButtonText: "Suspend",
+      denyButtonText: `No`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosPrivate<Company>({ method: "PUT", url: URL_SUSPEND_TEAM })
+          .then(() => {
+            toast.success("Team Suspended Successfully");
+            loadTeams();
+          })
+          .catch((error) => {
+            Swal.fire({
+              icon: "error",
+              title: "Not Authorized.",
+              text: "You are not Authorized to access this Section",
+            });
+            console.error("API Error:", error);
+          });
+      } else if (result.isDenied) {
+        return;
+      }
+    });
   };
 
   const onSubmit = async (data: FormData) => {
@@ -82,7 +140,7 @@ export default function CompaniesTable() {
   };
 
   useQuery(["companies"], () => {
-    return axiosPrivate<Company[]>({ method: "GET", url: URL_TEAM_LIST })
+    return axiosPrivate<Company>({ method: "GET", url: URL_TEAM_LIST })
       .then((data) => {
         setCompantList(data);
       })
@@ -395,11 +453,17 @@ export default function CompaniesTable() {
                         </span>
                       </div>
                     </th>
-                    <th scope="col" className="px-6 py-3 text-right" />
+                    <th scope="col" className="px-6 py-3 text-left">
+                      <div className="flex items-center gap-x-2">
+                        <span className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
+                          Action
+                        </span>
+                      </div>
+                    </th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                  {companyList?.map((data: Company) => (
+                  {companyList?.teams.map((data) => (
                     <tr>
                       <td className="h-px w-px whitespace-nowrap">
                         <div className="pl-6 py-3">
@@ -453,9 +517,15 @@ export default function CompaniesTable() {
 
                       <td className="h-px w-px whitespace-nowrap">
                         <div className="px-6 py-3">
-                          <span className={getStatusClassName("Registred")}>
-                            Registred
-                          </span>
+                          {data.is_suspended ? (
+                            <span className={getStatusClassName("Suspended")}>
+                              Suspended
+                            </span>
+                          ) : (
+                            <span className={getStatusClassName("Registred")}>
+                              Active
+                            </span>
+                          )}
                         </div>
                       </td>
                       <td className="h-px w-px whitespace-nowrap">
@@ -473,6 +543,36 @@ export default function CompaniesTable() {
                               View
                             </div>
                           </Link>
+                          <div className="hs-dropdown relative inline-block [--placement:bottom-right] px-2">
+                            <button
+                              id="hs-table-dropdown-6"
+                              type="button"
+                              className="hs-dropdown-toggle py-1.5 px-2 inline-flex justify-center items-center gap-2 rounded-md text-gray-700 align-middle focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800"
+                            >
+                              <i className="bi bi-three-dots"></i>
+                            </button>
+                            <div
+                              className="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden  divide-y divide-gray-200 min-w-[10rem] z-10 bg-white shadow-2xl rounded-lg p-2 mt-2 dark:divide-gray-700 dark:bg-gray-800 dark:border dark:border-gray-700"
+                              aria-labelledby="hs-table-dropdown-6"
+                            >
+                              <div className="py-2 first:pt-0 last:pb-0">
+                                <button
+                                  className="flex items-center gap-x-3 py-2 px-3 rounded-md text-sm text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
+                                  onClick={() => suspendTeam(data.id)}
+                                >
+                                  Suspend
+                                </button>
+                              </div>
+                              <div className="py-2 first:pt-0 last:pb-0">
+                                <button
+                                  className="flex items-center gap-x-3 py-2 px-3 rounded-md text-sm text-red-600 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-red-500 dark:hover:bg-gray-700"
+                                  onClick={() => deleteTeam(data.id)}
+                                >
+                                  Delete
+                                </button>
+                              </div>
+                            </div>
+                          </div>
                         </div>
                       </td>
                     </tr>
@@ -485,7 +585,7 @@ export default function CompaniesTable() {
                 <div>
                   <p className="text-sm text-gray-600 dark:text-gray-400">
                     <span className="font-semibold text-gray-800 dark:text-gray-200">
-                      6
+                      {companyList?.page_info.total_items}
                     </span>{" "}
                     results
                   </p>
