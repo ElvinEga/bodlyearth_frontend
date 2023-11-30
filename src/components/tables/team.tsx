@@ -702,184 +702,220 @@ export default function TeamTable() {
               {/* End Header */}
               {/* Table */}
               <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                <thead className="bg-gray-50 dark:bg-slate-800">
-                  <tr>
-                    <th scope="col" className="pl-6 py-3 text-left">
-                      <label
-                        htmlFor="hs-at-with-checkboxes-main"
-                        className="flex"
-                      >
-                        <input
-                          type="checkbox"
-                          className="shrink-0 border-gray-200 rounded text-blue-600 pointer-events-none focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
-                          id="hs-at-with-checkboxes-main"
-                        />
-                        <span className="sr-only">Checkbox</span>
-                      </label>
-                    </th>
-                    <th
-                      scope="col"
-                      className="pl-6 lg:pl-3 xl:pl-0 pr-6 py-3 text-left"
-                    >
-                      <div className="flex items-center gap-x-2">
-                        <span className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
-                          Name
-                        </span>
-                      </div>
-                    </th>
-                    <th scope="col" className="px-6 py-3 text-left">
-                      <div className="flex items-center gap-x-2">
-                        <span className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
-                          Username
-                        </span>
-                      </div>
-                    </th>
-                    <th scope="col" className="px-6 py-3 text-left">
-                      <div className="flex items-center gap-x-2">
-                        <span className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
-                          Role
-                        </span>
-                      </div>
-                    </th>
-                    <th scope="col" className="px-6 py-3 text-left">
-                      <div className="flex items-center gap-x-2">
-                        <span className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
-                          Status
-                        </span>
-                      </div>
-                    </th>
-                    <th scope="col" className="px-6 py-3 text-left">
-                      <div className="flex items-center gap-x-2">
-                        <span className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
-                          Last Login
-                        </span>
-                      </div>
-                    </th>
-                    <th scope="col" className="px-6 py-3 text-left">
-                      <div className="flex items-center gap-x-2">
-                        <span className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
-                          Date Created
-                        </span>
-                      </div>
-                    </th>
-                    <th scope="col" className="px-6 py-3 text-left">
-                      <div className="flex items-center gap-x-2">
-                        <span className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
-                          Action
-                        </span>
-                      </div>
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                  {userList?.users.map((data) => (
+                {userList?.users.length !== 0 ? (
+                  <thead className="bg-gray-50 dark:bg-slate-800">
                     <tr>
-                      <td className="h-px w-px whitespace-nowrap">
-                        <div className="pl-6 py-3">
-                          <label
-                            htmlFor="hs-at-with-checkboxes-1"
-                            className="flex"
-                          >
-                            <input
-                              type="checkbox"
-                              className="shrink-0 border-gray-200 rounded text-blue-600 pointer-events-none focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
-                              id="hs-at-with-checkboxes-1"
-                            />
-                            <span className="sr-only">Checkbox</span>
-                          </label>
-                        </div>
-                      </td>
-                      <td className="h-px w-px whitespace-nowrap">
-                        <div className="pl-6 lg:pl-3 xl:pl-0 pr-6 py-3">
-                          <div className="flex items-center gap-x-3">
-                            <span className="inline-flex items-center justify-center h-[2.375rem] w-[2.375rem] rounded-full bg-blue-300 dark:bg-blue-700">
-                              <span className="font-medium text-blue-800 leading-none dark:text-blue-200">
-                                {data.username.charAt(0).toUpperCase()}
-                              </span>
-                            </span>
-                            <div className="grow">
-                              <span className="block text-sm font-semibold text-gray-800 dark:text-gray-200">
-                                {data.first_name}
-                              </span>
-                              <span className="block text-sm text-gray-500">
-                                {data.email}
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                      </td>
-                      <td className="h-px w-px whitespace-nowrap">
-                        <div className="px-6 py-3">
-                          <span className="block text-sm font-semibold text-gray-800 dark:text-gray-200">
-                            {data.username}
-                          </span>
-                          <span className="inline-flex items-center gap-1.5 py-1 px-2 rounded-md text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200">
-                            {data.id}
+                      <th scope="col" className="pl-6 py-3 text-left">
+                        <label
+                          htmlFor="hs-at-with-checkboxes-main"
+                          className="flex"
+                        >
+                          <input
+                            type="checkbox"
+                            className="shrink-0 border-gray-200 rounded text-blue-600 pointer-events-none focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                            id="hs-at-with-checkboxes-main"
+                          />
+                          <span className="sr-only">Checkbox</span>
+                        </label>
+                      </th>
+                      <th
+                        scope="col"
+                        className="pl-6 lg:pl-3 xl:pl-0 pr-6 py-3 text-left"
+                      >
+                        <div className="flex items-center gap-x-2">
+                          <span className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
+                            Name
                           </span>
                         </div>
-                      </td>
-
-                      <td className="h-px w-px whitespace-nowrap">
-                        <div className="px-6 py-2">
-                          <span className="text-sm text-gray-600 dark:text-gray-400">
-                            {data.role}
+                      </th>
+                      <th scope="col" className="px-6 py-3 text-left">
+                        <div className="flex items-center gap-x-2">
+                          <span className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
+                            Username
                           </span>
                         </div>
-                      </td>
-
-                      <td className="h-px w-px whitespace-nowrap">
-                        <div className="px-6 py-3">
-                          <span className={getStatusClassName("Active")}>
-                            Active
+                      </th>
+                      <th scope="col" className="px-6 py-3 text-left">
+                        <div className="flex items-center gap-x-2">
+                          <span className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
+                            Role
                           </span>
                         </div>
-                      </td>
-                      <td className="h-px w-px whitespace-nowrap">
-                        <div className="px-6 py-3">
-                          <span className="text-sm text-gray-500">login</span>
+                      </th>
+                      <th scope="col" className="px-6 py-3 text-left">
+                        <div className="flex items-center gap-x-2">
+                          <span className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
+                            Status
+                          </span>
                         </div>
-                      </td>
-                      <td className="h-px w-px whitespace-nowrap">
-                        <div className="px-6 py-3">
-                          <span className="text-sm text-gray-500">2023</span>
+                      </th>
+                      <th scope="col" className="px-6 py-3 text-left">
+                        <div className="flex items-center gap-x-2">
+                          <span className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
+                            Last Login
+                          </span>
                         </div>
-                      </td>
-                      <td className="h-px w-px whitespace-nowrap">
-                        <div className="px-6 py-1.5">
-                          <div className="hs-dropdown relative inline-block [--placement:bottom-right]">
-                            <button
-                              id="hs-table-dropdown-6"
-                              type="button"
-                              className="hs-dropdown-toggle py-1.5 px-2 inline-flex justify-center items-center gap-2 rounded-md text-gray-700 align-middle focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800"
-                            >
-                              <i className="bi bi-three-dots"></i>
-                            </button>
-                            <div
-                              className="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden mt-2 divide-y divide-gray-200 min-w-[10rem] z-10 bg-white shadow-2xl rounded-lg p-2 mt-2 dark:divide-gray-700 dark:bg-gray-800 dark:border dark:border-gray-700"
-                              aria-labelledby="hs-table-dropdown-6"
-                            >
-                              <div className="py-2 first:pt-0 last:pb-0">
-                                <button
-                                  className="flex items-center gap-x-3 py-2 px-3 rounded-md text-sm text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
-                                  onClick={() => suspendTeamMember(data.id)}
-                                >
-                                  Suspend
-                                </button>
-                              </div>
-                              <div className="py-2 first:pt-0 last:pb-0">
-                                <button
-                                  className="flex items-center gap-x-3 py-2 px-3 rounded-md text-sm text-red-600 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-red-500 dark:hover:bg-gray-700"
-                                  onClick={() => deleteTeamMember(data.id)}
-                                >
-                                  Delete
-                                </button>
-                              </div>
-                            </div>
-                          </div>
+                      </th>
+                      <th scope="col" className="px-6 py-3 text-left">
+                        <div className="flex items-center gap-x-2">
+                          <span className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
+                            Date Created
+                          </span>
                         </div>
-                      </td>
+                      </th>
+                      <th scope="col" className="px-6 py-3 text-left">
+                        <div className="flex items-center gap-x-2">
+                          <span className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
+                            Action
+                          </span>
+                        </div>
+                      </th>
                     </tr>
-                  ))}
+                  </thead>
+                ) : (
+                  ""
+                )}
+                <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+                  {userList?.users.length !== 0 ? (
+                    userList?.users.map((data) => (
+                      <tr>
+                        <td className="h-px w-px whitespace-nowrap">
+                          <div className="pl-6 py-3">
+                            <label
+                              htmlFor="hs-at-with-checkboxes-1"
+                              className="flex"
+                            >
+                              <input
+                                type="checkbox"
+                                className="shrink-0 border-gray-200 rounded text-blue-600 pointer-events-none focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                                id="hs-at-with-checkboxes-1"
+                              />
+                              <span className="sr-only">Checkbox</span>
+                            </label>
+                          </div>
+                        </td>
+                        <td className="h-px w-px whitespace-nowrap">
+                          <div className="pl-6 lg:pl-3 xl:pl-0 pr-6 py-3">
+                            <div className="flex items-center gap-x-3">
+                              <span className="inline-flex items-center justify-center h-[2.375rem] w-[2.375rem] rounded-full bg-blue-300 dark:bg-blue-700">
+                                <span className="font-medium text-blue-800 leading-none dark:text-blue-200">
+                                  {data.username.charAt(0).toUpperCase()}
+                                </span>
+                              </span>
+                              <div className="grow">
+                                <span className="block text-sm font-semibold text-gray-800 dark:text-gray-200">
+                                  {data.first_name}
+                                </span>
+                                <span className="block text-sm text-gray-500">
+                                  {data.email}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        <td className="h-px w-px whitespace-nowrap">
+                          <div className="px-6 py-3">
+                            <span className="block text-sm font-semibold text-gray-800 dark:text-gray-200">
+                              {data.username}
+                            </span>
+                            <span className="inline-flex items-center gap-1.5 py-1 px-2 rounded-md text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200">
+                              {data.id}
+                            </span>
+                          </div>
+                        </td>
+
+                        <td className="h-px w-px whitespace-nowrap">
+                          <div className="px-6 py-2">
+                            <span className="text-sm text-gray-600 dark:text-gray-400">
+                              {data.role}
+                            </span>
+                          </div>
+                        </td>
+
+                        <td className="h-px w-px whitespace-nowrap">
+                          <div className="px-6 py-3">
+                            <span className={getStatusClassName("Active")}>
+                              Active
+                            </span>
+                          </div>
+                        </td>
+                        <td className="h-px w-px whitespace-nowrap">
+                          <div className="px-6 py-3">
+                            <span className="text-sm text-gray-500">login</span>
+                          </div>
+                        </td>
+                        <td className="h-px w-px whitespace-nowrap">
+                          <div className="px-6 py-3">
+                            <span className="text-sm text-gray-500">2023</span>
+                          </div>
+                        </td>
+                        <td className="h-px w-px whitespace-nowrap">
+                          <div className="px-6 py-1.5">
+                            <div className="hs-dropdown relative inline-block [--placement:bottom-right]">
+                              <button
+                                id="hs-table-dropdown-6"
+                                type="button"
+                                className="hs-dropdown-toggle py-1.5 px-2 inline-flex justify-center items-center gap-2 rounded-md text-gray-700 align-middle focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800"
+                              >
+                                <i className="bi bi-three-dots"></i>
+                              </button>
+                              <div
+                                className="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden mt-2 divide-y divide-gray-200 min-w-[10rem] z-10 bg-white shadow-2xl rounded-lg p-2 mt-2 dark:divide-gray-700 dark:bg-gray-800 dark:border dark:border-gray-700"
+                                aria-labelledby="hs-table-dropdown-6"
+                              >
+                                <div className="py-2 first:pt-0 last:pb-0">
+                                  <button
+                                    className="flex items-center gap-x-3 py-2 px-3 rounded-md text-sm text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
+                                    onClick={() => suspendTeamMember(data.id)}
+                                  >
+                                    Suspend
+                                  </button>
+                                </div>
+                                <div className="py-2 first:pt-0 last:pb-0">
+                                  <button
+                                    className="flex items-center gap-x-3 py-2 px-3 rounded-md text-sm text-red-600 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-red-500 dark:hover:bg-gray-700"
+                                    onClick={() => deleteTeamMember(data.id)}
+                                  >
+                                    Delete
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <div className="max-w-sm w-full min-h-[400px] flex flex-col justify-center mx-auto px-6 py-4">
+                      <div className="flex justify-center items-center w-[46px] h-[46px] bg-gray-100 rounded-lg dark:bg-gray-800">
+                        <i className="bi bi-card-list"></i>
+                      </div>
+                      <h2 className="mt-5 font-semibold text-gray-800 dark:text-white">
+                        No Team Member Found
+                      </h2>
+                      <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
+                        Invite New Team Members.
+                      </p>
+                      <div></div>
+                      <div className="mt-5 grid sm:flex gap-2">
+                        <button
+                          type="button"
+                          className="py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
+                          onClick={toggleModal}
+                        >
+                          <i className="bi bi-plus"></i>
+                          Add a Member
+                        </button>
+                        <button
+                          type="button"
+                          className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
+                          onClick={toggleInviteModal}
+                        >
+                          Invite Existing User
+                        </button>
+                      </div>
+                    </div>
+                  )}
                 </tbody>
               </table>
               {/* End Table */}
