@@ -404,7 +404,7 @@ export default function UsersTable() {
                         </span>
                       </div>
                     </th>
-                    <th scope="col" className="px-6 py-3 text-right" />
+                    {/* <th scope="col" className="px-6 py-3 text-right" /> */}
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
@@ -487,7 +487,7 @@ export default function UsersTable() {
                           <span className="text-sm text-gray-500">2023</span>
                         </div>
                       </td>
-                      <td className="h-px w-px whitespace-nowrap">
+                      {/* <td className="h-px w-px whitespace-nowrap">
                         <div className="px-6 py-1.5">
                           <div className="hs-dropdown relative inline-block [--placement:bottom-right]">
                             <button
@@ -535,7 +535,7 @@ export default function UsersTable() {
                             </div>
                           </div>
                         </div>
-                      </td>
+                      </td> */}
                     </tr>
                   ))}
                 </tbody>
@@ -546,7 +546,7 @@ export default function UsersTable() {
                 <div>
                   <p className="text-sm text-gray-600 dark:text-gray-400">
                     <span className="font-semibold text-gray-800 dark:text-gray-200">
-                      6
+                      {userList?.total}
                     </span>{" "}
                     results
                   </p>
