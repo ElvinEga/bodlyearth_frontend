@@ -66,7 +66,7 @@ const CreatePassword = () => {
           showConfirmButton: false,
           timer: 1500,
         });
-        redirect("/dashboard");
+        redirect("/login");
       })
       .catch((error) => {
         console.error("API Error:", error);
