@@ -74,7 +74,7 @@ export default function TeamTable() {
   };
 
   const deleteTeamMember = (userId: string) => {
-    const URL_DELETE_MEMBER = `/team_back_office/v1/${companyId}/users/${userId}`;
+    const URL_DELETE_MEMBER = `/team_back_office/v1/${companyId}/delete/${userId}`;
     Swal.fire({
       title: "Do you want to delete the team Member?",
       showDenyButton: true,
