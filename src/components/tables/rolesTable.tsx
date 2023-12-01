@@ -1,6 +1,117 @@
-import { requestRolesData } from "../../data/requestData";
+import { useQuery } from "@tanstack/react-query";
+import Swal from "sweetalert2";
+import { RoleData } from "../../data/roleData";
+import { useState } from "react";
+import axiosPrivate from "../../api/axiosPrivate";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import toast from "react-hot-toast";
+
+interface FormData {
+  name: string;
+  description: string;
+}
 
 export default function RolesTable() {
+  // Initialize state with an empty array of Roles
+  const [roles, setRoles] = useState<RoleData>([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const URL_MEMBERS = `/back_office/v1/roles`;
+  const URL_CREATE_ROLE = `/back_office/v1/new_role`;
+
+  const schema = yup.object().shape({
+    name: yup.string().required("Name is required"),
+    description: yup.string().required("Description is required"),
+  });
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormData>({
+    resolver: yupResolver(schema),
+  });
+
+  const loadRoles = () => {
+    axiosPrivate<RoleData>({ method: "GET", url: URL_MEMBERS })
+      .then((data) => {
+        setRoles(data);
+      })
+      .catch((error) => {
+        Swal.fire({
+          icon: "error",
+          title: "Not Authorized.",
+          text: "You are not Authorized to access this Section",
+        });
+        console.error("API Error:", error);
+      });
+  };
+
+  const onSubmit: SubmitHandler<FormData> = (data) => {
+    return axiosPrivate({
+      method: "POST",
+      url: URL_CREATE_ROLE,
+      data: data,
+    })
+      .then(() => {
+        toast.success("Role Created Successfully");
+        loadRoles();
+        toggleModal();
+      })
+      .catch((error) => {
+        console.error("API Error:", error);
+        toast.error("Something went wrong!");
+      });
+  };
+
+  const deleteRole = (roleId: string) => {
+    const URL_DELETE_ROLE = `/back_office/v1/roles/${roleId}/delete_role`;
+    Swal.fire({
+      title: "Do you want to delete the Role?",
+      showDenyButton: true,
+      showCancelButton: false,
+      confirmButtonText: "Delete",
+      denyButtonText: `No`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosPrivate({ method: "DELETE", url: URL_DELETE_ROLE })
+          .then(() => {
+            toast.success("Role Deleted Successfully");
+            loadRoles();
+          })
+          .catch((error) => {
+            Swal.fire({
+              icon: "error",
+              title: "Not Authorized.",
+              text: "You are not Authorized to access this Section",
+            });
+            console.error("API Error:", error);
+          });
+      } else if (result.isDenied) {
+        return;
+      }
+    });
+  };
+
+  useQuery(["roles"], () => {
+    return axiosPrivate<RoleData>({ method: "GET", url: URL_MEMBERS })
+      .then((data) => {
+        setRoles(data);
+      })
+      .catch((error) => {
+        Swal.fire({
+          icon: "error",
+          title: "Not Authorized.",
+          text: "You are not Authorized to access this Section",
+        });
+        console.error("API Error:", error);
+      });
+  });
+
+  const toggleModal = () => {
+    setIsModalOpen((prev) => !prev);
+  };
   return (
     <>
       {/* Card */}
@@ -47,7 +158,7 @@ export default function RolesTable() {
                   <div className="inline-flex gap-x-2">
                     <button
                       className="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
-                      data-hs-overlay="#hs-focus-management-modal"
+                      onClick={toggleModal}
                     >
                       <svg
                         className="w-3 h-3"
@@ -67,8 +178,10 @@ export default function RolesTable() {
                       Create Role
                     </button>
                     <div
-                      id="hs-focus-management-modal"
-                      className="hs-overlay hidden w-full h-full fixed top-0 left-0 z-[60] overflow-x-hidden overflow-y-auto"
+                      id="hs-role"
+                      className={`hs-overlay w-full h-full fixed top-0 left-0 z-[60] overflow-x-hidden overflow-y-auto ${
+                        isModalOpen ? "open" : "hidden"
+                      }`}
                     >
                       <div className="hs-overlay-open:mt-7 hs-overlay-open:opacity-100 hs-overlay-open:duration-500 mt-0 opacity-0 ease-out transition-all sm:max-w-lg sm:w-full m-3 sm:mx-auto">
                         <div className="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]">
@@ -79,7 +192,7 @@ export default function RolesTable() {
                             <button
                               type="button"
                               className="hs-dropdown-toggle inline-flex flex-shrink-0 justify-center items-center h-8 w-8 rounded-md text-gray-500 hover:text-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2 focus:ring-offset-white transition-all text-sm dark:focus:ring-gray-700 dark:focus:ring-offset-gray-800"
-                              data-hs-overlay="#hs-focus-management-modal"
+                              onClick={toggleModal}
                             >
                               <span className="sr-only">Close</span>
                               <svg
@@ -97,47 +210,57 @@ export default function RolesTable() {
                               </svg>
                             </button>
                           </div>
-                          <div className="p-4 overflow-y-auto">
-                            <label
-                              htmlFor="input-label"
-                              className="block text-sm font-medium mb-2 dark:text-white"
-                            >
-                              Role
-                            </label>
-                            <input
-                              type="text"
-                              id="input-label"
-                              className="py-3 px-4 border block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
-                              placeholder="Role"
-                            />
-                          </div>
-                          <div className="p-4 overflow-y-auto">
-                            <label
-                              htmlFor="input-label"
-                              className="block text-sm font-medium mb-2 dark:text-white"
-                            >
-                              Description
-                            </label>
-                            <textarea
-                              className="py-3 px-4 border block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
-                              placeholder="Description"
-                            ></textarea>
-                          </div>
-                          <div className="flex justify-end items-center gap-x-2 py-3 px-4 border-t dark:border-gray-700">
-                            <button
-                              type="button"
-                              className="hs-dropdown-toggle py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800"
-                              data-hs-overlay="#hs-focus-management-modal"
-                            >
-                              Close
-                            </button>
-                            <a
-                              className="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
-                              href="/roles"
-                            >
-                              Create
-                            </a>
-                          </div>
+                          <form onSubmit={handleSubmit(onSubmit)}>
+                            <div className="p-4 overflow-y-auto">
+                              <label
+                                htmlFor="input-label"
+                                className="block text-sm font-medium mb-2 dark:text-white"
+                              >
+                                Role
+                              </label>
+                              <input
+                                type="text"
+                                id="input-label"
+                                className="py-3 px-4 border block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
+                                placeholder="Role"
+                                {...register("name")}
+                              />
+                              <p className="text-red-500">
+                                {errors.name?.message}
+                              </p>
+                            </div>
+                            <div className="p-4 overflow-y-auto">
+                              <label
+                                htmlFor="input-label"
+                                className="block text-sm font-medium mb-2 dark:text-white"
+                              >
+                                Description
+                              </label>
+                              <textarea
+                                className="py-3 px-4 border block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
+                                placeholder="Description"
+                                {...register("description")}
+                              ></textarea>
+                              <p className="text-red-500">
+                                {errors.description?.message}
+                              </p>
+                            </div>
+                            <div className="flex justify-end items-center gap-x-2 py-3 px-4 border-t dark:border-gray-700">
+                              <button
+                                type="button"
+                                className="hs-dropdown-toggle py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800"
+                                onClick={toggleModal}
+                              >
+                                Close
+                              </button>
+                              <button
+                                className="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
+                                type="submit"
+                              >
+                                Create
+                              </button>
+                            </div>
+                          </form>
                         </div>
                       </div>
                     </div>
@@ -178,29 +301,39 @@ export default function RolesTable() {
                     >
                       <div className="flex items-center gap-x-2">
                         <span className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
+                          Id
+                        </span>
+                      </div>
+                    </th>
+                    <th
+                      scope="col"
+                      className="pl-6 lg:pl-3 xl:pl-0 pr-6 py-3 text-left"
+                    >
+                      <div className="flex items-center gap-x-2">
+                        <span className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
                           Description
                         </span>
                       </div>
                     </th>
-                    <th scope="col" className="px-6 py-3 text-left">
+                    {/* <th scope="col" className="px-6 py-3 text-left">
                       <div className="flex items-center gap-x-2">
                         <span className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
                           Permissions
                         </span>
                       </div>
-                    </th>
-                    <th scope="col" className="px-6 py-3 text-left">
+                    </th> */}
+                    {/* <th scope="col" className="px-6 py-3 text-left">
                       <div className="flex items-center gap-x-2">
                         <span className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
                           Create
                         </span>
                       </div>
-                    </th>
+                    </th> */}
                     <th scope="col" className="px-6 py-3 text-right" />
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                  {requestRolesData.map((data) => (
+                  {roles.map((data) => (
                     <tr>
                       <td className="h-px w-px whitespace-nowrap">
                         <div className="pl-6 py-3">
@@ -220,8 +353,13 @@ export default function RolesTable() {
                       <td className="h-px w-px whitespace-nowrap">
                         <div className="pl-6 lg:pl-3 xl:pl-0 pr-6 py-3">
                           <span className="block text-sm font-semibold text-gray-800 dark:text-gray-200">
-                            {data.role}
+                            {data.name}
                           </span>
+                        </div>
+                      </td>
+                      <td className="h-px w-56">
+                        <div className="pl-6 lg:pl-3 xl:pl-0 pr-6 py-3">
+                          <p className="text-sm text-gray-500">{data.id}</p>
                         </div>
                       </td>
                       <td className="h-px w-56">
@@ -232,10 +370,9 @@ export default function RolesTable() {
                         </div>
                       </td>
 
-                      <td className="h-px w-80">
+                      {/* <td className="h-px w-80">
                         <div className="px-6 py-2">
                           <span className="text-sm text-gray-600 dark:text-gray-400">
-                            {/* {data.type} */}
                             {data.permissions.map((permission) => (
                               <span className="ml-2 mb-2 inline-flex items-center gap-1.5 py-1 px-2 rounded-md text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200">
                                 {permission}
@@ -243,36 +380,35 @@ export default function RolesTable() {
                             ))}
                           </span>
                         </div>
-                      </td>
-                      <td className="h-px w-px whitespace-nowrap">
+                      </td> */}
+                      {/* <td className="h-px w-px whitespace-nowrap">
                         <div className="px-6 py-3">
                           <span className="text-sm text-gray-500">
                             {data.created}
                           </span>
                         </div>
-                      </td>
+                      </td> */}
                       <td className="h-px w-px whitespace-nowrap">
                         <div className="px-6 py-1.5">
-                          <a
+                          {/* <a
                             className="ml-3"
                             href="javascript:;"
                             data-hs-overlay="#hs-ai-invoice-modal"
                           >
                             <div className="py-1 px-2 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-orange-500 text-gray-100 shadow-sm align-middle hover:bg-orange-300 text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white">
                               <i className="bi bi-pen"></i>
-                              Edit
+                              Update
                             </div>
-                          </a>
-                          <a
+                          </a> */}
+                          <button
                             className="ml-3"
-                            href="javascript:;"
-                            data-hs-overlay="#hs-ai-invoice-modal"
+                            onClick={() => deleteRole(data.id)}
                           >
                             <div className="py-1 px-2 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-red-500 text-gray-100 shadow-sm align-middle hover:bg-red-300 text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white">
                               <i className="bi bi-trash"></i>
                               Delete
                             </div>
-                          </a>
+                          </button>
                         </div>
                       </td>
                     </tr>
@@ -285,7 +421,7 @@ export default function RolesTable() {
                 <div>
                   <p className="text-sm text-gray-600 dark:text-gray-400">
                     <span className="font-semibold text-gray-800 dark:text-gray-200">
-                      6
+                      {roles.length}
                     </span>{" "}
                     results
                   </p>
