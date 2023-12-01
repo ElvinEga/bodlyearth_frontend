@@ -3,6 +3,7 @@ import axiosPrivate from "../../api/axiosPrivate";
 import { useQuery } from "@tanstack/react-query";
 import { UserListData } from "../../data/userData";
 import Swal from "sweetalert2";
+import toast from "react-hot-toast";
 
 function getStatusClassName(status: string) {
   let className = "";
@@ -38,6 +39,109 @@ export default function UsersTable() {
         console.error("API Error:", error);
       });
   });
+
+  const loadUsers = () => {
+    const URL = `/back_office/v1/get_all_users`;
+    axiosPrivate<UserListData>({ method: "GET", url: URL })
+      .then((data) => {
+        setUser(data);
+      })
+      .catch((error) => {
+        Swal.fire({
+          icon: "error",
+          title: "Not Authorized.",
+          text: "You are not Authorized to access this Section",
+        });
+        console.error("API Error:", error);
+      });
+  };
+
+  const deleteUser = (userId: string) => {
+    const URL_DELETE_USER = `/back_office/v1/${userId}/delete_user`;
+    Swal.fire({
+      title: "Do you want to delete the User?",
+      showDenyButton: true,
+      showCancelButton: false,
+      confirmButtonText: "Delete",
+      denyButtonText: `No`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosPrivate({ method: "DELETE", url: URL_DELETE_USER })
+          .then(() => {
+            toast.success("User Deleted Successfully");
+            loadUsers();
+          })
+          .catch((error) => {
+            Swal.fire({
+              icon: "error",
+              title: "Not Authorized.",
+              text: "You are not Authorized to access this Section",
+            });
+            console.error("API Error:", error);
+          });
+      } else if (result.isDenied) {
+        return;
+      }
+    });
+  };
+
+  const suspendUser = (userId: string) => {
+    const URL_SUSPEND_USER = `/back_office/v1/${userId}/suspend`;
+    Swal.fire({
+      title: "Do you want to Suspend the User?",
+      showDenyButton: true,
+      showCancelButton: false,
+      confirmButtonText: "Suspend",
+      denyButtonText: `No`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosPrivate({ method: "PUT", url: URL_SUSPEND_USER })
+          .then(() => {
+            toast.success("User Suspended Successfully");
+            loadUsers();
+          })
+          .catch((error) => {
+            Swal.fire({
+              icon: "error",
+              title: "Not Authorized.",
+              text: "You are not Authorized to access this Section",
+            });
+            console.error("API Error:", error);
+          });
+      } else if (result.isDenied) {
+        return;
+      }
+    });
+  };
+
+  const unSuspendUser = (userId: string) => {
+    const URL_SUSPEND_USER = `/back_office/v1/${userId}/unsuspend`;
+    Swal.fire({
+      title: "Do you want to Unuspend the User?",
+      showDenyButton: true,
+      showCancelButton: false,
+      confirmButtonText: "Unsuspend",
+      denyButtonText: `No`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosPrivate({ method: "PATCH", url: URL_SUSPEND_USER })
+          .then(() => {
+            toast.success("User Unspended Successfully");
+            loadUsers();
+          })
+          .catch((error) => {
+            Swal.fire({
+              icon: "error",
+              title: "Not Authorized.",
+              text: "You are not Authorized to access this Section",
+            });
+            console.error("API Error:", error);
+          });
+      } else if (result.isDenied) {
+        return;
+      }
+    });
+  };
   return (
     <>
       {/* Card */}
@@ -404,7 +508,13 @@ export default function UsersTable() {
                         </span>
                       </div>
                     </th>
-                    {/* <th scope="col" className="px-6 py-3 text-right" /> */}
+                    <th scope="col" className="px-6 py-3 text-left">
+                      <div className="flex items-center gap-x-2">
+                        <span className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
+                          Actions
+                        </span>
+                      </div>
+                    </th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
@@ -487,7 +597,7 @@ export default function UsersTable() {
                           <span className="text-sm text-gray-500">2023</span>
                         </div>
                       </td>
-                      {/* <td className="h-px w-px whitespace-nowrap">
+                      <td className="h-px w-px whitespace-nowrap">
                         <div className="px-6 py-1.5">
                           <div className="hs-dropdown relative inline-block [--placement:bottom-right]">
                             <button
@@ -495,47 +605,32 @@ export default function UsersTable() {
                               type="button"
                               className="hs-dropdown-toggle py-1.5 px-2 inline-flex justify-center items-center gap-2 rounded-md text-gray-700 align-middle focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800"
                             >
-                              <svg
-                                className="w-4 h-4"
-                                xmlns="http://www.w3.org/2000/svg"
-                                width={16}
-                                height={16}
-                                fill="currentColor"
-                                viewBox="0 0 16 16"
-                              >
-                                <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z" />
-                              </svg>
+                              <i className="bi bi-three-dots"></i>
                             </button>
                             <div
                               className="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden mt-2 divide-y divide-gray-200 min-w-[10rem] z-10 bg-white shadow-2xl rounded-lg p-2 mt-2 dark:divide-gray-700 dark:bg-gray-800 dark:border dark:border-gray-700"
                               aria-labelledby="hs-table-dropdown-6"
                             >
                               <div className="py-2 first:pt-0 last:pb-0">
-                                <a
+                                <button
                                   className="flex items-center gap-x-3 py-2 px-3 rounded-md text-sm text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
-                                  href="#"
-                                >
-                                  Invite
-                                </a>
-                                <a
-                                  className="flex items-center gap-x-3 py-2 px-3 rounded-md text-sm text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
-                                  href="#"
+                                  onClick={() => suspendUser(data.id)}
                                 >
                                   Suspend
-                                </a>
+                                </button>
                               </div>
                               <div className="py-2 first:pt-0 last:pb-0">
-                                <a
+                                <button
                                   className="flex items-center gap-x-3 py-2 px-3 rounded-md text-sm text-red-600 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-red-500 dark:hover:bg-gray-700"
-                                  href="#"
+                                  onClick={() => deleteUser(data.id)}
                                 >
                                   Delete
-                                </a>
+                                </button>
                               </div>
                             </div>
                           </div>
                         </div>
-                      </td> */}
+                      </td>
                     </tr>
                   ))}
                 </tbody>
