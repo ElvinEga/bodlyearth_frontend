@@ -33,27 +33,30 @@ export default function Profile() {
       });
   });
 
-  const regex =
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-
   const schema = yup.object().shape({
     new_password: yup
       .string()
-      .min(8)
-      .max(20)
-      .matches(regex)
+      .min(8, "Must be 8 characters or more")
+      .matches(/[a-z]+/, "One lowercase character")
+      .matches(/[A-Z]+/, "One uppercase character")
+      .matches(/[@$!%*#?&]+/, "One special character")
+      .matches(/\d+/, "One number")
       .required("Password is Required!"),
     old_password: yup
       .string()
-      .min(8)
-      .max(20)
-      .matches(regex)
+      .min(8, "Must be 8 characters or more")
+      .matches(/[a-z]+/, "One lowercase character")
+      .matches(/[A-Z]+/, "One uppercase character")
+      .matches(/[@$!%*#?&]+/, "One special character")
+      .matches(/\d+/, "One number")
       .required("Password is Required!"),
     confirm_password: yup
       .string()
-      .min(8)
-      .max(20)
-      .matches(regex)
+      .min(8, "Must be 8 characters or more")
+      .matches(/[a-z]+/, "One lowercase character")
+      .matches(/[A-Z]+/, "One uppercase character")
+      .matches(/[@$!%*#?&]+/, "One special character")
+      .matches(/\d+/, "One number")
       .oneOf([yup.ref("confirm_password")], "Passwords must match"),
   });
   const {
