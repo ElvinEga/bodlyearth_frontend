@@ -8,7 +8,6 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import Swal from "sweetalert2";
-import toast from "react-hot-toast";
 
 interface FormData {
   old_password: string;
@@ -22,7 +21,7 @@ export default function Profile() {
   const storedUserId = localStorage.getItem("userId");
   // const accessToken = localStorage.getItem("accesstoken");
   const email = localStorage.getItem("email");
-  const [isChecked, setIsChecked] = useState(false);
+  // const [isChecked, setIsChecked] = useState(false);
 
   useQuery(["userDetails"], () => {
     const PROFILE_URL = `/app_auth/v1/${storedUserId}`;
@@ -35,37 +34,37 @@ export default function Profile() {
       });
   });
 
-  const OTP_URL = `/app_auth/v1/`;
-  const handleCheckboxChange = async () => {
-    setIsChecked((prev) => !prev);
+  // const OTP_URL = `/app_auth/v1/`;
+  // const handleCheckboxChange = async () => {
+  //   setIsChecked((prev) => !prev);
 
-    let otpStatus = "";
-    if (isChecked) {
-      otpStatus = "enable-otp";
-    } else {
-      otpStatus = "disable-otp";
-    }
+  //   let otpStatus = "";
+  //   if (isChecked) {
+  //     otpStatus = "enable-otp";
+  //   } else {
+  //     otpStatus = "disable-otp";
+  //   }
 
-    return axiosPrivate({
-      method: "POST",
-      url: OTP_URL + otpStatus,
-      params: {
-        user_id: storedUserId,
-      },
-    })
-      .then((data) => {
-        toast.success("2FA Changed Succesfully");
-        console.log(data);
-      })
-      .catch((error) => {
-        console.error("API Error:", error);
-        Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: "User is already a Team Member",
-        });
-      });
-  };
+  //   return axiosPrivate({
+  //     method: "POST",
+  //     url: OTP_URL + otpStatus,
+  //     params: {
+  //       user_id: storedUserId,
+  //     },
+  //   })
+  //     .then((data) => {
+  //       toast.success("2FA Changed Succesfully");
+  //       console.log(data);
+  //     })
+  //     .catch((error) => {
+  //       console.error("API Error:", error);
+  //       Swal.fire({
+  //         icon: "error",
+  //         title: "Oops...",
+  //         text: "User is already a Team Member",
+  //       });
+  //     });
+  // };
 
   const schema = yup.object().shape({
     new_password: yup
@@ -234,7 +233,7 @@ export default function Profile() {
                   {/* End Grid */}
                 </div>
                 {/* End Grid */}
-                <div className="flex items-center mt-5">
+                {/* <div className="flex items-center mt-5">
                   <input
                     type="checkbox"
                     id="hs-basic-with-description-unchecked"
@@ -248,7 +247,7 @@ export default function Profile() {
                   >
                     Enable 2 Factor Authentication (2FA)
                   </label>
-                </div>
+                </div> */}
                 <div className="mt-6 grid">
                   <button
                     type="submit"

@@ -582,9 +582,15 @@ export default function UsersTable() {
 
                       <td className="h-px w-px whitespace-nowrap">
                         <div className="px-6 py-3">
-                          <span className={getStatusClassName("Active")}>
-                            Active
-                          </span>
+                          {data.is_active ? (
+                            <span className={getStatusClassName("Active")}>
+                              Active
+                            </span>
+                          ) : (
+                            <span className={getStatusClassName("Suspended")}>
+                              Suspended
+                            </span>
+                          )}
                         </div>
                       </td>
                       <td className="h-px w-px whitespace-nowrap">
@@ -612,12 +618,21 @@ export default function UsersTable() {
                               aria-labelledby="hs-table-dropdown-6"
                             >
                               <div className="py-2 first:pt-0 last:pb-0">
-                                <button
-                                  className="flex items-center gap-x-3 py-2 px-3 rounded-md text-sm text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
-                                  onClick={() => suspendUser(data.id)}
-                                >
-                                  Suspend
-                                </button>
+                                {data.is_active ? (
+                                  <button
+                                    className="flex items-center gap-x-3 py-2 px-3 rounded-md text-sm text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
+                                    onClick={() => suspendUser(data.id)}
+                                  >
+                                    Suspend
+                                  </button>
+                                ) : (
+                                  <button
+                                    className="flex items-center gap-x-3 py-2 px-3 rounded-md text-sm text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
+                                    onClick={() => unSuspendUser(data.id)}
+                                  >
+                                    Unsuspend
+                                  </button>
+                                )}
                               </div>
                               <div className="py-2 first:pt-0 last:pb-0">
                                 <button

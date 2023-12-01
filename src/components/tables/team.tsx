@@ -131,6 +131,34 @@ export default function TeamTable() {
     });
   };
 
+  const unSuspendTeamMember = (userId: string) => {
+    const URL_SUSPEND_MEMBER = `/team_back_office/v1/${companyId}/unsuspend/${userId}`;
+    Swal.fire({
+      title: "Do you want to Unsuspend the team Member?",
+      showDenyButton: true,
+      showCancelButton: false,
+      confirmButtonText: "Unsuspend",
+      denyButtonText: `No`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosPrivate({ method: "PUT", url: URL_SUSPEND_MEMBER })
+          .then(() => {
+            toast.success("Team Member Unsuspended Successfully");
+            loadMembers();
+          })
+          .catch((error) => {
+            Swal.fire({
+              icon: "error",
+              title: "Not Authorized.",
+              text: "You are not Authorized to access this Section",
+            });
+            console.error("API Error:", error);
+          });
+      } else if (result.isDenied) {
+        return;
+      }
+    });
+  };
   const onSubmit = async (data: FormData) => {
     return axiosPrivate<TeamData>({
       method: "POST",
@@ -688,9 +716,15 @@ export default function TeamTable() {
 
                         <td className="h-px w-px whitespace-nowrap">
                           <div className="px-6 py-3">
-                            <span className={getStatusClassName("Active")}>
-                              Active
-                            </span>
+                            {data.is_active ? (
+                              <span className={getStatusClassName("Active")}>
+                                Active
+                              </span>
+                            ) : (
+                              <span className={getStatusClassName("Suspended")}>
+                                Suspended
+                              </span>
+                            )}
                           </div>
                         </td>
                         <td className="h-px w-px whitespace-nowrap">
@@ -718,12 +752,23 @@ export default function TeamTable() {
                                 aria-labelledby="hs-table-dropdown-6"
                               >
                                 <div className="py-2 first:pt-0 last:pb-0">
-                                  <button
-                                    className="flex items-center gap-x-3 py-2 px-3 rounded-md text-sm text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
-                                    onClick={() => suspendTeamMember(data.id)}
-                                  >
-                                    Suspend
-                                  </button>
+                                  {data.is_active ? (
+                                    <button
+                                      className="flex items-center gap-x-3 py-2 px-3 rounded-md text-sm text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
+                                      onClick={() => suspendTeamMember(data.id)}
+                                    >
+                                      Suspend
+                                    </button>
+                                  ) : (
+                                    <button
+                                      className="flex items-center gap-x-3 py-2 px-3 rounded-md text-sm text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
+                                      onClick={() =>
+                                        unSuspendTeamMember(data.id)
+                                      }
+                                    >
+                                      Unsuspend
+                                    </button>
+                                  )}
                                 </div>
                                 <div className="py-2 first:pt-0 last:pb-0">
                                   <button
