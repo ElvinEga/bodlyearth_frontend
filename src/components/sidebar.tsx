@@ -12,10 +12,7 @@ const Sidebar = () => {
         <div className="flex h-full">
           <nav className="flex-none flex flex-col items-center text-center bg-teal-900 text-gray-400 border-r">
             <div className="h-16 flex items-center w-full">
-              <img
-                className="h-6 w-6 mx-auto"
-                src="https://raw.githubusercontent.com/bluebrown/tailwind-zendesk-clone/master/public/assets/leaves.png"
-              />
+              <img className="h-6 w-6 mx-auto" src="/boldly.earth.svg" />
             </div>
             <ul>
               <li>
@@ -101,8 +98,8 @@ const Sidebar = () => {
           </nav>
 
           <div>
-            <div className="px-6">
-              <div className="hidden sm:block mt-5">
+            <div className="px-6 pt-6">
+              {/* <div className="hidden sm:block mt-5">
                 <label htmlFor="icon" className="sr-only">
                   Search
                 </label>
@@ -118,7 +115,19 @@ const Sidebar = () => {
                     placeholder="Search"
                   />
                 </div>
-              </div>
+              </div> */}
+              <a
+                className="flex-none text-xl font-semibold dark:text-white"
+                href="/"
+              >
+                <Link to="/dashboard">
+                  <img
+                    alt="Boldly Earth"
+                    className="w-56 mx-auto"
+                    src="/img/boldly.earth_full.svg"
+                  />
+                </Link>
+              </a>
             </div>
 
             <div className="px-6 pt-6">
