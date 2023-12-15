@@ -447,14 +447,76 @@ const Home = () => {
   return (
     <MainDashboard>
       <div>
-        <BreadHeader
-          title={`Hello ${userData.first_name}`}
-          description="Input data to calculate Risk"
-        />
+        <h1 className="block text-2=3xl font-semibold text-gray-800 sm:text-2xl dark:text-white">
+          Dashboard
+        </h1>
+
+        {/* Header */}
+        <div className="py-4 grid gap-3 md:flex md:justify-between md:items-center">
+          <div className="flex items-center gap-3">
+            {/* Input */}
+
+            <AutocompleteInput
+              value={`LatLng(${selectedLocation?.lat || "Latitude"}, ${
+                selectedLocation?.lng || "Longitude"
+              })`}
+              onLocationSelect={handleLocationSelect}
+              title="Search"
+            />
+            {/* End Input */}
+            <div>
+              <select
+                className="h-10 py-2 px-4 pr-9 block w-full border border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
+                onChange={handleCropSelect}
+                value={selectedCrop}
+              >
+                <option value="">Select Crop</option>
+                {options.map((option) => (
+                  <option key={option.id} value={option.value}>
+                    {option.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+          <div>
+            <div className="inline-flex gap-x-2">
+              <div>
+                <select className="h-10 py-2 px-4 pr-9 block w-full border border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400">
+                  <option selected>Period</option>
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                </select>
+              </div>
+              <div className="inline-flex rounded-lg shadow-sm">
+                <button
+                  type="button"
+                  className=" px-4 inline-flex items-center gap-x-2 -ms-px first:rounded-s-lg first:ms-0 last:rounded-e-lg text-sm font-medium focus:z-10 border border-gray-200 bg-white text-blue-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
+                >
+                  <i class="bi bi-geo-alt"></i>
+                </button>
+                <button
+                  type="button"
+                  className=" px-4 inline-flex items-center gap-x-2 -ms-px first:rounded-s-lg first:ms-0 last:rounded-e-lg text-sm font-medium focus:z-10 border border-gray-200 bg-white text-gray-400 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
+                >
+                  <i class="bi bi-grid"></i>
+                </button>
+                <button
+                  type="button"
+                  className=" px-4 inline-flex items-center gap-x-2 -ms-px first:rounded-s-lg first:ms-0 last:rounded-e-lg text-sm font-medium focus:z-10 border border-gray-200 bg-white text-gray-400 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
+                >
+                  <i class="bi bi-layout-split"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        {/* End Header */}
 
         {/* Grid */}
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
-          <div className="bg-white border border-gray-200 shadow-sm rounded-xl dark:bg-slate-900 dark:border-gray-700 dark:shadow-slate-700/[.7] col-span-2">
+        <div className="flex h-full gap-6">
+          <div className="hidden bg-white border border-gray-200 shadow-sm rounded-xl dark:bg-slate-900 dark:border-gray-700 dark:shadow-slate-700/[.7] col-span-2">
             <div className="p-5">
               <div className="mb-3">
                 <label
@@ -628,7 +690,40 @@ const Home = () => {
               </div>
             </div>
           </div>
-          <div className="bg-white border border-gray-200 shadow-sm rounded-xl dark:bg-slate-900 dark:border-gray-700 dark:shadow-slate-700/[.7] bg-card col-span-3">
+          <div className="flex flex-col h-full gap-4 w-1/3">
+            <TopGauge
+              pillar="CLIMATE"
+              rainfall_risk={riskData?.climate_scores.drought_risk}
+              temperature_risk={riskData?.climate_scores.rainfall_risk}
+              drought_risk={riskData?.climate_scores.aridity_risk}
+              composite_climate_risk={
+                riskData?.climate_scores.composite_climate_risk
+              }
+              categories={climate_indices}
+              tooltip={scoreTooltipData[0].tip}
+            />
+            <TopGauge
+              pillar="WATER"
+              rainfall_risk={riskData?.water_scores.ground_water_risk}
+              temperature_risk={riskData?.water_scores.rainfall_erosivity_risk}
+              drought_risk={riskData?.water_scores.location_aquaduct_risk}
+              composite_climate_risk={
+                riskData?.water_scores.composite_water_risk
+              }
+              categories={water_indices}
+              tooltip={scoreTooltipData[1].tip}
+            />
+            <TopGauge
+              pillar="SOIL"
+              rainfall_risk={riskData?.soil_scores.soil_organic_carbon_risk}
+              temperature_risk={riskData?.soil_scores.soil_ph_risk}
+              drought_risk={riskData?.soil_scores.cation_exchange_capacity_risk}
+              composite_climate_risk={riskData?.soil_scores.composite_soil_risk}
+              categories={soil_indices}
+              tooltip={scoreTooltipData[2].tip}
+            />
+          </div>
+          <div className="w-2/3 h-full bg-white border border-gray-200 shadow-sm rounded-xl dark:bg-slate-900 dark:border-gray-700 dark:shadow-slate-700/[.7] bg-card col-span-3">
             <div ref={elementRef}>
               <MapComponent
                 mapLocation={selectedLocation}
@@ -637,7 +732,7 @@ const Home = () => {
               />
             </div>
           </div>
-          <div className="bg-card text-card-foreground bg-white border border-gray-200 shadow-sm rounded-xl dark:bg-slate-900 dark:border-gray-700 dark:shadow-slate-700/[.7] col-span-2">
+          <div className="hidden bg-card text-card-foreground bg-white border border-gray-200 shadow-sm rounded-xl dark:bg-slate-900 dark:border-gray-700 dark:shadow-slate-700/[.7] col-span-2">
             <div className="flex flex-col space-y-1.5 p-6">
               <h3 className="font-semibold text-sm leading-none tracking-tight">
                 Composite Risk Score
@@ -738,39 +833,8 @@ const Home = () => {
           </div>
         </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-5">
-          <TopGauge
-            pillar="CLIMATE"
-            rainfall_risk={riskData?.climate_scores.drought_risk}
-            temperature_risk={riskData?.climate_scores.rainfall_risk}
-            drought_risk={riskData?.climate_scores.aridity_risk}
-            composite_climate_risk={
-              riskData?.climate_scores.composite_climate_risk
-            }
-            categories={climate_indices}
-            tooltip={scoreTooltipData[0].tip}
-          />
-          <TopGauge
-            pillar="WATER"
-            rainfall_risk={riskData?.water_scores.ground_water_risk}
-            temperature_risk={riskData?.water_scores.rainfall_erosivity_risk}
-            drought_risk={riskData?.water_scores.location_aquaduct_risk}
-            composite_climate_risk={riskData?.water_scores.composite_water_risk}
-            categories={water_indices}
-            tooltip={scoreTooltipData[1].tip}
-          />
-          <TopGauge
-            pillar="SOIL"
-            rainfall_risk={riskData?.soil_scores.soil_organic_carbon_risk}
-            temperature_risk={riskData?.soil_scores.soil_ph_risk}
-            drought_risk={riskData?.soil_scores.cation_exchange_capacity_risk}
-            composite_climate_risk={riskData?.soil_scores.composite_soil_risk}
-            categories={soil_indices}
-            tooltip={scoreTooltipData[2].tip}
-          />
-        </div>
         {/* End Grid */}
-        <NewsFeed />
+        {/* <NewsFeed /> */}
       </div>
     </MainDashboard>
   );

@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import "bootstrap-icons/font/bootstrap-icons.css";
+import "./fonts/fontawesomereact/css/all.css";
 import { Routes, Route } from "react-router-dom";
 import Home from "./pages/home/home";
 import Engagement from "./pages/engagement";

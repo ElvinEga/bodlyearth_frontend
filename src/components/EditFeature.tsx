@@ -84,7 +84,7 @@ const EditFeature = ({ onMarkerPlaced, onMarkerClear }) => {
     <FeatureGroup>
       <EditControl
         onDrawStart={_onDrawStart}
-        position="topleft"
+        position="topright"
         onEdited={_onEdited}
         onCreated={_onCreated}
         onDeleted={_onDeleted}

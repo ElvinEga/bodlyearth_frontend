@@ -2,7 +2,15 @@
 // @ts-nocheck
 
 import React, { useState, useEffect } from "react";
-import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
+import {
+  MapContainer,
+  TileLayer,
+  Marker,
+  Popup,
+  useMap,
+  ZoomControl,
+  Pane,
+} from "react-leaflet";
 import "leaflet/dist/leaflet.css"; // Import leaflet CSS
 import "leaflet-draw/dist/leaflet.draw.css"; // Import leaflet-draw CSS
 import { GeoJSON } from "react-leaflet/GeoJSON";
@@ -21,9 +29,9 @@ const customIcon = new L.Icon({
 
 function SetViewOnLocationChange({ mapLocation }) {
   const map = useMap();
-  // map.setView(mapLocation, map.getZoom());
-  map.setView(mapLocation, 18);
-  // map.invalidateSize();
+  map.setView(mapLocation, map.getZoom());
+  // map.setView(mapLocation, 18);
+  map.invalidateSize();
   return (
     <Marker position={mapLocation} icon={customIcon}>
       <Popup>{`lat: ${mapLocation[0]} lon:${mapLocation[1]}`}</Popup>
@@ -68,20 +76,27 @@ const MapComponent: React.FC<MapComponentProps> = ({
       </div> */}
       <MapContainer
         center={[CENTER_LAT, CENTER_LON]}
-        zoom={17}
-        style={{ height: "380px", width: "100%" }}
+        zoom={6}
+        style={{ height: "800px", width: "100%" }}
         scrollWheelZoom={true}
+        zoomControl={false}
       >
         <TileLayer
-          url={`https://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}`}
-          subdomains={["mt0", "mt1", "mt2", "mt3"]}
+          url={`https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png`}
+          // subdomains={["mt0", "mt1", "mt2", "mt3"]}
           maxZoom={20}
-          attribution='&copy; <a href="https://maps.google.com">Google Maps</a>'
+          attribution=""
         />
+        {/* Pane for labels (roads and places) */}
+        <Pane name="labels" style={{ zIndex: 500 }}>
+          {/* You can add additional layers for roads and place names here if needed */}
+        </Pane>
+
         <EditFeature
           onMarkerPlaced={onMarkerPlaced}
           onMarkerClear={onMarkerClear}
         />
+        <ZoomControl position="topright" />
 
         {geojsonData && <GeoJSON data={geojsonData} style={geoJSONStyle} />}
 

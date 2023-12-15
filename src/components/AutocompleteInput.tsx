@@ -9,11 +9,13 @@ const googleMapsApiKey = import.meta.env.VITE_MAP_API_KEY;
 interface AutocompleteInputProps {
   onLocationSelect: (location: { lat: number; lng: number } | null) => void;
   value?: string;
+  title?: string;
 }
 
 const AutocompleteInput: React.FC<AutocompleteInputProps> = ({
   onLocationSelect,
   value,
+  title,
 }) => {
   const searchBoxRef = useRef<SearchBox>();
 
@@ -63,14 +65,19 @@ const AutocompleteInput: React.FC<AutocompleteInputProps> = ({
         onLoad={onSearchBoxLoad}
         onPlacesChanged={onPlacesChanged}
       >
-        <input
-          type="text"
-          id="input-label"
-          className="h-10 py-3 px-4 block w-full border border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
-          placeholder="Enter a Location"
-        />
+        <div className="relative lg:w-64 xl:w-96">
+          <input
+            type="text"
+            id="input-label"
+            className="h-10 py-3 px-4 pl-11  block w-full border border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
+            placeholder={title || `Enter a Location`}
+          />
+          <div className="absolute inset-y-0 left-0 flex items-center pointer-events-none pl-4">
+            <i className="bi bi-search"></i>
+          </div>
+        </div>
       </StandaloneSearchBox>
-      <p className="text-gray-500 text-xs pt-2">{value}</p>
+      {!title ? <p className="text-gray-500 text-xs pt-2">{value}</p> : null}
     </div>
   );
 };

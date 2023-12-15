@@ -1,6 +1,6 @@
 import { Toaster } from "react-hot-toast";
 import ChatBot from "../Chatbot";
-import Navbar from "../navbar";
+import Sidebar from "../sidebar";
 type contentProps = {
   children: JSX.Element;
 };
@@ -8,14 +8,14 @@ type contentProps = {
 const MainDashboard = ({ children }: contentProps) => {
   return (
     <>
-      <Navbar />
+      {/* <Navbar /> */}
       {/* ========== MAIN CONTENT ========== */}
-      {/* <Sidebar /> */}
+      <Sidebar />
       {/* Content */}
 
-      <div className="w-full p-16 pt-4 px-8 sm:px-8 md:px-16 lg:px-20">
+      <div className="w-full pt-7 px-4 sm:px-6 md:px-8 lg:ps-96">
         {children}
-        <ChatBot />
+        {/* <ChatBot /> */}
         <Toaster />
       </div>
 
