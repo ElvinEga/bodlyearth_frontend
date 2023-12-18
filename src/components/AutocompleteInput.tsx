@@ -65,7 +65,7 @@ const AutocompleteInput: React.FC<AutocompleteInputProps> = ({
         onLoad={onSearchBoxLoad}
         onPlacesChanged={onPlacesChanged}
       >
-        <div className="relative lg:w-64 xl:w-96">
+        <div className="relative lg:w-64 xl:w-80">
           <input
             type="text"
             id="input-label"

@@ -453,7 +453,7 @@ const Home = () => {
 
         {/* Header */}
         <div className="py-4 grid gap-3 md:flex md:justify-between md:items-center">
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-12">
             {/* Input */}
 
             <AutocompleteInput
@@ -690,7 +690,7 @@ const Home = () => {
               </div>
             </div>
           </div>
-          <div className="flex flex-col h-full gap-4 w-1/3">
+          <div className="flex flex-col h-full gap-4 w-1/4">
             <TopGauge
               pillar="CLIMATE"
               rainfall_risk={riskData?.climate_scores.drought_risk}
@@ -723,7 +723,7 @@ const Home = () => {
               tooltip={scoreTooltipData[2].tip}
             />
           </div>
-          <div className="w-2/3 h-full bg-white border border-gray-200 shadow-sm rounded-xl dark:bg-slate-900 dark:border-gray-700 dark:shadow-slate-700/[.7] bg-card col-span-3">
+          <div className="w-3/4 h-full bg-white border border-gray-200 shadow-sm rounded-xl dark:bg-slate-900 dark:border-gray-700 dark:shadow-slate-700/[.7] bg-card col-span-3">
             <div ref={elementRef}>
               <MapComponent
                 mapLocation={selectedLocation}
