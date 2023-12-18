@@ -1,6 +1,6 @@
-# BOdly Earth
+# Boldly Earth
 
-Welcome to Bodly Earth Dashboard, your all-in-one financial hub.Users can track portfolios and make data-driven decisions, while administrators maintain control and security. Signing up is quick and easy, so join us on this financial journey today! 🚀
+Welcome to Boldly Earth Dashboard, your all-in-one financial hub.Users can track portfolios and make data-driven decisions, while administrators maintain control and security. Signing up is quick and easy, so join us on this financial journey today! 🚀
 
 ## Features
 

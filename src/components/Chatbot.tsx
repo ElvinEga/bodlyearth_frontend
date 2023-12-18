@@ -140,10 +140,10 @@ const ChatBot = () => {
 
                   <p className="leading-relaxed">
                     <span className="block font-bold text-gray-700">
-                      Adapta CS{" "}
+                      Boldly Earth{" "}
                     </span>
                     <p className="text-sm">
-                      Welcome to Adapta CS.How can we help you?
+                      Welcome to Boldly Earth.How can we help you?
                     </p>
                   </p>
                 </div>

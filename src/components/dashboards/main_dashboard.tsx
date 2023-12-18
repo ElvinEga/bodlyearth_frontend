@@ -14,8 +14,10 @@ const MainDashboard = ({ children }: contentProps) => {
       {/* Content */}
 
       <div className="w-full pt-7 px-4 sm:px-6 md:px-8 lg:ps-96">
-        {children}
-        {/* <ChatBot /> */}
+        <div className="lg:ps-24">
+          {children}
+          {/* <ChatBot /> */}
+        </div>
         <Toaster />
       </div>
 
